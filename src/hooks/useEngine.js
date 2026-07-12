@@ -50,9 +50,9 @@ export default function useEngine(depth, playerColor, highlights) {
     setLog(prev => [...prev, text]);
   }, []);
 
-  const clearHighlights = useCallback(() => {
-    setSquareStyles({});
-  }, []);
+//   const clearHighlights = useCallback(() => {
+//     setSquareStyles({});
+//   }, []);
 
   const loadFEN = useCallback((fen) => {
     try {
@@ -154,7 +154,6 @@ export default function useEngine(depth, playerColor, highlights) {
     gameTurn,
     gameInstance: game,
     lastMove,
-    clearHighlights,
     loadFEN
   };
 }
