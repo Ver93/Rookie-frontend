@@ -10,30 +10,9 @@ export default function useEngine(depth, playerColor, highlights) {
   const [gameTurn, setGameTurn] = useState(null);
   const [lastMove, setLastMove] = useState(null);
 
-  const { highlightLegal, highlightLast, highlightChecks } = highlights;
+  const { highlightLast, highlightChecks } = highlights;
 
-  // 🔹 Samlad highlight-logik i en effekt
-  useEffect(() => {
-    const styles = {};
-
-    // Highlight last move
-    if (highlightLast && lastMove) {
-      styles[lastMove.from] = { backgroundColor: "rgba(255,255,0,0.35)" };
-      styles[lastMove.to] = { backgroundColor: "rgba(255,255,0,0.35)" };
-    }
-
-    // Highlight check
-    if (highlightChecks && game.isCheck()) {
-      const kingSquare = findKingSquare(game.turn());
-      if (kingSquare) {
-        styles[kingSquare] = { backgroundColor: "rgba(255,0,0,0.5)" };
-      }
-    }
-
-    setSquareStyles(styles);
-  }, [highlightLast, highlightChecks, lastMove, game]);
-
-  function findKingSquare(color) {
+  const findKingSquare = useCallback((color) => {
     const board = game.board();
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
@@ -44,40 +23,33 @@ export default function useEngine(depth, playerColor, highlights) {
       }
     }
     return null;
-  }
+  }, [game]);
+
+  useEffect(() => {
+    const styles = {};
+
+    if (highlightLast && lastMove) {
+      styles[lastMove.from] = { backgroundColor: "rgba(255,255,0,0.35)" };
+      styles[lastMove.to] = { backgroundColor: "rgba(255,255,0,0.35)" };
+    }
+
+    if (highlightChecks && game.isCheck()) {
+      const kingSquare = findKingSquare(game.turn());
+      if (kingSquare) {
+        styles[kingSquare] = { backgroundColor: "rgba(255,0,0,0.5)" };
+      }
+    }
+
+    setSquareStyles(styles);
+  }, [highlightLast, highlightChecks, lastMove, game, findKingSquare]);
 
   const logEvent = useCallback((text) => {
     setLog(prev => [...prev, text]);
   }, []);
 
-//   const clearHighlights = useCallback(() => {
-//     setSquareStyles({});
-//   }, []);
-
-  const loadFEN = useCallback((fen) => {
-    try {
-      game.load(fen.trim());
-    } catch {
-      return false;
-    }
-
-    setPosition(game.fen());
+  const clearHighlights = useCallback(() => {
     setSquareStyles({});
-    setLastMove(null);
-
-    const turn = game.turn() === "w" ? "white" : "black";
-    setGameTurn(turn);
-
-    if (turn !== playerColor) {
-      // Kör motor efter en tick för att inte blockera draget
-      setTimeout(() => {
-        playEngineMove();
-        setGameTurn(playerColor);
-      }, 0);
-    }
-
-    return true;
-  }, [game, playerColor]);
+  }, []);
 
   const playEngineMove = useCallback(async () => {
     const fen = game.fen();
@@ -106,6 +78,30 @@ export default function useEngine(depth, playerColor, highlights) {
     setGameTurn(game.turn() === "w" ? "white" : "black");
   }, [game, depth, logEvent]);
 
+  const loadFEN = useCallback((fen) => {
+    try {
+      game.load(fen.trim());
+    } catch {
+      return false;
+    }
+
+    setPosition(game.fen());
+    setSquareStyles({});
+    setLastMove(null);
+
+    const turn = game.turn() === "w" ? "white" : "black";
+    setGameTurn(turn);
+
+    if (turn !== playerColor) {
+      setTimeout(() => {
+        playEngineMove();
+        setGameTurn(playerColor);
+      }, 0);
+    }
+
+    return true;
+  }, [game, playerColor, playEngineMove]);
+
   const onPlayerMove = useCallback(async (from, to) => {
     try {
       game.move({ from, to, promotion: "q" });
@@ -119,7 +115,6 @@ export default function useEngine(depth, playerColor, highlights) {
     logEvent(`${from}${to}`);
     setGameTurn("black");
 
-    // Kör motor separat för att inte blockera draget
     setTimeout(async () => {
       await playEngineMove();
     }, 0);
@@ -154,6 +149,7 @@ export default function useEngine(depth, playerColor, highlights) {
     gameTurn,
     gameInstance: game,
     lastMove,
+    clearHighlights,
     loadFEN
   };
 }
