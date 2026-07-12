@@ -42,7 +42,7 @@ function App() {
   const tc = parseTimeControl(ui.timeControl);
   const isDesktop = window.innerWidth > 900;
 
-  const boardSize = isDesktop ? 100 : 350;
+  const boardSize = isDesktop ? 1000 : 350;
 
   return (
     <div className={styles.appWrapper}>
