@@ -24,7 +24,6 @@ function App() {
     position,
     squareStyles,
     onPlayerMove,
-    resetGame,
     gameTurn,
     gameInstance,
     lastMove,
@@ -38,7 +37,7 @@ function App() {
 
   useEffect(() => {
     clearHighlights();
-  }, [ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
+  }, [clearHighlights, ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
 
   const tc = parseTimeControl(ui.timeControl);
   const isDesktop = window.innerWidth > 900;
