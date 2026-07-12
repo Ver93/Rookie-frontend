@@ -1,13 +1,19 @@
 .appHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 18px 32px;
   background: var(--surface);
   border-bottom: 1px solid var(--card-border);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  z-index: 5;
+
   backdrop-filter: blur(var(--card-blur));
   -webkit-backdrop-filter: blur(var(--card-blur));
   box-shadow: var(--shadow);

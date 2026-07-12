@@ -49,26 +49,22 @@ function App() {
     highlightChecks: ui.highlightChecks
   });
 
-  // Rensa highlights när inställningar ändras
-  useEffect(() => {
-  }, [ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
-
   const tc = parseTimeControl(ui.timeControl);
-
-  // Lite mer rimlig storlek på desktop
   const boardSize = isDesktop ? 700 : 350;
 
   return (
     <div className={styles.appWrapper}>
-      <Header 
-        onOpenSettings={() => ui.setSettingsOpen(true)}
-        onOpenGameMenu={() => ui.setGameMenuOpen(true)}
-      />
 
-      {gameInstance.isCheckmate() && <GameOverOverlay />}
-
+      {/* ⭐ FLYTTAD HIT — INUTI mainLayout */}
       <div className={styles.mainLayout}>
-        
+
+        <Header 
+          onOpenSettings={() => ui.setSettingsOpen(true)}
+          onOpenGameMenu={() => ui.setGameMenuOpen(true)}
+        />
+
+        {gameInstance.isCheckmate() && <GameOverOverlay />}
+
         {(ui.settingsOpen || isDesktop) && (
           <div className={styles.leftPanel}>
             <SettingsPanel 
