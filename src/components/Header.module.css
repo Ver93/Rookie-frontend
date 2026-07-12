@@ -1,0 +1,48 @@
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(var(--card-blur));
+  -webkit-backdrop-filter: blur(var(--card-blur));
+  box-shadow: var(--shadow);
+}
+
+.menuToggle,
+.settingsToggle {
+  background: none;
+  border: 1px solid var(--card-border);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menuToggle:hover,
+.settingsToggle:hover {
+  background: rgba(46, 110, 181, 0.18);
+  transform: translateY(-2px);
+}
+
+.headerCenter {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+  text-align: center;
+  flex: 1;
+}
+
+.headerLeft,
+.headerRight {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+}
