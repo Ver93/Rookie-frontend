@@ -42,7 +42,6 @@ function App() {
     gameTurn,
     gameInstance,
     lastMove,
-    clearHighlights,
     loadFEN
   } = useEngine(ui.depth, ui.playerColor, {
     highlightLegal: ui.highlightLegal,
@@ -52,8 +51,7 @@ function App() {
 
   // Rensa highlights när inställningar ändras
   useEffect(() => {
-    clearHighlights();
-  }, [clearHighlights, ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
+  }, [ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
 
   const tc = parseTimeControl(ui.timeControl);
 
