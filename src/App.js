@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header";
 import SettingsPanel from "./components/SettingsPanel";
@@ -16,9 +16,24 @@ import useTerminal from "./hooks/useTerminal";
 import { parseTimeControl } from "./components/TimeControl";
 import styles from "./App.module.css";
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 900);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsDesktop(window.innerWidth > 900);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return isDesktop;
+}
+
 function App() {
   const ui = useUIState();
   const terminal = useTerminal();
+  const isDesktop = useIsDesktop();
 
   const {
     position,
@@ -35,14 +50,15 @@ function App() {
     highlightChecks: ui.highlightChecks
   });
 
+  // Rensa highlights när inställningar ändras
   useEffect(() => {
     clearHighlights();
   }, [clearHighlights, ui.highlightLast, ui.highlightChecks, ui.highlightLegal]);
 
   const tc = parseTimeControl(ui.timeControl);
-  const isDesktop = window.innerWidth > 900;
 
-  const boardSize = isDesktop ? 1000 : 350;
+  // Lite mer rimlig storlek på desktop
+  const boardSize = isDesktop ? 700 : 350;
 
   return (
     <div className={styles.appWrapper}>

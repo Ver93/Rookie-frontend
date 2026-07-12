@@ -1,166 +1,160 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Chess } from "chess.js";
 import { getBestMove } from "../services/engine_api";
 
 export default function useEngine(depth, playerColor, highlights) {
-    const [game] = useState(() => new Chess());
-    const [position, setPosition] = useState(game.fen());
-    const [log, setLog] = useState([]);
-    const [squareStyles, setSquareStyles] = useState({});
-    const [gameTurn, setGameTurn] = useState(null);
-    const [lastMove, setLastMove] = useState(null);
+  const [game] = useState(() => new Chess());
+  const [position, setPosition] = useState(game.fen());
+  const [log, setLog] = useState([]);
+  const [squareStyles, setSquareStyles] = useState({});
+  const [gameTurn, setGameTurn] = useState(null);
+  const [lastMove, setLastMove] = useState(null);
 
-    const { highlightLegal, highlightLast, highlightChecks } = highlights;
+  const { highlightLegal, highlightLast, highlightChecks } = highlights;
 
-    useEffect(() => {
-        setSquareStyles({});
-    }, [highlightLegal, highlightLast, highlightChecks]);
+  // 🔹 Samlad highlight-logik i en effekt
+  useEffect(() => {
+    const styles = {};
 
-    function clearHighlights() {
-        setSquareStyles({});
+    // Highlight last move
+    if (highlightLast && lastMove) {
+      styles[lastMove.from] = { backgroundColor: "rgba(255,255,0,0.35)" };
+      styles[lastMove.to] = { backgroundColor: "rgba(255,255,0,0.35)" };
     }
 
-    function loadFEN(fen) {
-        try {
-            game.load(fen.trim());
-        } catch {
-            return false;
+    // Highlight check
+    if (highlightChecks && game.isCheck()) {
+      const kingSquare = findKingSquare(game.turn());
+      if (kingSquare) {
+        styles[kingSquare] = { backgroundColor: "rgba(255,0,0,0.5)" };
+      }
+    }
+
+    setSquareStyles(styles);
+  }, [highlightLast, highlightChecks, lastMove, game]);
+
+  function findKingSquare(color) {
+    const board = game.board();
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = board[r][c];
+        if (piece && piece.type === "k" && piece.color === color) {
+          return "abcdefgh"[c] + (8 - r);
         }
+      }
+    }
+    return null;
+  }
 
-        setPosition(game.fen());
-        setSquareStyles({});
-        setLastMove(null);
+  const logEvent = useCallback((text) => {
+    setLog(prev => [...prev, text]);
+  }, []);
 
-        const turn = game.turn() === "w" ? "white" : "black";
-        setGameTurn(turn);
+  const clearHighlights = useCallback(() => {
+    setSquareStyles({});
+  }, []);
 
-        if (turn !== playerColor) {
-            playEngineMove();
-            setGameTurn(playerColor);
-        }
-
-        return true;
+  const loadFEN = useCallback((fen) => {
+    try {
+      game.load(fen.trim());
+    } catch {
+      return false;
     }
 
+    setPosition(game.fen());
+    setSquareStyles({});
+    setLastMove(null);
 
-    function updateLastMoveVisuals() {
-        if (!highlightLast) return;
+    const turn = game.turn() === "w" ? "white" : "black";
+    setGameTurn(turn);
 
-        const history = game.history({ verbose: true });
-        if (history.length === 0) return;
-
-        const last = history[history.length - 1];
-
-        setSquareStyles(prev => ({
-        ...prev,
-        [last.from]: { backgroundColor: "rgba(255,255,0,0.35)" },
-        [last.to]: { backgroundColor: "rgba(255,255,0,0.35)" }
-        }));
+    if (turn !== playerColor) {
+      // Kör motor efter en tick för att inte blockera draget
+      setTimeout(() => {
+        playEngineMove();
+        setGameTurn(playerColor);
+      }, 0);
     }
 
-    function updateCheckVisuals() {
-        if (!highlightChecks) return;
-        if (!game.isCheck()) return;
+    return true;
+  }, [game, playerColor]);
 
-        const kingSquare = findKingSquare(game.turn());
-        if (kingSquare) {
-        setSquareStyles(prev => ({
-            ...prev,
-            [kingSquare]: { backgroundColor: "rgba(255,0,0,0.5)" }
-        }));
-        }
+  const playEngineMove = useCallback(async () => {
+    const fen = game.fen();
+    const moves = game.history({ verbose: true }).map(m => {
+      return m.from + m.to + (m.promotion || "");
+    });
+
+    const bestmove = await getBestMove(fen, moves, depth);
+    if (!bestmove) return;
+
+    game.move({
+      from: bestmove.slice(0, 2),
+      to: bestmove.slice(2, 4),
+      promotion: "q"
+    });
+
+    const moveObj = {
+      from: bestmove.slice(0, 2),
+      to: bestmove.slice(2, 4)
+    };
+
+    setLastMove(moveObj);
+    setPosition(game.fen());
+    logEvent(bestmove);
+
+    setGameTurn(game.turn() === "w" ? "white" : "black");
+  }, [game, depth, logEvent]);
+
+  const onPlayerMove = useCallback(async (from, to) => {
+    try {
+      game.move({ from, to, promotion: "q" });
+    } catch {
+      return false;
     }
 
-    function logEvent(text) {
-        setLog(prev => [...prev, text]);
-    }
+    const moveObj = { from, to };
+    setLastMove(moveObj);
+    setPosition(game.fen());
+    logEvent(`${from}${to}`);
+    setGameTurn("black");
 
-    function findKingSquare(color) {
-        const board = game.board();
-        for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = board[r][c];
-            if (piece && piece.type === "k" && piece.color === color) {
-            return "abcdefgh"[c] + (8 - r);
-            }
-        }
-        }
-        return null;
-    }
+    // Kör motor separat för att inte blockera draget
+    setTimeout(async () => {
+      await playEngineMove();
+    }, 0);
 
-    async function playEngineMove() {
-        const fen = game.fen();
-        const moves = game.history({ verbose: true }).map(m => {
-        return m.from + m.to + (m.promotion || "");
-        });
+    return true;
+  }, [game, logEvent, playEngineMove]);
 
-        const bestmove = await getBestMove(fen, moves, depth);
-        if (!bestmove) return;
+  const resetGame = useCallback(() => {
+    game.reset();
+    setPosition(game.fen());
+    setLog([]);
+    setSquareStyles({});
+    setLastMove(null);
 
-        game.move({
-        from: bestmove.slice(0, 2),
-        to: bestmove.slice(2, 4),
-        promotion: "q"
-        });
+    const turn = "white";
+    setGameTurn(turn);
 
-        setLastMove({
-        from: bestmove.slice(0, 2),
-        to: bestmove.slice(2, 4)
-        });
-
-        setPosition(game.fen());
-        setSquareStyles({});
-        updateLastMoveVisuals();
-        updateCheckVisuals();
-        logEvent(bestmove);
-    }
-
-    async function onPlayerMove(from, to) {
-        try {
-        game.move({ from, to, promotion: "q" });
-        } catch {
-        return false;
-        }
-
-        setLastMove({ from, to });
-        setPosition(game.fen());
-        logEvent(`${from}${to}`);
-        setSquareStyles({});
-        updateLastMoveVisuals();
-        updateCheckVisuals();
-
-        setGameTurn("black");
+    if (playerColor === "black") {
+      setTimeout(async () => {
         await playEngineMove();
         setGameTurn("white");
-
-        return true;
+      }, 0);
     }
+  }, [game, playerColor, playEngineMove]);
 
-    function resetGame() {
-        game.reset();
-        setPosition(game.fen());
-        setLog([]);
-        setSquareStyles({});
-        setLastMove(null);
-        updateCheckVisuals();
-        setGameTurn("white");
-
-        if (playerColor === "black") {
-        playEngineMove();
-        setGameTurn("white");
-        }
-    }
-
-    return {
-        position,
-        squareStyles,
-        log,
-        onPlayerMove,
-        resetGame,
-        gameTurn,
-        gameInstance: game,
-        lastMove,
-        clearHighlights,
-        loadFEN
-    };
+  return {
+    position,
+    squareStyles,
+    log,
+    onPlayerMove,
+    resetGame,
+    gameTurn,
+    gameInstance: game,
+    lastMove,
+    clearHighlights,
+    loadFEN
+  };
 }
