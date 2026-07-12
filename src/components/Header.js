@@ -12,7 +12,7 @@ export default function Header({ onOpenSettings, onOpenGameMenu }) {
             </div>
 
             <div className={styles.headerCenter}>
-                Rookie GUI
+                {/* Rookie GUI */}
             </div>
 
             <div className={styles.headerRight}>

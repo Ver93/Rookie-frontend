@@ -43,7 +43,6 @@ function App() {
   const tc = parseTimeControl(ui.timeControl);
   const isDesktop = window.innerWidth > 900;
 
-  // ⭐ Brädet styrs av CSS, så vi ger det bara en maxstorlek
   const boardSize = isDesktop ? 100 : 350;
 
   return (
