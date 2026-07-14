@@ -70,12 +70,12 @@ export default function useEngine(depth, playerColor, highlights) {
     }, []);
 
     await _position(fen, moves);
-  }, []);
+  }, [game]);
 
   const getEngineMove = useCallback(async () => {
     const anwser = await go(depth);
     return anwser;
-  }, []);
+  }, [depth]);
 
   const playEngineMove = useCallback(async () => {
 
@@ -102,7 +102,7 @@ export default function useEngine(depth, playerColor, highlights) {
     logEvent(bestmove);
 
     setGameTurn(game.turn() === "w" ? "white" : "black");
-  }, [game, depth, logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
+  }, [logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
 
   useEffect(() => {
     if(playerColor !== "white"){
