@@ -102,7 +102,7 @@ export default function useEngine(depth, playerColor, highlights) {
     logEvent(bestmove);
 
     setGameTurn(game.turn() === "w" ? "white" : "black");
-  }, [logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
+  }, game, [logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
 
   useEffect(() => {
     if(playerColor !== "white"){
