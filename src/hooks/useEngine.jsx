@@ -79,11 +79,11 @@ export default function useEngine(depth, playerColor, highlights) {
 
   const playEngineMove = useCallback(async () => {
 
-    if(!checkUCI() || !isEngineReady()) return;
+    if(!(await checkUCI()) || !(await isEngineReady())) return;
 
-    setEnginePosition();
+    await setEnginePosition();
 
-    const bestmove = getEngineMove();
+    const bestmove = await getEngineMove();
     if (!bestmove) return;
 
     game.move({
@@ -102,7 +102,7 @@ export default function useEngine(depth, playerColor, highlights) {
     logEvent(bestmove);
 
     setGameTurn(game.turn() === "w" ? "white" : "black");
-  }, game, [logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
+  }, [game, logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
 
   useEffect(() => {
     if(playerColor !== "white"){
