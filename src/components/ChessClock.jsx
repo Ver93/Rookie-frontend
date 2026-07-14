@@ -6,7 +6,7 @@ export default function ChessClock({ active, initialTime, increment, onFlag }) {
 
     useEffect(() => {
         setTime(initialTime);
-    }, [initialTime, onFlag]);
+    }, [initialTime]);
 
     useEffect(() => {
         if (!active) return;
@@ -23,13 +23,13 @@ export default function ChessClock({ active, initialTime, increment, onFlag }) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [active]);
+    }, [active, onFlag]);
 
     useEffect(() => {
         if (active) {
             setTime(t => Math.min(t + increment, initialTime));
         }
-    }, [active, increment, initialTime, onFlag]);
+    }, [active, increment, initialTime]);
 
     const format = (t) => {
         const m = Math.floor(t / 60);
