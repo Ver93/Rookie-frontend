@@ -6,7 +6,7 @@ export default function ChessClock({ active, initialTime, increment, onFlag }) {
 
     useEffect(() => {
         setTime(initialTime);
-    }, [initialTime]);
+    }, [initialTime, onFlag]);
 
     useEffect(() => {
         if (!active) return;
