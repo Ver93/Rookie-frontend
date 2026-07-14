@@ -9,6 +9,7 @@ export default function useEngine(depth, playerColor, highlights) {
   const [squareStyles, setSquareStyles] = useState({});
   const [gameTurn, setGameTurn] = useState(null);
   const [lastMove, setLastMove] = useState(null);
+  const [isThinking, setIsThinking] = useState(false);
 
   const { highlightLast, highlightChecks } = highlights;
 
@@ -116,7 +117,9 @@ export default function useEngine(depth, playerColor, highlights) {
     setGameTurn("black");
 
     setTimeout(async () => {
+      setIsThinking(true);
       await playEngineMove();
+      setIsThinking(false);
     }, 0);
 
     return true;
@@ -150,6 +153,7 @@ export default function useEngine(depth, playerColor, highlights) {
     gameInstance: game,
     lastMove,
     clearHighlights,
-    loadFEN
+    loadFEN,
+    isThinking
   };
 }

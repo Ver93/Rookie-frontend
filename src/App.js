@@ -8,6 +8,8 @@ import GameOverOverlay from "./components/GameOverOverlay";
 import ChessBoard from "./components/ChessBoard";
 import ChessClock from "./components/ChessClock";
 import Terminal from "./components/Terminal";
+import ThinkingSpinner from "./components/ThinkingSpinner";
+
 
 import useEngine from "./hooks/useEngine";
 import useUIState from "./hooks/useUIState";
@@ -55,7 +57,6 @@ function App() {
   return (
     <div className={styles.appWrapper}>
 
-      {/* ⭐ FLYTTAD HIT — INUTI mainLayout */}
       <div className={styles.mainLayout}>
 
         <Header 
@@ -73,7 +74,7 @@ function App() {
             />
           </div>
         )}
-
+        {isThinking && <ThinkingSpinner />}
         <div className={styles.centerColumn}>
           <div className={styles.clockRow}>
             <ChessClock 
