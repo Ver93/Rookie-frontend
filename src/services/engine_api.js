@@ -32,7 +32,7 @@ export async function uciNewGame(){
   });
 }
 
-export async function position(fen, moves){
+export async function _position(fen, moves){
   await fetch(`${API_URL}/position`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
