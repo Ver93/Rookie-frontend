@@ -44,7 +44,8 @@ function App() {
     gameTurn,
     gameInstance,
     lastMove,
-    loadFEN
+    loadFEN,
+    isThinking
   } = useEngine(ui.depth, ui.playerColor, {
     highlightLegal: ui.highlightLegal,
     highlightLast: ui.highlightLast,
