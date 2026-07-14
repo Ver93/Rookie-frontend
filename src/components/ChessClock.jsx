@@ -29,7 +29,7 @@ export default function ChessClock({ active, initialTime, increment, onFlag }) {
         if (active) {
             setTime(t => Math.min(t + increment, initialTime));
         }
-    }, [active, increment, initialTime]);
+    }, [active, increment, initialTime, onFlag]);
 
     const format = (t) => {
         const m = Math.floor(t / 60);

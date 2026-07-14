@@ -77,7 +77,7 @@ function App() {
           onOpenGameMenu={() => ui.setGameMenuOpen(true)}
         />
 
-        {gameInstance.isCheckmate() && <GameOverOverlay />}
+        {gameInstance.isCheckmate() && gameOver && <GameOverOverlay />}
 
         {(ui.settingsOpen || isDesktop) && (
           <div className={styles.leftPanel}>

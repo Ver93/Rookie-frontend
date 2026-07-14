@@ -50,7 +50,7 @@ export default function useEngine(depth, playerColor, highlights) {
         playEngineMove();
         setGameTurn(playerColor);
     }
-  }, [playerColor] );
+  }, [playEngineMove, playerColor] );
 
   const logEvent = useCallback((text) => {
     setLog(prev => [...prev, text]);
