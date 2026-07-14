@@ -19,7 +19,7 @@ export async function isready(){
 }
 
 export async function setOptions(options){
-    const res = await fetch(`${API_URL}/setoption`, {
+    await fetch(`${API_URL}/setoption`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ options }),
@@ -27,13 +27,13 @@ export async function setOptions(options){
 }
 
 export async function uciNewGame(){
-    const res = await fetch(`${API_URL}/ucinewgame`, {
+    await fetch(`${API_URL}/ucinewgame`, {
     method: "POST",
   });
 }
 
 export async function position(fen, moves){
-  const res = await fetch(`${API_URL}/position`, {
+  await fetch(`${API_URL}/position`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ fen, moves }),
@@ -52,12 +52,12 @@ export async function go(depth) {
 }
 
 export async function stop(){
-    const res = await fetch(`${API_URL}/stop`, {
+  await fetch(`${API_URL}/stop`, {
     method: "POST",
   });
 }
 export async function quit(){
-  const res = await fetch(`${API_URL}/quit`, {
+  await fetch(`${API_URL}/quit`, {
     method: "POST"
   })
 }

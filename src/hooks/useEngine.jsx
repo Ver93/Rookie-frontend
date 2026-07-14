@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Chess } from "chess.js";
-import {uci, isready, go, position,  } from "../services/engine_api";
+import {uci, isready, go, _position,  } from "../services/engine_api";
 
 export default function useEngine(depth, playerColor, highlights) {
   const [game] = useState(() => new Chess());
@@ -55,27 +55,27 @@ export default function useEngine(depth, playerColor, highlights) {
   
   const checkUCI = useCallback(async () => {
     const anwser = await uci();
-    return anwser.body == "uciok";
-  });
+    return anwser.body === "uciok";
+  }, []);
 
   const isEngineReady = useCallback(async () => {
     const anwser = await isready();
-    return anwser.body == "isready";
-  });
+    return anwser.body === "isready";
+  }, []);
 
   const setEnginePosition = useCallback(async () => {
     const fen = game.fen();
     const moves = game.history({ verbose: true }).map(m => {
       return m.from + m.to + (m.promotion || "");
-    });
+    }, []);
 
-    await position(fen, moves);
-  });
+    await _position(fen, moves);
+  }, []);
 
   const getEngineMove = useCallback(async () => {
     const anwser = await go(depth);
     return anwser;
-  });
+  }, []);
 
   const playEngineMove = useCallback(async () => {
 
@@ -102,7 +102,7 @@ export default function useEngine(depth, playerColor, highlights) {
     logEvent(bestmove);
 
     setGameTurn(game.turn() === "w" ? "white" : "black");
-  }, [game, depth, logEvent]);
+  }, [game, depth, logEvent, checkUCI, isEngineReady, setEnginePosition, getEngineMove]);
 
   useEffect(() => {
     if(playerColor !== "white"){
