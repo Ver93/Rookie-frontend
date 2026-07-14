@@ -41,8 +41,16 @@ export default function useEngine(depth, playerColor, highlights) {
       }
     }
 
+    
     setSquareStyles(styles);
-  }, [highlightLast, highlightChecks, lastMove, game, findKingSquare]);
+  }, [highlightLast, highlightChecks, lastMove, game, findKingSquare, playerColor]);
+  
+  useEffect(() => {
+    if(playerColor !== "white"){
+        playEngineMove();
+        setGameTurn(playerColor);
+    }
+  }, [playerColor] );
 
   const logEvent = useCallback((text) => {
     setLog(prev => [...prev, text]);
@@ -91,6 +99,7 @@ export default function useEngine(depth, playerColor, highlights) {
     setLastMove(null);
 
     const turn = game.turn() === "w" ? "white" : "black";
+    
     setGameTurn(turn);
 
     if (turn !== playerColor) {

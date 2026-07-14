@@ -76,6 +76,35 @@ export default function GameMenuPanel({
                 >
                     Load Position
                 </button>
+
+                <div className={styles.section}>
+                    <label className={styles.label}>Game Controls</label>
+            
+                    <div className={styles.colorRow}>
+                    <button
+                        className={`${styles.colorButton}`}
+
+                    >
+                        Start
+                    </button>
+                    
+                    <button
+                        className={`${styles.colorButton}`}
+            
+                    >
+                        Pause
+                    </button>
+
+
+                    <button
+                        className={`${styles.colorButton}`}
+
+                    >
+                        Reset
+                    </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

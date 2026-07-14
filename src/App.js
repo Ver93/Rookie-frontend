@@ -21,7 +21,8 @@ import styles from "./App.module.css";
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 900);
 
-  useEffect(() => {
+
+useEffect(() => {
     function handleResize() {
       setIsDesktop(window.innerWidth > 900);
     }
@@ -32,11 +33,13 @@ function useIsDesktop() {
   return isDesktop;
 }
 
+
 function App() {
   const ui = useUIState();
   const terminal = useTerminal();
   const isDesktop = useIsDesktop();
-
+  
+  
   const {
     position,
     squareStyles,
@@ -51,9 +54,18 @@ function App() {
     highlightLast: ui.highlightLast,
     highlightChecks: ui.highlightChecks
   });
-
+  
   const tc = parseTimeControl(ui.timeControl);
   const boardSize = isDesktop ? 700 : 350;
+  const [gameOver, setGameOver] = useState(null);
+  
+  function onWhiteFlag() {
+    setGameOver("white");
+  }
+  
+  function onBlackFlag() {
+    setGameOver("black");
+  }
 
   return (
     <div className={styles.appWrapper}>
@@ -82,6 +94,7 @@ function App() {
               active={gameTurn === "black"}
               initialTime={tc.initial}
               increment={tc.inc}
+              onFlag={onBlackFlag}
             />
           </div>
 
@@ -103,6 +116,7 @@ function App() {
               active={gameTurn === "white"}
               initialTime={tc.initial}
               increment={tc.inc}
+              onFlag={onWhiteFlag}
             />
           </div>
 

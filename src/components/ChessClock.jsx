@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./ChessClock.module.css";
 
-export default function ChessClock({ active, initialTime, increment }) {
+export default function ChessClock({ active, initialTime, increment, onFlag }) {
     const [time, setTime] = useState(initialTime);
 
     useEffect(() => {
@@ -12,7 +12,14 @@ export default function ChessClock({ active, initialTime, increment }) {
         if (!active) return;
 
         const interval = setInterval(() => {
-            setTime(t => Math.max(t - 1, 0));
+            setTime(t => {
+                if (t <= 0) {
+                    clearInterval(interval);
+                    onFlag && onFlag();   // ← SIGNALERA TIDEN ÄR SLUT
+                    return 0;
+                }
+                return t - 1;
+            });
         }, 1000);
 
         return () => clearInterval(interval);
