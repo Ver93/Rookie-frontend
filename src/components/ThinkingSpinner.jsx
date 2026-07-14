@@ -1,4 +1,4 @@
-import ThinkingSpinner from "./components/ThinkingSpinner";
+import styles from "./ThinkingSpinner.module.css";
 
 export default function ThinkingSpinner() {
   return (
@@ -8,14 +8,7 @@ export default function ThinkingSpinner() {
       flexDirection: "column",
       alignItems: "center"
     }}>
-      <div style={{
-        width: "40px",
-        height: "40px",
-        border: "4px solid #ccc",
-        borderTopColor: "#4caf50",
-        borderRadius: "50%",
-        animation: "spin 0.8s linear infinite"
-      }} />
+      <div className={styles.spinner} />
       <div style={{ marginTop: "8px", color: "#4caf50" }}>
         Rookie tänker...
       </div>
