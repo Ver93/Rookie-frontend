@@ -1,63 +1,73 @@
 const API_URL = "/api/engine";
 
-export async function uci(){
-    const res = await fetch(`${API_URL}/uci`, {
-    method: "POST"
-  });
+async function safeFetch(url, options = {}) {
+    try {
+        const res = await fetch(url, options);
 
-  const data = await res.json();
-  return data;
+        if (!res.ok) {
+            return { error: true, status: res.status };
+        }
+
+        const data = await res.json().catch(() => null);
+        return data ?? { error: true };
+    } catch (err) {
+        return { error: true, message: err.message };
+    }
 }
 
-export async function isready(){
-    const res = await fetch(`${API_URL}/isready`, {
-    method: "POST"
-  });
 
-  const data = await res.json();
-  return data;
+export async function uci() {
+    return await safeFetch("/api/engine/uci", { method: "POST" });
 }
 
-export async function setOptions(options){
+export async function isready() {
+    return await safeFetch("/api/engine/isready", { method: "POST" });
+}
+
+
+
+export async function setOptions(options) {
     await fetch(`${API_URL}/setoption`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ options }),
-  });
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ options }),
+    });
 }
 
-export async function uciNewGame(){
+export async function uciNewGame() {                        
     await fetch(`${API_URL}/ucinewgame`, {
-    method: "POST",
-  });
+        method: "POST",
+    });
 }
 
-export async function _position(fen, moves){
-  await fetch(`${API_URL}/position`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fen, moves }),
-  });
+export async function position(fen, moves) {
+    return await safeFetch("/api/engine/position", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fen, moves })
+    });
 }
+
 
 export async function go(depth) {
-  const res = await fetch(`${API_URL}/go`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ depth }),
-  });
+    const data = await safeFetch("/api/engine/go", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ depth })
+    });
 
-  const data = await res.json();
-  return data.bestMove;
+    if (data.error) return null;
+    return data.bestMove ?? null;
 }
 
-export async function stop(){
-  await fetch(`${API_URL}/stop`, {
-    method: "POST",
-  });
+
+export async function stop() {
+    await fetch(`${API_URL}/stop`, {
+        method: "POST",
+    });
 }
-export async function quit(){
-  await fetch(`${API_URL}/quit`, {
-    method: "POST"
-  })
+export async function quit() {
+    await fetch(`${API_URL}/quit`, {
+        method: "POST"
+    })
 }

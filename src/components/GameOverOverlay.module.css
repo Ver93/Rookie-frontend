@@ -10,29 +10,6 @@
     animation: fadeIn 0.25s ease-out;
 }
 
-.modal {
-    background: rgba(40, 40, 40, 0.85);
-    padding: 20px 28px;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-    text-align: center;
-    min-width: 320px;
-    animation: zoomIn 0.25s ease-out;
-    color: #e5e5e5; 
-}
-
-.modal h2 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-    font-weight: 600;
-    color: #f0f0f0;
-}
-
-.modal p {
-    font-size: 1.1rem;
-    color: #cfcfcf;
-    margin-bottom: 20px;
-}
 
 .button {
     padding: 12px 24px;

@@ -1,217 +1,222 @@
 .panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 80%;
-  max-width: 320px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 80%;
+    max-width: 320px;
 
-  background: rgba(20, 20, 20, 0.95);
-  backdrop-filter: blur(12px);
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(12px);
 
-  box-shadow: -4px 0 12px rgba(0,0,0,0.4);
-  border-left: 1px solid #333;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.4);
+    border-left: 1px solid #333;
 
-  padding: 24px;
-  z-index: 200;
+    padding: 24px;
+    z-index: 200;
 
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
-  animation: slideIn 0.25s ease forwards;
+    animation: slideIn 0.25s ease forwards;
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
 }
 
 .closeButton {
-  align-self: flex-end;
-  font-size: 1.4rem;
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
+    align-self: flex-end;
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
 }
 
 .title {
-  font-size: 1.4rem;
-  margin-bottom: 8px;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
 }
 
 .section {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  text-align: center;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
 }
 
 .label {
-  font-size: 1.1rem;
-  color: #ddd;
+    font-size: 1.1rem;
+    color: #ddd;
 }
 
 .depthRow {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
 .depthButton {
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background: #222;
-  color: #ddd;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ddd;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 
 .depthButton:hover {
-  background: #333;
+    background: #333;
 }
 
 .active {
-  background: #2e6eb5;
-  border-color: #2e6eb5;
-  color: white;
-  box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
+    background: #2e6eb5;
+    border-color: #2e6eb5;
+    color: white;
+    box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
 }
 
 .colorRow {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .colorButton {
-  width: 80px;
-  height: 40px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #222;
-  color: #ddd;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    width: 80px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ddd;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .colorButton:hover {
-  background: #333;
+    background: #333;
 }
 
 .active {
-  background: #2e6eb5;
-  border-color: #2e6eb5;
-  color: white;
-  box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
+    background: #2e6eb5;
+    border-color: #2e6eb5;
+    color: white;
+    box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
 }
 
 .timeRow {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
 
 .timeButton {
-  width: 60px;
-  height: 40px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #222;
-  color: #ddd;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ddd;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .timeButton:hover {
-  background: #333;
+    background: #333;
 }
 
 .active {
-  background: #2e6eb5;
-  border-color: #2e6eb5;
-  color: white;
-  box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
+    background: #2e6eb5;
+    border-color: #2e6eb5;
+    color: white;
+    box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
 }
 
 .toggleRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .toggleButton {
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #222;
-  color: #ddd;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ddd;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .toggleButton:hover {
-  background: #333;
+    background: #333;
 }
 
 .active {
-  background: #2e6eb5;
-  border-color: #2e6eb5;
-  color: white;
-  box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
+    background: #2e6eb5;
+    border-color: #2e6eb5;
+    color: white;
+    box-shadow: 0 0 10px rgba(46, 110, 181, 0.6);
 }
 
 .textInput {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #222;
-  color: #ddd;
-  font-size: 0.9rem;
-  outline: none;
-  transition: all 0.2s ease;
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #222;
+    color: #ddd;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s ease;
 }
 
 .textInput:focus {
-  border-color: #2e6eb5;
-  box-shadow: 0 0 8px rgba(46, 110, 181, 0.5);
+    border-color: #2e6eb5;
+    box-shadow: 0 0 8px rgba(46, 110, 181, 0.5);
 }
 
 .loadButton {
-  margin-top: 10px;
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #2e6eb5;
-  color: white;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #2e6eb5;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .loadButton:hover {
-  background: #1f5a94;
+    background: #1f5a94;
 }
 
 @media (min-width: 900px) {
-  .closeButton {
-    display: none;
-  }
+    .closeButton {
+        display: none;
+    }
 
-  .title {
-    display: center;
-    justify-content: center;
-    align-self: center;
-  }
+    .title {
+        display: center;
+        justify-content: center;
+        align-self: center;
+    }
 }

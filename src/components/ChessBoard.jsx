@@ -1,95 +1,76 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Chessboard } from "react-chessboard";
 
 export default function ChessBoard({
-  position,
-  playerColor,
-  squareStyles,
-  onPlayerMove,
-  highlightLegal,
-  gameInstance,
-  lastMove
+    position,
+    playerColor,
+    squareStyles,
+    onPlayerMove,
+    highlightLegal,
+    gameInstance,
+    lastMove
 }) {
-  const boardRef = useRef(null);
-  const [boardSize, setBoardSize] = useState(400);
-  const [localStyles, setLocalStyles] = useState({});
-  const [selectedSquare, setSelectedSquare] = useState(null);
+    const boardRef = useRef(null);
+    const [localHighlights, setLocalHighlights] = useState({});
+    const [selectedSquare, setSelectedSquare] = useState(null);
 
-  useEffect(() => {
-    const observer = new ResizeObserver(entries => {
-      const { width, height } = entries[0].contentRect;
-      const size = Math.min(width, height);
-      setBoardSize(size);
-    });
+    const computeLegalHighlights = useCallback((square) => {
+        if (!highlightLegal) return {};
 
-    if (boardRef.current) observer.observe(boardRef.current);
-    return () => observer.disconnect();
-  }, []);
+        const moves = gameInstance.moves({ square, verbose: true });
+        const styles = {};
 
-  useEffect(() => {
-    if (!highlightLegal) {
-      setLocalStyles({});
-    }
-  }, [highlightLegal]);
-
-  function handleSquareClick(square) {
-    if (!selectedSquare) {
-      const piece = gameInstance.get(square);
-      if (piece) {
-        setSelectedSquare(square);
-
-        if (highlightLegal) {
-          const moves = gameInstance.moves({ square, verbose: true });
-          const styles = {};
-          moves.forEach(m => {
+        moves.forEach(m => {
             styles[m.to] = { backgroundColor: "rgba(0,150,255,0.35)" };
-          });
-          setLocalStyles(styles);
+        });
+
+        return styles;
+    }, [highlightLegal, gameInstance]);
+
+    const handleSquareClick = useCallback((square) => {
+        if (!selectedSquare) {
+            const piece = gameInstance.get(square);
+            if (!piece) return;
+
+            setSelectedSquare(square);
+            setLocalHighlights(computeLegalHighlights(square));
+            return;
         }
-      }
-      return;
-    }
 
-    const from = selectedSquare;
-    const to = square;
+        const from = selectedSquare;
+        const to = square;
 
-    setSelectedSquare(null);
-    setLocalStyles({});
-    onPlayerMove(from, to);
-  }
+        setSelectedSquare(null);
+        setLocalHighlights({});
+        onPlayerMove(from, to);
+    }, [selectedSquare, gameInstance, computeLegalHighlights, onPlayerMove]);
 
-  function handlePieceDragBegin(piece, sourceSquare) {
-    if (!highlightLegal) return;
+    const handlePieceDragBegin = useCallback((piece, sourceSquare) => {
+        setLocalHighlights(computeLegalHighlights(sourceSquare));
+    }, [computeLegalHighlights]);
 
-    const moves = gameInstance.moves({ square: sourceSquare, verbose: true });
-    const styles = {};
-    moves.forEach(m => {
-      styles[m.to] = { backgroundColor: "rgba(0,150,255,0.35)" };
-    });
+    const handlePieceDrop = useCallback((source, target) => {
+        setLocalHighlights({});
+        onPlayerMove(source, target);
+        return true;
+    }, [onPlayerMove]);
 
-    setLocalStyles(styles);
-  }
-
-  function handlePieceDrop(source, target) {
-    setLocalStyles({});
-    onPlayerMove(source, target);
-    return true;
-  }
-
-  return (
-    <div ref={boardRef} style={{ width: "100%", height: "100%" }}>
-      <Chessboard
-        position={position}
-        boardOrientation={playerColor}
-        customSquareStyles={{ ...squareStyles, ...localStyles }}
-        onSquareClick={handleSquareClick}
-        onPieceDragBegin={handlePieceDragBegin}
-        onPieceDrop={handlePieceDrop}
-        boardWidth={boardSize}
-        arePiecesDraggable={true}
-        animationDuration={200}
-        lastMove={lastMove}
-      />
-    </div>
-  );
+    return (
+        <div ref={boardRef} style={{ width: "100%", height: "100%" }}>
+            <Chessboard
+                position={position}
+                boardOrientation={playerColor}
+                customSquareStyles={{
+                    ...squareStyles,
+                    ...localHighlights
+                }}
+                onSquareClick={handleSquareClick}
+                onPieceDragBegin={handlePieceDragBegin}
+                onPieceDrop={handlePieceDrop}
+                arePiecesDraggable={true}
+                animationDuration={200}
+                lastMove={lastMove ? [lastMove.from, lastMove.to] : undefined}
+            />
+        </div>
+    );
 }

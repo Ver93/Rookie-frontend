@@ -1,33 +1,33 @@
 .wrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
 }
 
 .infoButton {
-  background: #333;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  margin-left: 6px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-left: 6px;
 }
 
 .tooltip {
-  position: absolute;
-  left: 50%;
-  bottom: 130%;
-  transform: translateX(-50%);
-  background: rgba(20,20,20,0.95);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  color: #fff;
-  white-space: nowrap;
-  border: 1px solid #333;
-  backdrop-filter: blur(8px);
-  z-index: 999;
+    position: absolute;
+    left: 50%;
+    bottom: 130%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.95);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #fff;
+    white-space: nowrap;
+    border: 1px solid #333;
+    backdrop-filter: blur(8px);
+    z-index: 999;
 }

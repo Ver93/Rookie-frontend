@@ -18,7 +18,7 @@ export default function GameOverOverlay({ result, winner, onReset }) {
                 <h2>{getTitle()}</h2>
                 {winner && <p>{winner} Won!</p>}
                 <button className={styles.button} onClick={onReset}>
-                    Try Again?
+                    Play again
                 </button>
             </div>
         </div>

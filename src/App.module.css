@@ -1,90 +1,188 @@
+/* GLOBAL */
+
+body {
+    --bg: #1a1a1a;
+    --bg-dot: rgba(255, 255, 255, 0.3);
+    --bg-dot-size: 1px;
+    --bg-grid-size: 24px;
+    --surface: #1a1a1a;
+    --surface-soft: #1a1a1a;
+    --text: #ffffff;
+    --muted: #c9c9c9;
+    --accent: #6ea8ff;
+    --border: #1a1a1a;
+    --shadow: 0 20px 45px rgba(0, 0, 0, 0.24);
+    --header: 90px;
+}
+
 .appWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-  background: #121212;
-  color: #e0e0e0;
-  font-family: system-ui, sans-serif;
-}
-
-/* MOBILE */
-.mainLayout {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 16px;
-  width: 100%;
-}
-
-.centerColumn {
-  display: block;
-  flex-direction: column;
-  align-items: center;
-  /* gap: 16px; */
-}
-
-.clockRow {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 8px 0;
-}
-
-.chessboardContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  /* width: fit-content; */
-}
-
-.moveSection {
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px 0;
-  background: #0f0f0f;
-  border-top: 1px solid #333;
-}
-
-/* DESKTOP */
-@media (min-width: 900px) {
-
-  .mainLayout {
-    display: grid;
-    grid-template-columns: 260px auto 260px;
-    gap: 20px;
-    width: 100%;
-    /* margin-top: 40px; */
-    align-items: center;       
-    justify-items: center;    
-  }
-
-  .centerColumn {
     display: flex;
     flex-direction: column;
-    align-items: center;  
-    justify-content: center;    
     width: 100%;
-  }
+    min-height: 100vh;
+    font-family: system-ui, sans-serif;
+}
+/*
+.mainLayout {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><text x='4' y='20' font-size='20' >♜</text><text x='28' y='20' font-size='20'>♞</text><text x='4' y='44' font-size='20'>♟</text><text x='28' y='44' font-size='20'>♛</text></svg>");
+    background-color: var(--bg);
+    background-size: 48px 48px;
+    font-family: system-ui, sans-serif;
+    gap: 16px;
+} */
 
-  .chessboardContainer {
-    width: 700px;
-    height: 700px;
-    margin: 0 auto;
-  }
 
-  .chessboardContainer .chessboard {
-    width: auto !important;
-    height: auto !important;
-  }
+.mainLayout {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inset: 0;
+    background-color: var(--bg);
+    font-family: system-ui, sans-serif;
+    padding-top: var(--header);
 }
 
+.chessBackground {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #6ea8ff; */
+}
+
+.chessBoardContainer{
+    width: 100vh;
+    height: 100vw;
+
+}
+
+.clockBackground {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+}
+
+.chessDisplay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-family: system-ui, sans-serif;
+}
+
+.chessLogBackground {
+    display: flex;
+    background-color: var(--border);
+    border-top: 1px solid var(--card-border);
+    width: 100%;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.chessLogContainer {
+    background: rgba(83, 80, 80, 0.3);
+    width: 95%;
+    height: 95%;
+    border-radius: 6px;
+}
+
+.chessLogMenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1c3050;
+    width: 100%;
+    height: 60px;
+    padding: 8px;
+    border-radius: 6px 6px 0 0;
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.1);
+    gap: 10px;
+}
+
+.menuButton {
+    flex: 1;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menuButton:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-2px);
+}
+
+.menuButton:active {
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
+@media (min-width: 900px) {
+    .appWrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+        font-family: system-ui, sans-serif;
+    }
+
+    .mainLayout {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top: 60px;
+        inset: 0;
+            background:
+        radial-gradient(circle, var(--bg-dot) var(--bg-dot-size), transparent 0);
+        background-size: var(--bg-grid-size) var(--bg-grid-size);
+        background-color: var(--bg);
+        font-family: system-ui, sans-serif;
+        gap: 16px;
+
+    }
+
+    .chessBackground {
+        display: flex;
+        width: 30vw;
+        height: 30vw;
+        background-color: #6ea8ff;
+    }
+
+    .chessBoardContainer{
+        display: flex;
+        width: 100%;
+        height: auto;
+        max-width: auto;
+        max-height: auto;
+    }
+
+
+    .clockBackground {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        width: 100%;
+    }
+}

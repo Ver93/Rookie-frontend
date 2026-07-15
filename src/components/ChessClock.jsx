@@ -15,7 +15,7 @@ export default function ChessClock({ active, initialTime, increment, onFlag }) {
             setTime(t => {
                 if (t <= 0) {
                     clearInterval(interval);
-                    onFlag && onFlag();   // ← SIGNALERA TIDEN ÄR SLUT
+                    onFlag && onFlag();
                     return 0;
                 }
                 return t - 1;

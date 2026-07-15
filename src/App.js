@@ -1,151 +1,68 @@
-import { useEffect, useState } from "react";
-
 import Header from "./components/Header";
-import SettingsPanel from "./components/SettingsPanel";
-import GameMenuPanel from "./components/GameMenuPanel";
-import GameOverOverlay from "./components/GameOverOverlay";
-
 import ChessBoard from "./components/ChessBoard";
 import ChessClock from "./components/ChessClock";
-import Terminal from "./components/Terminal";
-import ThinkingSpinner from "./components/ThinkingSpinner";
-
+import ChessTurn from "./components/ChessTurn";
+import ChessLog from "./components/ChessLog";
 
 import useEngine from "./hooks/useEngine";
-import useUIState from "./hooks/useUIState";
-import useTerminal from "./hooks/useTerminal";
-
-import { parseTimeControl } from "./components/TimeControl";
 import styles from "./App.module.css";
 
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 900);
-
-
-useEffect(() => {
-    function handleResize() {
-      setIsDesktop(window.innerWidth > 900);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return isDesktop;
-}
-
-
 function App() {
-  const ui = useUIState();
-  const terminal = useTerminal();
-  const isDesktop = useIsDesktop();
-  
-  
-  const {
-    position,
-    squareStyles,
-    onPlayerMove,
-    gameTurn,
-    gameInstance,
-    lastMove,
-    loadFEN,
-    isThinking
-  } = useEngine(ui.depth, ui.playerColor, {
-    highlightLegal: ui.highlightLegal,
-    highlightLast: ui.highlightLast,
-    highlightChecks: ui.highlightChecks
-  });
-  
-  const tc = parseTimeControl(ui.timeControl);
-  const boardSize = isDesktop ? 700 : 350;
-  const [gameOver, setGameOver] = useState(null);
-  
-  function onWhiteFlag() {
-    setGameOver("white");
-  }
-  
-  function onBlackFlag() {
-    setGameOver("black");
-  }
 
-  return (
-    <div className={styles.appWrapper}>
+    const engine = useEngine(10, "white", true);
 
-      <div className={styles.mainLayout}>
+    return (
+        <div className={styles.appWrapper}>
 
-        <Header 
-          onOpenSettings={() => ui.setSettingsOpen(true)}
-          onOpenGameMenu={() => ui.setGameMenuOpen(true)}
-        />
+            <div className={styles.mainLayout}>
 
-        {gameInstance.isCheckmate() && gameOver && <GameOverOverlay />}
+                <Header />
 
-        {(ui.settingsOpen || isDesktop) && (
-          <div className={styles.leftPanel}>
-            <SettingsPanel 
-              onClose={() => ui.setSettingsOpen(false)}
-              {...ui}
-            />
-          </div>
-        )}
-        {isThinking && <ThinkingSpinner />}
-        <div className={styles.centerColumn}>
-          <div className={styles.clockRow}>
-            <ChessClock 
-              active={gameTurn === "black"}
-              initialTime={tc.initial}
-              increment={tc.inc}
-              onFlag={onBlackFlag}
-            />
-          </div>
+                <div className={styles.clockBackground}>
+                    <div className={styles.chessDisplay}>
+                        <ChessTurn turn={engine.gameTurn} />
+                        <ChessClock />
+                    </div>
+                </div>
 
-          <div className={styles.chessboardContainer}>
-            <ChessBoard
-              boardWidth={boardSize}
-              position={position}
-              playerColor={ui.playerColor}
-              squareStyles={squareStyles}
-              onPlayerMove={onPlayerMove}
-              highlightLegal={ui.highlightLegal}
-              gameInstance={gameInstance}
-              lastMove={lastMove}
-            />
-          </div>
+                <div className={styles.chessBackground}>
+                    <div className={styles.chessBoardContainer}>
+                        <ChessBoard
+                            position={engine.position}
+                            playerColor="white"
+                            squareStyles={engine.squareStyles}
+                            gameInstance={engine.gameInstance}
+                            lastMove={engine.lastMove}
+                            onPlayerMove={engine.onPlayerMove}
+                        />
+                    </div>
+                </div>
 
-          <div className={styles.clockRow}>
-            <ChessClock 
-              active={gameTurn === "white"}
-              initialTime={tc.initial}
-              increment={tc.inc}
-              onFlag={onWhiteFlag}
-            />
-          </div>
+                <div className={styles.clockBackground}>
+                    <div className={styles.chessDisplay}>
+                        <ChessTurn turn={engine.gameTurn} />
+                        <ChessClock />
+                    </div>
+                </div>
 
-          {ui.openTerminal && (
-            <Terminal 
-              log={terminal.terminalLog}
-              onSend={terminal.sendToBackend}
-            />
-          )}
+
+                <div className={styles.chessLogBackground}>
+                    <div className={styles.chessLogContainer}>
+                        <button className={styles.menuButton}>⏮</button>
+                        <button className={styles.menuButton}>⏪</button>
+                        <button className={styles.menuButton}>▶︎</button>
+                        <button className={styles.menuButton}>⏭</button>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-
-        {(ui.gameMenuOpen || isDesktop) && (
-          <div className={styles.rightPanel}>
-            <GameMenuPanel
-              onClose={() => ui.setGameMenuOpen(false)}
-              playerColor={ui.playerColor}
-              setPlayerColor={ui.setPlayerColor}
-              timeControl={ui.timeControl}
-              setTimeControl={ui.setTimeControl}
-              fenInput={ui.fenInput}
-              setFenInput={ui.setFenInput}
-              goToFEN={loadFEN}
-            />
-          </div>
-        )}
-
-      </div>
-    </div>
-  );
+    );
 }
 
+{/* <ChessLog 
+    moves={engine.log}
+    onSelectMove={(i) => console.log("Clicked move:", i)}
+/> */}
 export default App;
