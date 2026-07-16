@@ -1,15 +1,16 @@
-
 import { useState, useRef, useCallback } from "react";
 import { Chess } from "chess.js";
 import { runEngine } from "../utils/engineClient";
 import useHighlights from "./useHighlights";
 
 export default function useEngine(depth, playerColor, settings) {
+
     const gameRef = useRef(new Chess());
     const game = gameRef.current;
 
     const displayGameRef = useRef(new Chess());
     const displayGame = displayGameRef.current;
+
 
     const [position, setPosition] = useState(game.fen());
     const [displayPosition, setDisplayPosition] = useState(game.fen());
@@ -27,6 +28,10 @@ export default function useEngine(depth, playerColor, settings) {
         game.fen()
     );
 
+    const [undoCounter, setUndoCounter] = useState(0);
+
+
+
     const squareStyles = useHighlights(
         displayGame,
         lastMove,
@@ -36,21 +41,33 @@ export default function useEngine(depth, playerColor, settings) {
         }
     );
 
+
+
     const updateTurn = useCallback(() => {
+
         setGameTurn(
             game.turn() === "w"
                 ? "white"
                 : "black"
         );
+
     }, [game]);
 
+
+
+
     const logEvent = useCallback((san) => {
+
         const fen = game.fen();
 
+
         setLog(prev => {
+
             const last = prev[prev.length - 1];
 
+
             if (!last || last.black) {
+
                 return [
                     ...prev,
                     {
@@ -61,7 +78,9 @@ export default function useEngine(depth, playerColor, settings) {
                         blackFen: null
                     }
                 ];
+
             }
+
 
             return [
                 ...prev.slice(0, -1),
@@ -71,55 +90,165 @@ export default function useEngine(depth, playerColor, settings) {
                     blackFen: fen
                 }
             ];
+
         });
+
+
     }, [game]);
 
-    const syncGameState = useCallback(() => {
+
+
+
+
+    const undoMove = useCallback(() => {
+
+
+        if (game.history().length < 2)
+            return;
+
+
+
+        game.undo(); // engine move
+
+        game.undo(); // player move
+
+
+
         const fen = game.fen();
+
+
 
         setPosition(fen);
         setDisplayPosition(fen);
 
+
         displayGame.load(fen);
+
 
         setLastMove(null);
 
+
+
+        setLog(prev => {
+
+            const copy = [...prev];
+
+            copy.pop();
+
+            return copy;
+
+        });
+
+
+
+        setLastPlayedFen(fen);
+
+
+        setUndoCounter(v => v + 1);
+
+
         updateTurn();
+
+
+
     }, [
         game,
         displayGame,
         updateTurn
     ]);
 
-    const playEngineMove = useCallback(async () => {
-        const bestmove = await runEngine(depth, game);
 
-        if (!bestmove)
-            return;
 
-        const result = game.move({
-            from: bestmove.slice(0, 2),
-            to: bestmove.slice(2, 4),
-            promotion: "q"
-        });
 
-        setLastMove({
-            from: bestmove.slice(0, 2),
-            to: bestmove.slice(2, 4)
-        });
+
+
+
+    const syncGameState = useCallback(() => {
 
         const fen = game.fen();
+
 
         setPosition(fen);
         setDisplayPosition(fen);
 
-        setLastPlayedFen(fen);
 
         displayGame.load(fen);
 
-        logEvent(result.san);
+
+        setLastMove(null);
+
 
         updateTurn();
+
+
+    }, [
+        game,
+        displayGame,
+        updateTurn
+    ]);
+
+
+
+
+
+
+
+    const playEngineMove = useCallback(async () => {
+
+
+        const bestmove = await runEngine(depth, game);
+
+
+        if (!bestmove)
+            return;
+
+
+
+        const result = game.move({
+
+            from: bestmove.slice(0,2),
+
+            to: bestmove.slice(2,4),
+
+            promotion:"q"
+
+        });
+
+
+
+        setLastMove({
+
+            from: bestmove.slice(0,2),
+
+            to: bestmove.slice(2,4)
+
+        });
+
+
+
+        const fen = game.fen();
+
+
+
+        setPosition(fen);
+        setDisplayPosition(fen);
+
+
+
+        setLastPlayedFen(fen);
+
+
+        displayGame.load(fen);
+
+
+
+        logEvent(result.san);
+
+
+        updateTurn();
+
+
+
     }, [
         depth,
         game,
@@ -128,51 +257,99 @@ export default function useEngine(depth, playerColor, settings) {
         updateTurn
     ]);
 
-    const onPlayerMove = useCallback(async (from, to) => {
-        if (isAnalysisMode)
+
+
+
+
+
+
+
+    const onPlayerMove = useCallback(async (from,to)=>{
+
+
+        if(isAnalysisMode)
             return false;
+
+
 
         let result;
 
+
         try {
+
             result = game.move({
+
                 from,
                 to,
-                promotion: "q"
+                promotion:"q"
+
             });
+
         }
+
         catch {
+
             return false;
+
         }
+
+
+
 
         setGameStarted(true);
 
+
+
         setLastMove({
+
             from,
             to
+
         });
 
+
+
         const fen = game.fen();
+
+
 
         setPosition(fen);
         setDisplayPosition(fen);
 
+
+
         setLastPlayedFen(fen);
+
 
         displayGame.load(fen);
 
+
+
         logEvent(result.san);
+
+
 
         updateTurn();
 
+
+
         setIsThinking(true);
+
+
 
         await playEngineMove();
 
+
+
         setIsThinking(false);
 
+
+
         return true;
-    }, [
+
+
+
+    },[
         game,
         displayGame,
         logEvent,
@@ -181,33 +358,63 @@ export default function useEngine(depth, playerColor, settings) {
         isAnalysisMode
     ]);
 
-    const viewMove = useCallback((fen) => {
+
+
+
+
+
+
+
+    const viewMove = useCallback((fen)=>{
+
+
         displayGame.load(fen);
 
+
         setDisplayPosition(fen);
+
+
 
         setIsAnalysisMode(
             fen !== lastPlayedFen
         );
-    }, [
+
+
+    },[
         displayGame,
         lastPlayedFen
     ]);
-    
-    const resetGame = useCallback(async (newColor) => {
+
+
+
+
+
+
+
+    const resetGame = useCallback(async(newColor)=>{
+
 
         game.reset();
 
+
+
         setGameStarted(false);
+
         setLog([]);
+
         setIsAnalysisMode(false);
 
+
+
         syncGameState();
+
+
 
         setLastPlayedFen(game.fen());
 
 
-        if (newColor === "black") {
+
+        if(newColor==="black"){
 
             setGameStarted(true);
 
@@ -215,44 +422,96 @@ export default function useEngine(depth, playerColor, settings) {
 
         }
 
-    }, [
+
+
+    },[
         game,
         playEngineMove,
         syncGameState
     ]);
 
-    const loadFEN = useCallback(async (fen) => {
+
+
+
+
+
+
+
+    const loadFEN = useCallback(async(fen)=>{
+
+
         try {
+
             game.load(
                 fen.trim()
             );
+
         }
+
         catch {
+
             return false;
+
         }
+
+
 
         syncGameState();
 
+
+
         return true;
-    }, [
+
+
+
+    },[
         game,
         syncGameState
     ]);
 
+
+
+
+
+
+
+
     return {
+
         position: displayPosition,
+
         gamePosition: position,
+
         squareStyles,
+
         log,
+
         gameTurn,
+
         gameInstance: game,
+
         lastMove,
+
         isThinking,
+
         gameStarted,
+
         isAnalysisMode,
+
+
         onPlayerMove,
+
         viewMove,
+
         resetGame,
-        loadFEN
+
+        loadFEN,
+
+
+        undoMove,
+
+        undoCounter
+
     };
+
 }

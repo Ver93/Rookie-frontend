@@ -56,22 +56,6 @@ function App() {
 
                         <div className={styles.clockLeft}>
 
-                            {/* <FlipButton
-                                playerColor={playerColor}
-                                onFlip={async () => {
-
-                                    const newColor =
-                                        playerColor === "white"
-                                            ? "black"
-                                            : "white";
-
-                                    ui.setPlayerColor(newColor);
-
-                                    await engine.resetGame(newColor);
-
-                                }}
-                            /> */}
-
                         </div>
 
 
@@ -89,15 +73,15 @@ function App() {
 
                         <div className={styles.clockRight}>
 
-                            <ChessClock
-                                active={
-                                    engine.gameStarted &&
-                                    !engine.isAnalysisMode &&
-                                    engine.gameTurn === !playerColor
-                                }
-                                initialTime={clock.initial}
-                                increment={clock.inc}
-                            />
+                        <ChessClock
+                            active={
+                                engine.gameStarted &&
+                                !engine.isAnalysisMode &&
+                                engine.gameTurn === opponentColor
+                            }
+                            initialTime={clock.initial}
+                            increment={clock.inc}
+                        />
 
                         </div>
 
@@ -161,7 +145,7 @@ function App() {
                                 }}
                             />
 
-                            <UndoButton fen={engine.gamePosition}/>
+                            <UndoButton onUndo={engine.undoMove}/>
                             <FenButton fen={engine.gamePosition}/>
 
                         </div>
@@ -181,16 +165,21 @@ function App() {
 
                         <div className={styles.clockRight}>
 
-                            <ChessClock
-                                active={
-                                    engine.gameStarted &&
-                                    !engine.isAnalysisMode &&
-                                    engine.gameTurn === playerColor
-                                }
-                                initialTime={clock.initial}
-                                increment={clock.inc}
-                            />
-
+                                <ChessClock
+                                    active={
+                                        engine.gameStarted &&
+                                        !engine.isAnalysisMode &&
+                                        engine.gameTurn === playerColor
+                                    }
+                                    initialTime={clock.initial}
+                                    increment={clock.inc}
+                                    timeControl={ui.timeControl}
+                                    canConfigure={true}
+                                    gameActive={engine.gameStarted}
+                                    onTimeControlChange={(tc) => {
+                                        ui.setTimeControl(tc);
+                                    }}
+                                />
                         </div>
 
                     </div>

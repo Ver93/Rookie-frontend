@@ -6,63 +6,84 @@ export default function ChessClock({
     initialTime,
     increment,
     onFlag,
+
     onTimeControlChange,
-    clickable = true
+
+    canConfigure = false,
+    gameActive = false,
+    timeControl
 }) {
+
     const [time, setTime] = useState(initialTime);
     const [editing, setEditing] = useState(false);
 
-    useEffect(() => {
-        setTime(initialTime);
-    }, [initialTime]);
 
     useEffect(() => {
-        if (!active) return;
+
+        setTime(initialTime);
+
+    }, [
+        initialTime,
+        timeControl
+    ]);
+
+
+
+    useEffect(() => {
+
+        if (!active)
+            return;
+
 
         const interval = setInterval(() => {
+
             setTime(t => {
+
                 if (t <= 0) {
+
                     clearInterval(interval);
 
-                    if (onFlag) {
-                        onFlag();
-                    }
+                    onFlag?.();
 
                     return 0;
+
                 }
 
+
                 return t - 1;
+
             });
+
+
         }, 1000);
+
+
 
         return () => clearInterval(interval);
 
-    }, [active, onFlag]);
+
+    }, [
+        active,
+        onFlag
+    ]);
 
 
-    useEffect(() => {
-        if (active) {
-            setTime(t =>
-                Math.min(
-                    t + increment,
-                    initialTime
-                )
-            );
-        }
-    }, [active, increment, initialTime]);
 
 
     const format = (t) => {
+
         const minutes = Math.floor(t / 60);
+
         const seconds = t % 60;
 
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+        return `${minutes}:${seconds
+            .toString()
+            .padStart(2,"0")}`;
+
     };
 
 
-    const low = time <= 10;
-    const critical = time <= 5;
-    const flag = time <= 0;
 
 
     const timeControls = [
@@ -74,71 +95,136 @@ export default function ChessClock({
     ];
 
 
+
+
     const applyTimeControl = (tc) => {
-        onTimeControlChange(tc);
+
+        onTimeControlChange?.(tc);
+
         setEditing(false);
+
     };
 
 
+
+
     return (
+
         <div className={styles.clockWrapper}>
+
 
             <div
                 className={[
-                    styles.clock,
-                    active ? styles.active : "",
-                    low ? styles.low : "",
-                    critical ? styles.critical : "",
-                    flag ? styles.flag : "",
-                    editing ? styles.editing : "",
-                    !clickable ? styles.disabled : ""
+                    styles.clockButton,
+                    active ? styles.active : ""
                 ].join(" ")}
-
-                onClick={
-                    clickable
-                        ? () => setEditing(e => !e)
-                        : undefined
-                }
             >
-                {format(time)}
-            </div>
 
 
-            {clickable && (
                 <div
                     className={[
-                        styles.clockMenu,
-                        editing ? styles.open : ""
+                        styles.time,
+
+                        gameActive && canConfigure
+                            ? styles.timeCenter
+                            : ""
+
                     ].join(" ")}
                 >
 
-                    <div className={styles.section}>
-
-                        <label className={styles.label}>
-                            Time Control
-                        </label>
-
-                        <div className={styles.timeRow}>
-
-                            {timeControls.map(tc => (
-                                <button
-                                    key={tc}
-                                    className={styles.timeButton}
-                                    onClick={() =>
-                                        applyTimeControl(tc)
-                                    }
-                                >
-                                    {tc}
-                                </button>
-                            ))}
-
-                        </div>
-
-                    </div>
+                    {format(time)}
 
                 </div>
-            )}
+
+
+
+                {canConfigure && (
+
+                    <button
+
+                        className={[
+                            styles.settingsButton,
+
+                            gameActive
+                                ? styles.hideSettings
+                                : ""
+
+                        ].join(" ")}
+
+
+                        onClick={() =>
+                            setEditing(v => !v)
+                        }
+
+                    >
+
+                        ⚙
+
+                    </button>
+
+                )}
+
+
+            </div>
+
+
+
+
+            <div
+
+                className={[
+                    styles.clockMenu,
+
+                    editing
+                        ? styles.open
+                        : ""
+
+                ].join(" ")}
+
+            >
+
+
+                <div className={styles.menuTitle}>
+
+                    Time Control
+
+                </div>
+
+
+
+                <div className={styles.timeRow}>
+
+
+                    {timeControls.map(tc => (
+
+                        <button
+
+                            key={tc}
+
+                            className={styles.timeButton}
+
+
+                            onClick={() =>
+                                applyTimeControl(tc)
+                            }
+
+                        >
+
+                            {tc}
+
+                        </button>
+
+                    ))}
+
+
+                </div>
+
+
+            </div>
+
 
         </div>
+
     );
+
 }
