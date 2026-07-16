@@ -12,7 +12,7 @@ import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
 import FlipButton from "./components/FlipButton";
-import FenButton from "./components/FenButton";
+// import FenButton from "./components/FenButton";
 import UndoButton from "./components/UndoButton";
 import HighlightButton from "./components/HighlightButton";
 

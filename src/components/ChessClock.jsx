@@ -17,7 +17,6 @@ export default function ChessClock({
 
     const [time, setTime] = useState(initialTime);
     const [editing, setEditing] = useState(false);
-    // const [clockResetKey, setClockResetKey] = useState(0);
 
 
     useEffect(() => {
