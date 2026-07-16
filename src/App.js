@@ -4,11 +4,12 @@ import ChessClock from "./components/ChessClock";
 import ChessTurn from "./components/ChessTurn";
 import ChessLog from "./components/ChessLog";
 
-import { useState, useEffect } from "react";
-
-import useEngine from "./hooks/useEngine";
 import useUIState from "./hooks/useUIState";
+import useEngine from "./hooks/useEngine";
+
+import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
+import { unlockSound } from "./utils/sound";
 
 import styles from "./App.module.css";
 import FlipButton from "./components/FlipButton";

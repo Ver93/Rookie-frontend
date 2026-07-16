@@ -1,22 +1,51 @@
-const moveSound = new Audio(
-    "https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/move-self.mp3"
-);
+let moveSound = null;
+let unlocked = false;
 
-moveSound.volume = 0.5;
 
+function getMoveSound() {
+
+    if (!moveSound) {
+        moveSound = new Audio("/gui/sounds/move.mp3");
+        moveSound.volume = 1.0;
+
+        moveSound.addEventListener("canplaythrough", () => {
+            console.log("Sound loaded");
+        });
+
+        moveSound.addEventListener("error", (e) => {
+            console.log("Sound error", e);
+        });
+    }
+
+    return moveSound;
+}
+
+export function unlockSound() {
+    // const sound = getMoveSound();
+
+    // sound.play()
+    //     .then(() => {
+    //         sound.pause();
+    //         sound.currentTime = 0;
+    //         unlocked = true;
+    //     })
+    //     .catch(() => {});
+}
 
 export function playMoveSound(enabled) {
 
     if (!enabled)
         return;
 
+    const sound = getMoveSound();
 
-    moveSound.currentTime = 0;
+    sound.currentTime = 0;
 
-
-    moveSound.play()
-        .catch(error => {
-            console.log("Sound blocked:", error);
+    sound.play()
+        .then(() => {
+            console.log("Sound playing");
+        })
+        .catch(err => {
+            console.log("Sound blocked:", err);
         });
-
 }
