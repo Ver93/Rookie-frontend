@@ -3,9 +3,10 @@ import { uci, isready, go, position } from "../services/engine_api";
 
 export async function runEngine(depth, game) {
     const uciResp = await uci();
+    console.log(uciResp.body);
+    console.log(uciResp.error);
     if (uciResp.error || uciResp.body !== "uciok") return null;
     
-    console.log("isready");
     const readyResp = await isready();
     if (readyResp.error || readyResp.body !== "isready") return null;
 
