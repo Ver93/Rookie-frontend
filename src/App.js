@@ -45,7 +45,6 @@ function App() {
 
     const clock = parseTimeControl(ui.timeControl);
     
-    const [difficulty, setDifficulty] = useState("normal");
     const opponentColor = playerColor === "white"
         ? "black"
         : "white";
@@ -353,28 +352,6 @@ function App() {
 
 
             </div>
-
-
-
-            {/* {ui.settingsOpen && (
-
-                <SettingsPanel
-                    onClose={() => ui.setSettingsOpen(false)}
-                    depth={ui.depth}
-                    setDepth={ui.setDepth}
-                />
-
-            )}
-
-
-
-            {ui.gameMenuOpen && (
-
-                <GameMenuPanel
-                    onClose={() => ui.setGameMenuOpen(false)}
-                />
-
-            )} */}
 
         </div>
     );
