@@ -130,19 +130,20 @@ function App() {
                             playerColor={playerColor}
                             onFlip={async () => {
 
-                                await engine.resetGame();
-
+                                
                                 ui.setPlayerColor(
                                     playerColor === "white"
-                                        ? "black"
-                                        : "white"
+                                    ? "black"
+                                    : "white"
                                 );
+                                
+                                await engine.resetGame();
 
                             }}
                         />
 
 
-                            <FenButton/>
+                            <FenButton fen={engine.gamePosition}/>
 
                         </div>
 
