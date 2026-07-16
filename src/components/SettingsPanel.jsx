@@ -7,7 +7,6 @@ export default function SettingsPanel({
     highlightLegal, setHighlightLegal,
     highlightLast, setHighlightLast,
     highlightChecks, setHighlightChecks,
-    openTerminal, setTerminalOpen,
 }) {
 
     const depthOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
