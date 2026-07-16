@@ -19,7 +19,14 @@ export default function ChessTurn({ turn, playerColor, isPlayer, isThinking }) {
 
     return (
         <div className={styles.chessTurn}>
-            {text}
+            {isThinking ? (
+                <div className={styles.thinkingWrapper}>
+                    <div className={styles.spinner}></div>
+                    <span>{text}</span>
+                </div>
+            ) : (
+                <span>{text}</span>
+            )}
         </div>
     );
 }
