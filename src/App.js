@@ -3,8 +3,6 @@ import ChessBoard from "./components/ChessBoard";
 import ChessClock from "./components/ChessClock";
 import ChessTurn from "./components/ChessTurn";
 import ChessLog from "./components/ChessLog";
-// import SettingsPanel from "./components/SettingsPanel";
-// import GameMenuPanel from "./components/GameMenuPanel";
 
 import { useState, useEffect } from "react";
 
@@ -54,21 +52,14 @@ function App() {
         <div className={styles.appWrapper}>
 
             <div className={styles.mainLayout}>
-
-                <Header
-                    // onOpenSettings={() => ui.setSettingsOpen(true)}
-                    // onOpenGameMenu={() => ui.setGameMenuOpen(true)}
-                />
-
-
+                <Header/>
                 <div
                     className={`${styles.clockBackground} ${
                         engine.gameTurn === opponentColor
                             ? styles.activePlayer
                             : ""
                     }`}
-                >
-
+                    >
                     <div className={styles.chessDisplay}>
 
                         <div className={styles.clockLeft}>
