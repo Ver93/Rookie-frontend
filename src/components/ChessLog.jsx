@@ -6,6 +6,30 @@ export default function ChessLog({ moves = [], onSelectMove }) {
     const moveListRef = useRef(null);
     const [selectedMove, setSelectedMove] = useState(null);
 
+    const FirstIcon = () => (
+        <svg viewBox="0 0 24 24">
+            <path d="M6 5h2v14H6zM18 6l-8 6 8 6V6z" />
+        </svg>
+    );
+
+    const PrevIcon = () => (
+        <svg viewBox="0 0 24 24">
+            <path d="M11 6L3 12l8 6V6zm1 6l8 6V6l-8 6z" />
+        </svg>
+    );
+
+    const NextIcon = () => (
+        <svg viewBox="0 0 24 24">
+            <path d="M13 6l8 6-8 6V6zM4 6l8 6-8 6V6z" />
+        </svg>
+    );
+
+    const LastIcon = () => (
+        <svg viewBox="0 0 24 24">
+            <path d="M16 5h2v14h-2zM6 6l8 6-8 6V6z" />
+        </svg>
+    );
+
     useEffect(() => {
         const container = moveListRef.current;
 
@@ -87,7 +111,7 @@ export default function ChessLog({ moves = [], onSelectMove }) {
                             selectIndex(0, "white");
                     }}
                 >
-                    ⏮
+                <FirstIcon/>
                 </button>
 
 
@@ -124,7 +148,7 @@ export default function ChessLog({ moves = [], onSelectMove }) {
 
                     }}
                 >
-                    ◀
+                <PrevIcon/>
                 </button>
 
 
@@ -159,7 +183,7 @@ export default function ChessLog({ moves = [], onSelectMove }) {
 
                     }}
                 >
-                    ▶
+                <NextIcon/>
                 </button>
 
 
@@ -182,7 +206,7 @@ export default function ChessLog({ moves = [], onSelectMove }) {
 
                     }}
                 >
-                    ⏭
+                <LastIcon/>
                 </button>
 
             </div>
