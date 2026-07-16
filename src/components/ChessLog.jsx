@@ -100,7 +100,6 @@ export default function ChessLog({ moves = [], onSelectMove }) {
                         if (index < 0)
                             return;
 
-                        const current = moves[index];
 
 
                         if (
