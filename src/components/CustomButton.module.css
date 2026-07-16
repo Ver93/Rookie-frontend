@@ -1,3 +1,4 @@
+.soundButton,
 .highlightButton,
 .undoButton,
 .fenButton,
@@ -41,6 +42,11 @@
 }
 
 .highlightButton span {
+    font-size: 1.6rem;
+    transform: translateY(-1px);
+}
+
+.soundButton span {
     font-size: 1.6rem;
     transform: translateY(-1px);
 }
