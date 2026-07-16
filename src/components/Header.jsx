@@ -11,17 +11,6 @@ export default function Header({ onOpenSettings, onOpenGameMenu, isThinking}) {
 
             <div className={styles.headerCenter}>
                 Rookie GUI
-
-                {/* { !isThinking && (
-                    <div className={styles.opponentLabel}>Du spelar mot Rookie Engine</div>
-                )} */}
-
-                { isThinking && (
-                    <div className={styles.thinkingWrapper}>
-                        <div className={styles.opponentLabel}>Rookie tänker...</div>
-                        <div className={styles.spinner}></div>
-                    </div>
-                )}
             </div>
 
 

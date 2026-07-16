@@ -126,16 +126,20 @@ function App() {
 
                         <div className={styles.leftButtons}>
 
-                            <FlipButton
-                                playerColor={playerColor}
-                                onFlip={() =>
-                                    ui.setPlayerColor(
-                                        playerColor === "white"
-                                            ? "black"
-                                            : "white"
-                                    )
-                                }
-                            />
+                        <FlipButton
+                            playerColor={playerColor}
+                            onFlip={async () => {
+
+                                await engine.resetGame();
+
+                                ui.setPlayerColor(
+                                    playerColor === "white"
+                                        ? "black"
+                                        : "white"
+                                );
+
+                            }}
+                        />
 
 
                             <FenButton/>

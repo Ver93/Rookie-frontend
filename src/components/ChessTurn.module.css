@@ -119,6 +119,11 @@
     animation: waitingPulse 2s ease-in-out infinite;
 }
 
+.waitingDot {
+    background: #ffcc00;
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
 
 @keyframes waitingPulse {
 
