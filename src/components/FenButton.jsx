@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./FenButton.module.css";
+import styles from "./CustomButton.module.css";
 
 export default function FenButton({ fen }) {
 

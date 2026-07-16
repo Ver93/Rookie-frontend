@@ -13,6 +13,7 @@ import { parseTimeControl } from "./hooks/useClock";
 import styles from "./App.module.css";
 import FlipButton from "./components/FlipButton";
 import FenButton from "./components/FenButton";
+import UndoButton from "./components/UndoButton";
 
 function App() {
     const ui = useUIState();
@@ -53,33 +54,52 @@ function App() {
 
                     <div className={styles.chessDisplay}>
 
-                        <div className={styles.leftButtons}>
-                            <div className={styles.flipPlaceholder} />
+                        <div className={styles.clockLeft}>
+
+                            {/* <FlipButton
+                                playerColor={playerColor}
+                                onFlip={async () => {
+
+                                    const newColor =
+                                        playerColor === "white"
+                                            ? "black"
+                                            : "white";
+
+                                    ui.setPlayerColor(newColor);
+
+                                    await engine.resetGame(newColor);
+
+                                }}
+                            /> */}
+
                         </div>
 
 
-                        <ChessTurn
-                            turn={engine.gameTurn}
-                            playerColor={opponentColor}
-                            isPlayer={false}
-                            isThinking={
-                                engine.isThinking &&
-                                engine.gameTurn === opponentColor &&
-                                !engine.isAnalysisMode
-                            }
-                        />
+                        <div className={styles.clockCenter}>
+
+                            <ChessTurn
+                                turn={engine.gameTurn}
+                                playerColor={opponentColor}
+                                isPlayer={false}
+                                isThinking={engine.isThinking}
+                            />
+
+                        </div>
 
 
-                        <ChessClock
-                            active={
-                                engine.gameStarted &&
-                                !engine.isAnalysisMode &&
-                                engine.gameTurn === opponentColor
-                            }
-                            initialTime={clock.initial}
-                            increment={clock.inc}
-                            clickable={false}
-                        />
+                        <div className={styles.clockRight}>
+
+                            <ChessClock
+                                active={
+                                    engine.gameStarted &&
+                                    !engine.isAnalysisMode &&
+                                    engine.gameTurn === !playerColor
+                                }
+                                initialTime={clock.initial}
+                                increment={clock.inc}
+                            />
+
+                        </div>
 
                     </div>
 
@@ -123,51 +143,55 @@ function App() {
 
                     <div className={styles.chessDisplay}>
 
+                    <div className={styles.clockLeft}>
 
-                        <div className={styles.leftButtons}>
+                            <FlipButton
+                                playerColor={playerColor}
+                                onFlip={async () => {
 
-                        <FlipButton
-                            playerColor={playerColor}
-                            onFlip={async () => {
+                                    const newColor =
+                                        playerColor === "white"
+                                            ? "black"
+                                            : "white";
 
-                                const newColor =
-                                    playerColor === "white"
-                                        ? "black"
-                                        : "white";
+                                    ui.setPlayerColor(newColor);
 
-                                ui.setPlayerColor(newColor);
+                                    await engine.resetGame(newColor);
 
-                                await engine.resetGame(newColor);
+                                }}
+                            />
 
-                            }}
-                        />
-
-
+                            <UndoButton fen={engine.gamePosition}/>
                             <FenButton fen={engine.gamePosition}/>
 
                         </div>
 
 
+                        <div className={styles.clockCenter}>
 
-                        <ChessTurn
-                            turn={engine.gameTurn}
-                            playerColor={playerColor}
-                            isPlayer={true}
-                            isThinking={false}
-                        />
+                            <ChessTurn
+                                turn={engine.gameTurn}
+                                playerColor={playerColor}
+                                isPlayer={true}
+                                isThinking={false}
+                            />
+
+                        </div>
 
 
+                        <div className={styles.clockRight}>
 
-                        <ChessClock
-                            active={
-                                engine.gameStarted &&
-                                !engine.isAnalysisMode &&
-                                engine.gameTurn === playerColor
-                            }
-                            initialTime={clock.initial}
-                            increment={clock.inc}
-                        />
+                            <ChessClock
+                                active={
+                                    engine.gameStarted &&
+                                    !engine.isAnalysisMode &&
+                                    engine.gameTurn === playerColor
+                                }
+                                initialTime={clock.initial}
+                                increment={clock.inc}
+                            />
 
+                        </div>
 
                     </div>
 

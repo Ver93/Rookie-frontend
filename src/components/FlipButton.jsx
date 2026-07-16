@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./FlipButton.module.css";
+import styles from "./CustomButton.module.css";
 
 export default function FlipButton({ onFlip }) {
     const [rotation, setRotation] = useState(0);
