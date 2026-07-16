@@ -73,7 +73,7 @@ export default function useEngine(depth, playerColor, highlights) {
         setPosition(game.fen());
         logEvent(result.san);
         updateTurn();
-    }, [depth, game]);
+    }, [depth, game, updateTurn]);
 
     const onPlayerMove = useCallback(async (from, to) => {
         let result;
@@ -95,7 +95,7 @@ export default function useEngine(depth, playerColor, highlights) {
         setIsThinking(false);
 
         return true;
-    }, [game, playEngineMove]);
+    }, [game, playEngineMove, updateTurn]);
 
     const loadFEN = useCallback(async (fen) => {
         try {
@@ -111,7 +111,7 @@ export default function useEngine(depth, playerColor, highlights) {
         }
 
         return true;
-    }, [game, gameTurn, playerColor, playEngineMove]);
+    }, [game, gameTurn, playerColor, playEngineMove, syncGameState]);
 
     const resetGame = useCallback(async () => {
         game.reset();
@@ -123,7 +123,7 @@ export default function useEngine(depth, playerColor, highlights) {
             setGameStarted(true);
             await playEngineMove();
         }
-    }, [game, playerColor, playEngineMove]);
+    }, [game, playerColor, playEngineMove, syncGameState]);
 
     return {
         position,
