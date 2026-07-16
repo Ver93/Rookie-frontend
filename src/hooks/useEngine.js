@@ -194,7 +194,7 @@ export default function useEngine(depth, playerColor, settings) {
         lastPlayedFen
     ]);
 
-    const resetGame = useCallback(async (newColor = playerColor) => {
+    const resetGame = useCallback(async () => {
 
         game.reset();
 
@@ -204,19 +204,10 @@ export default function useEngine(depth, playerColor, settings) {
 
         syncGameState();
 
-        setLastPlayedFen(
-            game.fen()
-        );
-
-        if (newColor === "black") {
-            setGameStarted(true);
-            await playEngineMove();
-        }
+        setLastPlayedFen(game.fen());
 
     }, [
         game,
-        playerColor,
-        playEngineMove,
         syncGameState
     ]);
 

@@ -130,14 +130,14 @@ function App() {
                             playerColor={playerColor}
                             onFlip={async () => {
 
-                                
-                                ui.setPlayerColor(
+                                const newColor =
                                     playerColor === "white"
-                                    ? "black"
-                                    : "white"
-                                );
-                                
-                                await engine.resetGame();
+                                        ? "black"
+                                        : "white";
+
+                                ui.setPlayerColor(newColor);
+
+                                await engine.resetGame(newColor);
 
                             }}
                         />

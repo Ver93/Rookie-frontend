@@ -24,6 +24,11 @@ export default function ChessTurn({ turn, playerColor, isPlayer, isThinking }) {
         text = "Waiting";
         statusClass = styles.waiting;
     }
+    else if (!isTurn && isPlayer) {
+        text = "Waiting";
+        statusClass = styles.waiting;
+    }
+
 
 
     return (
