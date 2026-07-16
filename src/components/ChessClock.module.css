@@ -1,47 +1,93 @@
+.clockWrapper {
+    position: relative;
+}
+
+
+/* Själva klockan */
 .clock {
     display: flex;
     justify-content: center;
     align-items: center;
 
     width: clamp(90px, 25vw, 140px);
-    padding: 8px 12px;
+    height: 42px;
 
     font-size: clamp(1rem, 4vw, 1.6rem);
     font-weight: 500;
     letter-spacing: 0.5px;
 
-    color: #e0e0e0;
-    transition: all 0.25s ease;
+    color: rgb(255,255,255);
+
+    background-color: #202020;
+
+    border: 2px solid var(--bg);
+    border-radius: 10px;
 
     box-sizing: border-box;
-    border-radius: 6px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+        transform 0.25s ease,
+        filter 0.3s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
+
+/* Hover endast på klickbar klocka */
+.clock:not(.disabled):hover {
+    background: rgba(255,255,255,0.08);
+}
+
+
+.disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+
+.editing {
+    outline: 2px solid #6ea8ff;
+}
+
+
+/* Aktiv spelare */
 .active {
     background: #2e6eb5;
-    border-color: #2e6eb5;
-    color: #fff;
-    box-shadow: 0 0 14px rgba(46, 110, 181, 0.6);
+    color: white;
+
+    box-shadow:
+        0 0 14px rgba(46,110,181,0.6);
+
     transform: translateY(-1px);
 }
 
+
+/* Tid låg */
 .low {
     color: #ffcc00;
 }
 
+
+/* Kritisk tid */
 .critical {
     color: #ff4444;
     animation: pulse 0.8s infinite;
 }
 
+
+/* Flaggan */
 .flag {
     background: #8b0000;
-    border-color: #8b0000;
-    color: #fff;
+    color: white;
     font-weight: 700;
 }
 
+
 @keyframes pulse {
+
     0% {
         transform: scale(1);
     }
@@ -53,4 +99,127 @@
     100% {
         transform: scale(1);
     }
+}
+
+
+
+/* ==========================
+   DROPDOWN MENY
+========================== */
+
+.clockMenu {
+    position: absolute;
+
+    right: 100%;
+    top: 0;
+
+    min-width: 190px;
+
+    background: #1c1c1c;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.45);
+
+    z-index: 999;
+
+
+    opacity: 0;
+
+    transform:
+        translateX(10px)
+        scale(0.95);
+
+    pointer-events: none;
+    visibility: hidden;
+
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s cubic-bezier(.4,0,.2,1),
+        visibility 0.2s;
+}
+
+
+/* Öppen meny */
+.open {
+
+    opacity: 1;
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    pointer-events: auto;
+    visibility: visible;
+}
+
+
+
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.label {
+    font-size: 14px;
+    color: #ccc;
+}
+
+
+
+.timeRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+
+.timeButton {
+
+    background: #2e6eb5;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+
+.timeButton:hover {
+
+    background: #3a7ed0;
+
+    transform: translateY(-1px);
+}
+
+
+
+.timeButton:active {
+
+    transform: scale(0.95);
 }

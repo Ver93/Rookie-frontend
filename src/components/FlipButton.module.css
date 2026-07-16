@@ -1,0 +1,30 @@
+.flipButton {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+
+    background-color: #202020;
+    color: rgb(255, 255, 255);
+
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 10px;
+
+    transition:
+        transform 0.6s ease,
+        filter 0.3s ease;
+
+    border: 2px solid var(--bg);
+}
+
+.knight {
+    display: inline-block;
+
+    transition: transform 0.3s ease;
+}

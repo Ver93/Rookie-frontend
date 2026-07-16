@@ -1,35 +1,110 @@
 .chessTurn {
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    width: 260px;
-    height: 50px;
+    min-width: 120px;
+    height: 36px;
 
-    padding: 10px 18px;
+    padding: 0 14px;
 
-    font-size: clamp(0.9rem, 2vw, 1.6rem);
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    border-radius: 20px;
+
+    font-size: clamp(0.75rem, 2vw, 1rem);
+
+    font-weight: 600;
+
+    letter-spacing: 0.4px;
 
     color: #e0e0e0;
+
+    background: #202020;
+
+    border: 2px solid var(--bg);
+
+    box-sizing: border-box;
+
+    transition:
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
+
+
+/* Din tur */
+.playerTurn {
+
+    color: white;
+
+    background: rgba(46,110,181,0.25);
+
+    border-color: #2e6eb5;
+
+    box-shadow:
+        0 0 12px rgba(46,110,181,0.35);
+}
+
+
+/* Motståndarens tur */
+.enemyTurn {
+
+    color: #ccc;
+
+    background: rgba(255,255,255,0.05);
+}
+
+
+/* AI tänker */
+.thinking {
+
+    color: #8cff8c;
+
+    background: rgba(76,175,80,0.12);
+
+    border-color: #4caf50;
+
+    box-shadow:
+        0 0 12px rgba(76,175,80,0.35);
+}
+
+
 
 .thinkingWrapper {
+
     display: flex;
-    flex-direction: row;
+
     align-items: center;
+
     justify-content: center;
 
-    gap: 10px;
+    gap: 8px;
 }
+
+
+
+.dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #6ea8ff;
+
+    margin-right: 8px;
+}
+
 
 
 .spinner {
-    width: 18px;
-    height: 18px;
+
+    width: 16px;
+
+    height: 16px;
 
     border: 3px solid #4caf50;
+
     border-top-color: transparent;
 
     border-radius: 50%;
@@ -37,9 +112,36 @@
     animation: spin 0.8s linear infinite;
 }
 
+.waiting {
+    color: #aaa;
+    background: rgba(255,255,255,0.04);
+
+    animation: waitingPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes waitingPulse {
+
+    0% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.55;
+    }
+
+}
+
+
 
 @keyframes spin {
+
     to {
         transform: rotate(360deg);
     }
+
 }

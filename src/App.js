@@ -11,6 +11,8 @@ import useUIState from "./hooks/useUIState";
 import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
+import FlipButton from "./components/FlipButton";
+import FenButton from "./components/FenButton";
 
 function App() {
     const ui = useUIState();
@@ -29,13 +31,17 @@ function App() {
         ? "black"
         : "white";
 
+
     return (
         <div className={styles.appWrapper}>
+
             <div className={styles.mainLayout}>
+
                 <Header
                     onOpenSettings={() => ui.setSettingsOpen(true)}
                     onOpenGameMenu={() => ui.setGameMenuOpen(true)}
                 />
+
 
                 <div
                     className={`${styles.clockBackground} ${
@@ -44,7 +50,14 @@ function App() {
                             : ""
                     }`}
                 >
+
                     <div className={styles.chessDisplay}>
+
+                        <div className={styles.leftButtons}>
+                            <div className={styles.flipPlaceholder} />
+                        </div>
+
+
                         <ChessTurn
                             turn={engine.gameTurn}
                             playerColor={opponentColor}
@@ -56,6 +69,7 @@ function App() {
                             }
                         />
 
+
                         <ChessClock
                             active={
                                 engine.gameStarted &&
@@ -64,12 +78,19 @@ function App() {
                             }
                             initialTime={clock.initial}
                             increment={clock.inc}
+                            clickable={false}
                         />
+
                     </div>
+
                 </div>
 
+
+
                 <div className={styles.chessBackground}>
+
                     <div className={styles.chessBoardContainer}>
+
                         <ChessBoard
                             position={engine.position}
                             playerColor={playerColor}
@@ -85,8 +106,12 @@ function App() {
                             highlightChecks={ui.highlightChecks}
                             analysisMode={engine.isAnalysisMode}
                         />
+
                     </div>
+
                 </div>
+
+
 
                 <div
                     className={`${styles.clockBackground} ${
@@ -95,13 +120,38 @@ function App() {
                             : ""
                     }`}
                 >
+
                     <div className={styles.chessDisplay}>
+
+
+                        <div className={styles.leftButtons}>
+
+                            <FlipButton
+                                playerColor={playerColor}
+                                onFlip={() =>
+                                    ui.setPlayerColor(
+                                        playerColor === "white"
+                                            ? "black"
+                                            : "white"
+                                    )
+                                }
+                            />
+
+
+                            <FenButton/>
+
+                        </div>
+
+
+
                         <ChessTurn
                             turn={engine.gameTurn}
                             playerColor={playerColor}
                             isPlayer={true}
                             isThinking={false}
                         />
+
+
 
                         <ChessClock
                             active={
@@ -112,19 +162,31 @@ function App() {
                             initialTime={clock.initial}
                             increment={clock.inc}
                         />
+
+
                     </div>
+
                 </div>
 
+
+
                 <div className={styles.chessLogBackground}>
+
                     <ChessLog
                         moves={engine.log}
                         lastMove={engine.lastMove}
                         onSelectMove={engine.viewMove}
                     />
+
                 </div>
+
+
             </div>
 
+
+
             {ui.settingsOpen && (
+
                 <SettingsPanel
                     onClose={() => ui.setSettingsOpen(false)}
                     depth={ui.depth}
@@ -136,20 +198,19 @@ function App() {
                     highlightChecks={ui.highlightChecks}
                     setHighlightChecks={ui.setHighlightChecks}
                 />
+
             )}
 
+
+
             {ui.gameMenuOpen && (
+
                 <GameMenuPanel
                     onClose={() => ui.setGameMenuOpen(false)}
-                    playerColor={ui.playerColor}
-                    setPlayerColor={ui.setPlayerColor}
-                    timeControl={ui.timeControl}
-                    setTimeControl={ui.setTimeControl}
-                    fenInput={ui.fenInput}
-                    setFenInput={ui.setFenInput}
-                    goToFEN={engine.goToFEN}
                 />
+
             )}
+
         </div>
     );
 }

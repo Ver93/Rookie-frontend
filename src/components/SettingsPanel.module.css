@@ -44,6 +44,7 @@
 .title {
     font-size: 1.4rem;
     margin-bottom: 8px;
+    color: var(--text);
 }
 
 .section {
