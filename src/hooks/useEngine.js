@@ -20,9 +20,9 @@ export default function useEngine(depth, playerColor, highlights) {
         highlightChecks: true
     });
 
-    const updateTurn = () => {
+    const updateTurn = useCallback(() => {
         setGameTurn(game.turn() === "w" ? "white" : "black");
-    };
+    }, [game]);
 
     const logEvent = (san) => {
         setLog(prev => {
@@ -49,11 +49,11 @@ export default function useEngine(depth, playerColor, highlights) {
         });
     };
 
-    const syncGameState = () => {
+    const syncGameState = useCallback(() => {
         setPosition(game.fen());
         setLastMove(null);
         updateTurn();
-    };
+    }, [game, updateTurn]);
 
     const playEngineMove = useCallback(async () => {
         const bestmove = await runEngine(depth, game);
