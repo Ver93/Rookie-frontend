@@ -3,7 +3,6 @@ const API_URL = "/api/engine";
 async function safeFetch(url, options = {}) {
     try {
         const res = await fetch(url, options);
-
         if (!res.ok) {
             return { error: true, status: res.status };
         }

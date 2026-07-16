@@ -66,6 +66,7 @@ body {
 .chessDisplay {
     display: flex;
     justify-content: space-between;
+    align-self: center;
     align-items: center;
     width: 100%;
     height: 50px;

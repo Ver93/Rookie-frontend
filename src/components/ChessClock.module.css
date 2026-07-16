@@ -14,6 +14,7 @@
     transition: all 0.25s ease;
 
     box-sizing: border-box;
+    border-radius: 6px;
 }
 
 .active {
@@ -21,7 +22,7 @@
     border-color: #2e6eb5;
     color: #fff;
     box-shadow: 0 0 14px rgba(46, 110, 181, 0.6);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .low {

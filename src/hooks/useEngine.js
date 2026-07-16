@@ -58,7 +58,7 @@ export default function useEngine(depth, playerColor, highlights) {
     const playEngineMove = useCallback(async () => {
         const bestmove = await runEngine(depth, game);
         if (!bestmove) return;
-
+        
         const result = game.move({
             from: bestmove.slice(0, 2),
             to: bestmove.slice(2, 4),
