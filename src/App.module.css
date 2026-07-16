@@ -17,7 +17,7 @@ body {
     --border: #1a1a1a;
     --shadow: 0 20px 45px rgba(0, 0, 0, 0.24);
 
-    --header: 90px;
+    --header: 60px;
 
 
     /* Nya färger för ChessLog */
@@ -36,20 +36,6 @@ body {
     min-height: 100vh;
     font-family: system-ui, sans-serif;
 }
-/*
-.mainLayout {
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    inset: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><text x='4' y='20' font-size='20' >♜</text><text x='28' y='20' font-size='20'>♞</text><text x='4' y='44' font-size='20'>♟</text><text x='28' y='44' font-size='20'>♛</text></svg>");
-    background-color: var(--bg);
-    background-size: 48px 48px;
-    font-family: system-ui, sans-serif;
-    gap: 16px;
-} */
 
 
 .mainLayout {
@@ -69,7 +55,6 @@ body {
     width: 100%;
     justify-content: center;
     align-items: center;
-    /* background-color: #6ea8ff; */
 }
 
 .chessBoardContainer{
@@ -78,18 +63,12 @@ body {
 
 }
 
-.clockBackground {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 100%;
-}
-
 .chessDisplay {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 50px;
     font-family: system-ui, sans-serif;
 }
 

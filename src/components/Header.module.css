@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
 
-  height: 50px;
+  height: var(--header);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 18px 32px;
   background: var(--surface);
   border-bottom: 1px solid var(--card-border);
   z-index: 5;
@@ -17,6 +16,7 @@
   backdrop-filter: blur(var(--card-blur));
   -webkit-backdrop-filter: blur(var(--card-blur));
   box-shadow: var(--shadow);
+  /* background-color: #4caf50; */
 }
 
 .menuToggle,
