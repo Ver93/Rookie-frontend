@@ -9,7 +9,7 @@ export default function ChessTurn({ turn, playerColor, isPlayer, isThinking }) {
 
 
     if (isThinking) {
-        text = "Rookie is thinking";
+        text = "Thinking..";
         statusClass = styles.thinking;
     } 
     else if (isTurn && isPlayer) {
@@ -21,11 +21,11 @@ export default function ChessTurn({ turn, playerColor, isPlayer, isThinking }) {
         statusClass = styles.enemyTurn;
     }
     else if (!isTurn && !isPlayer) {
-        text = "Waiting";
+        text = "Waiting..";
         statusClass = styles.waiting;
     }
     else if (!isTurn && isPlayer) {
-        text = "Waiting";
+        text = "Waiting..";
         statusClass = styles.waiting;
     }
 

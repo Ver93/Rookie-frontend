@@ -1,23 +1,36 @@
-import styles from "./CustomButton.module.css";
+import styles from "./ThemeButton.module.css";
 
 export default function ThemeButton({
     onClick,
     invert = true,
     icon = "",
-    title,
-    active = true
+    title
 }) {
 
     return (
+
         <button
-            className={`${styles.themeButton} ${active ? styles.active : ""}`}
+
+            className={styles.themeButton}
+
             onClick={onClick}
+
             title={title}
+
             style={{
-                filter: invert && !active ? "invert(0)" : "invert(1)"
+
+                filter:
+                    invert
+                        ? "invert(1)"
+                        : "invert(0)"
+
             }}
+
         >
+
             {icon}
+
         </button>
+
     );
 }

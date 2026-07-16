@@ -1,3 +1,4 @@
+.engineButton,
 .themeButton,
 .soundButton,
 .highlightButton,
@@ -47,15 +48,11 @@
     transform: translateY(-1px);
 }
 
-.soundButton span {
-    font-size: 1.6rem;
-    transform: translateY(-1px);
-}
-
 .themeButton span {
     font-size: 1.6rem;
     transform: translateY(-1px);
 }
+
 
 
 .undoButton {

@@ -8,7 +8,7 @@ export default function ChessBoard({
     onPlayerMove,
     highlightLegal,
     gameInstance,
-    lastMove
+    lastMove,
 }) {
     const [localHighlights, setLocalHighlights] = useState({});
     const [selectedSquare, setSelectedSquare] = useState(null);
@@ -47,7 +47,6 @@ export default function ChessBoard({
         }
 
         onPlayerMove(selectedSquare, square);
-
         setSelectedSquare(null);
         setLocalHighlights({});
     }, [

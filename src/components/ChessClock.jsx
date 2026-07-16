@@ -173,43 +173,32 @@ export default function ChessClock({
 
 
             <div
-
                 className={[
                     styles.clockMenu,
-
-                    editing
-                        ? styles.open
-                        : ""
-
+                    editing ? styles.open : ""
                 ].join(" ")}
-
             >
 
-
                 <div className={styles.menuTitle}>
-
                     Time Control
-
                 </div>
-
 
 
                 <div className={styles.timeRow}>
 
-
                     {timeControls.map(tc => (
 
                         <button
-
                             key={tc}
 
-                            className={styles.timeButton}
+                            className={[
+                                styles.timeButton,
+                                timeControl === tc
+                                    ? styles.selected
+                                    : ""
+                            ].join(" ")}
 
-
-                            onClick={() =>
-                                applyTimeControl(tc)
-                            }
-
+                            onClick={() => applyTimeControl(tc)}
                         >
 
                             {tc}
@@ -218,9 +207,7 @@ export default function ChessClock({
 
                     ))}
 
-
                 </div>
-
 
             </div>
 

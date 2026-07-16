@@ -6,29 +6,46 @@ import ChessLog from "./components/ChessLog";
 import SettingsPanel from "./components/SettingsPanel";
 import GameMenuPanel from "./components/GameMenuPanel";
 
+import { useState, useEffect } from "react";
+
 import useEngine from "./hooks/useEngine";
 import useUIState from "./hooks/useUIState";
 import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
 import FlipButton from "./components/FlipButton";
-// import FenButton from "./components/FenButton";
+import EngineButton from "./components/EngineButton";
 import UndoButton from "./components/UndoButton";
 import HighlightButton from "./components/HighlightButton";
+import SoundButton from "./components/SoundButton";
+import ThemeButton from "./components/ThemeButton";
 
 function App() {
     const ui = useUIState();
 
     const playerColor = ui.playerColor;
+    const [soundEnabled, setSoundEnabled] = useState(true);
+    const [darkMode, setDarkMode] = useState(true);
+
+
+    useEffect(() => {
+
+        document.body.className = darkMode
+            ? "dark"
+            : "light";
+
+    }, [darkMode]);
 
     const engine = useEngine(
         ui.depth,
         playerColor,
-        true
+        true,
+        soundEnabled
     );
 
     const clock = parseTimeControl(ui.timeControl);
-
+    
+    const [difficulty, setDifficulty] = useState("normal");
     const opponentColor = playerColor === "white"
         ? "black"
         : "white";
@@ -56,14 +73,115 @@ function App() {
                     <div className={styles.chessDisplay}>
 
                         <div className={styles.clockLeft}>
+                        <SoundButton
+                            title={soundEnabled ? "Disable sound" : "Enable sound"}
+                            active={soundEnabled}
+                            invert={true}
+                            icon={
+                                soundEnabled
+                                    ?
+                                    <svg width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round">
+
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+
+                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+
+                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+
+                                    </svg>
+                                    :
+                                    <svg width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round">
+
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+
+                                        <line x1="23" y1="9" x2="17" y2="15"/>
+
+                                        <line x1="17" y1="9" x2="23" y2="15"/>
+
+                                    </svg>
+                            }
+                            onClick={() => setSoundEnabled(v => !v)}
+                        />
+
+                        <ThemeButton
+
+                            title={
+                                darkMode
+                                    ? "Light mode"
+                                    : "Dark mode"
+                            }
+
+                            invert={true}
+
+                            icon={
+                                darkMode
+                                    ?
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <circle cx="12" cy="12" r="5"/>
+
+                                        <line x1="12" y1="1" x2="12" y2="3"/>
+                                        <line x1="12" y1="21" x2="12" y2="23"/>
+
+                                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+
+                                        <line x1="1" y1="12" x2="3" y2="12"/>
+                                        <line x1="21" y1="12" x2="23" y2="12"/>
+                                    </svg>
+
+                                    :
+
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="
+                                            M21 12.79
+                                            A9 9 0 1 1
+                                            11.21 3
+                                            A7 7 0 0 0
+                                            21 12.79
+                                        "/>
+                                    </svg>
+                            }
+
+
+                            onClick={() => setDarkMode(v => !v)}
+                        />
+
                             <HighlightButton
                                 title={"Highlights"}
                                 active={ui.highlightsEnabled}
                                 icon={
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                                        <path d="M9 18h6"/>
+                                        <path d="M10 22h4"/>
+                                        <path d="M12 2a7 7 0 0 0-4 12c1 1 2 2 2 4h4c0-2 1-3 2-4a7 7 0 0 0-4-12z"/>
                                     </svg>
                                 }
                                 invert={true}
@@ -76,45 +194,6 @@ function App() {
                                     ui.setHighlightLast(value);
                                 }}
                             />
-
-                            <HighlightButton
-                                title={"Highlights"}
-                                active={ui.highlightsEnabled}
-                                icon={
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                                    </svg>
-                                }
-                                invert={true}
-                                onClick={() => {
-                                    const value = !ui.highlightsEnabled;
-                                    
-                                    ui.setHighlightsEnabled(value);
-                                    ui.setHighlightLegal(value);
-                                    ui.setHighlightChecks(value);
-                                    ui.setHighlightLast(value);
-                                }}
-                                />
-
-                            <HighlightButton
-                                title={"Highlights"}
-                                active={ui.highlightsEnabled}
-                                icon={
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <circle cx="12" cy="12" r="3"/>
-                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.08A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                                    </svg>
-                                }
-                                invert={false}
-                                onClick={() => {
-                                    const value = !ui.highlightsEnabled;
-                                    
-                                    ui.setHighlightsEnabled(value);
-                                    ui.setHighlightLegal(value);
-                                    ui.setHighlightChecks(value);
-                                    ui.setHighlightLast(value);
-                                }}
-                                />
 
                             </div>
 
@@ -155,22 +234,23 @@ function App() {
 
                     <div className={styles.chessBoardContainer}>
 
-                        <ChessBoard
-                            position={engine.position}
-                            playerColor={playerColor}
-                            squareStyles={engine.squareStyles}
-                            gameInstance={engine.gameInstance}
-                            lastMove={engine.lastMove}
-                            onPlayerMove={engine.onPlayerMove}
-                            highlightLegal={
-                                ui.highlightLegal &&
-                                !engine.isAnalysisMode
-                            }
-                            highlightLast={ui.highlightLast}
-                            highlightChecks={ui.highlightChecks}
-                            analysisMode={engine.isAnalysisMode}
-                        />
+                    <ChessBoard
+                        position={engine.position}
+                        playerColor={playerColor}
+                        squareStyles={engine.squareStyles}
+                        gameInstance={engine.gameInstance}
+                        lastMove={engine.lastMove}
+                        onPlayerMove={engine.onPlayerMove}
 
+                        highlightLegal={
+                            ui.highlightLegal &&
+                            !engine.isAnalysisMode
+                        }
+
+                        highlightLast={ui.highlightLast}
+                        highlightChecks={ui.highlightChecks}
+                        analysisMode={engine.isAnalysisMode}
+                    />
                     </div>
 
                 </div>
@@ -208,25 +288,16 @@ function App() {
                             />
 
                             <UndoButton onUndo={engine.undoMove}/>
-                            <HighlightButton
-                                title={"Highlights"}
-                                active={ui.highlightsEnabled}
+                            <EngineButton
+                                title={"Engine"}
+                                difficulty={ui.depth}
+                                onDifficultyChange={ui.setDepth}
                                 icon={
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M9 18h6"/>
-                                        <path d="M10 22h4"/>
-                                        <path d="M12 2a7 7 0 0 0-4 12c1 1 2 2 2 4h4c0-2 1-3 2-4a7 7 0 0 0-4-12z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.08A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                                     </svg>
                                 }
-                                invert={true}
-                                onClick={() => {
-                                    const value = !ui.highlightsEnabled;
-
-                                    ui.setHighlightsEnabled(value);
-                                    ui.setHighlightLegal(value);
-                                    ui.setHighlightChecks(value);
-                                    ui.setHighlightLast(value);
-                                }}
                             />
 
                         </div>
@@ -285,7 +356,7 @@ function App() {
 
 
 
-            {ui.settingsOpen && (
+            {/* {ui.settingsOpen && (
 
                 <SettingsPanel
                     onClose={() => ui.setSettingsOpen(false)}
@@ -303,7 +374,7 @@ function App() {
                     onClose={() => ui.setGameMenuOpen(false)}
                 />
 
-            )}
+            )} */}
 
         </div>
     );

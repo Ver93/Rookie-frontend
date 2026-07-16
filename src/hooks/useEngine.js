@@ -2,8 +2,9 @@ import { useState, useRef, useCallback } from "react";
 import { Chess } from "chess.js";
 import { runEngine } from "../utils/engineClient";
 import useHighlights from "./useHighlights";
+import { playMoveSound } from "../utils/sound";
 
-export default function useEngine(depth, playerColor, settings) {
+export default function useEngine(depth, playerColor, settings, soundEnabled) {
 
     const gameRef = useRef(new Chess());
     const game = gameRef.current;
@@ -24,13 +25,12 @@ export default function useEngine(depth, playerColor, settings) {
 
     const [isAnalysisMode, setIsAnalysisMode] = useState(false);
 
-    const [lastPlayedFen, setLastPlayedFen] = useState(
-        game.fen()
-    );
+    const [lastPlayedFen, setLastPlayedFen] = useState(game.fen());
 
     const [undoCounter, setUndoCounter] = useState(0);
 
     const [clockResetKey, setClockResetKey] = useState(0);
+
 
     const resetClock = useCallback(() => {
         setClockResetKey(v => v + 1);
@@ -65,7 +65,6 @@ export default function useEngine(depth, playerColor, settings) {
     const logEvent = useCallback((san) => {
 
         const fen = game.fen();
-
 
         setLog(prev => {
 
@@ -106,22 +105,17 @@ export default function useEngine(depth, playerColor, settings) {
 
 
 
+
     const undoMove = useCallback(() => {
 
-
-        if (game.history().length < 2)
+        if (game.history().length < 1)
             return;
 
 
-
-        game.undo(); // engine move
-
-        game.undo(); // player move
-
+        game.undo();
 
 
         const fen = game.fen();
-
 
 
         setPosition(fen);
@@ -134,17 +128,38 @@ export default function useEngine(depth, playerColor, settings) {
         setLastMove(null);
 
 
-
         setLog(prev => {
 
             const copy = [...prev];
 
-            copy.pop();
+            const last = copy[copy.length - 1];
+
+
+            if (!last)
+                return copy;
+
+
+            // Om svart drag finns, ta bort bara svart
+            if (last.black) {
+
+                copy[copy.length - 1] = {
+                    ...last,
+                    black: null,
+                    blackFen: null
+                };
+
+            } 
+            // Annars ta bort hela raden
+            else {
+
+                copy.pop();
+
+            }
+
 
             return copy;
 
         });
-
 
 
         setLastPlayedFen(fen);
@@ -156,14 +171,11 @@ export default function useEngine(depth, playerColor, settings) {
         updateTurn();
 
 
-
     }, [
         game,
         displayGame,
         updateTurn
     ]);
-
-
 
 
 
@@ -192,6 +204,7 @@ export default function useEngine(depth, playerColor, settings) {
         displayGame,
         updateTurn
     ]);
+
 
 
 
@@ -235,10 +248,8 @@ export default function useEngine(depth, playerColor, settings) {
         const fen = game.fen();
 
 
-
         setPosition(fen);
         setDisplayPosition(fen);
-
 
 
         setLastPlayedFen(fen);
@@ -251,6 +262,9 @@ export default function useEngine(depth, playerColor, settings) {
         logEvent(result.san);
 
 
+        playMoveSound(soundEnabled);
+
+
         updateTurn();
 
 
@@ -260,8 +274,10 @@ export default function useEngine(depth, playerColor, settings) {
         game,
         displayGame,
         logEvent,
-        updateTurn
+        updateTurn,
+        soundEnabled
     ]);
+
 
 
 
@@ -334,6 +350,8 @@ export default function useEngine(depth, playerColor, settings) {
         logEvent(result.san);
 
 
+        playMoveSound(soundEnabled);
+
 
         updateTurn();
 
@@ -361,7 +379,8 @@ export default function useEngine(depth, playerColor, settings) {
         logEvent,
         playEngineMove,
         updateTurn,
-        isAnalysisMode
+        isAnalysisMode,
+        soundEnabled
     ]);
 
 
@@ -390,6 +409,8 @@ export default function useEngine(depth, playerColor, settings) {
         displayGame,
         lastPlayedFen
     ]);
+
+
 
 
 
@@ -436,6 +457,7 @@ export default function useEngine(depth, playerColor, settings) {
         syncGameState,
         resetClock
     ]);
+
 
 
 
@@ -506,7 +528,9 @@ export default function useEngine(depth, playerColor, settings) {
         isAnalysisMode,
 
         undoCounter,
+
         clockResetKey,
+
 
         onPlayerMove,
 

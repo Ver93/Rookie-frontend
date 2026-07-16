@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function useUIState() {
-    const [depth, setDepth] = useState(3);
+    const [depth, setDepth] = useState(4);
     const [playerColor, setPlayerColor] = useState("white");
     const [highlightLegal, setHighlightLegal] = useState(true);
     const [highlightLast, setHighlightLast] = useState(true);

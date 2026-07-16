@@ -1,4 +1,4 @@
-import styles from "./CustomButton.module.css";
+import styles from "./SoundButton.module.css";
 
 export default function SoundButton({
     onClick,
@@ -10,7 +10,9 @@ export default function SoundButton({
 
     return (
         <button
-            className={`${styles.soundButton} ${active ? styles.active : ""}`}
+            className={`${styles.soundButton} ${
+                active ? styles.active : ""
+            }`}
             onClick={onClick}
             title={title}
             style={{
