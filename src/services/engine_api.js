@@ -8,6 +8,7 @@ async function safeFetch(url, options = {}) {
         }
 
         const data = await res.json().catch(() => null);
+        console.log(data);
         return data ?? { error: true };
     } catch (err) {
         return { error: true, message: err.message };
