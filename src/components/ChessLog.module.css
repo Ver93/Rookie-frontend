@@ -53,6 +53,12 @@
         color 0.15s ease;
 }
 
+.menuButton svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
 
 .menuButton:hover {
     background: rgba(110,168,255,0.12);
