@@ -1,3 +1,4 @@
+.highlightButton,
 .undoButton,
 .fenButton,
 .flipButton {
@@ -35,6 +36,11 @@
 }
 
 .flipButton span {
+    font-size: 1.6rem;
+    transform: translateY(-1px);
+}
+
+.highlightButton span {
     font-size: 1.6rem;
     transform: translateY(-1px);
 }

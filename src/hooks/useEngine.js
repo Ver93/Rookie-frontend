@@ -30,6 +30,12 @@ export default function useEngine(depth, playerColor, settings) {
 
     const [undoCounter, setUndoCounter] = useState(0);
 
+    const [clockResetKey, setClockResetKey] = useState(0);
+
+    const resetClock = useCallback(() => {
+        setClockResetKey(v => v + 1);
+    }, []);
+
 
 
     const squareStyles = useHighlights(
@@ -404,7 +410,7 @@ export default function useEngine(depth, playerColor, settings) {
 
         setIsAnalysisMode(false);
 
-
+        resetClock();
 
         syncGameState();
 
@@ -427,7 +433,8 @@ export default function useEngine(depth, playerColor, settings) {
     },[
         game,
         playEngineMove,
-        syncGameState
+        syncGameState,
+        resetClock
     ]);
 
 
@@ -498,6 +505,8 @@ export default function useEngine(depth, playerColor, settings) {
 
         isAnalysisMode,
 
+        undoCounter,
+        clockResetKey,
 
         onPlayerMove,
 
@@ -507,10 +516,9 @@ export default function useEngine(depth, playerColor, settings) {
 
         loadFEN,
 
-
         undoMove,
 
-        undoCounter
+        resetClock,
 
     };
 

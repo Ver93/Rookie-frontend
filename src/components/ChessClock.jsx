@@ -11,11 +11,13 @@ export default function ChessClock({
 
     canConfigure = false,
     gameActive = false,
-    timeControl
+    timeControl,
+    resetKey
 }) {
 
     const [time, setTime] = useState(initialTime);
     const [editing, setEditing] = useState(false);
+    const [clockResetKey, setClockResetKey] = useState(0);
 
 
     useEffect(() => {
@@ -24,7 +26,8 @@ export default function ChessClock({
 
     }, [
         initialTime,
-        timeControl
+        timeControl,
+        resetKey
     ]);
 
 

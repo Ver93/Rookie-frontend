@@ -12,6 +12,7 @@ export default function useUIState() {
 
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [gameMenuOpen, setGameMenuOpen] = useState(false);
+    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
 
     return {
         depth,
@@ -32,5 +33,7 @@ export default function useUIState() {
         setSettingsOpen,
         gameMenuOpen,
         setGameMenuOpen,
+        highlightsEnabled,
+        setHighlightsEnabled
     };
 }
