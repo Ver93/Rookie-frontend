@@ -13,15 +13,40 @@ export default function useEngine(depth, playerColor, highlights) {
     const [lastMove, setLastMove] = useState(null);
     const [isThinking, setIsThinking] = useState(false);
     const [gameTurn, setGameTurn] = useState("white");
+    const [gameStarted, setGameStarted] = useState(false);
 
-    const squareStyles = useHighlights(game, lastMove, highlights);
+    const squareStyles = useHighlights(game, lastMove, {
+        highlightLast: true,
+        highlightChecks: true
+    });
 
     const updateTurn = () => {
         setGameTurn(game.turn() === "w" ? "white" : "black");
     };
 
     const logEvent = (san) => {
-        setLog(prev => [...prev, san]);
+        setLog(prev => {
+            const last = prev[prev.length - 1];
+
+            if (!last || last.black) {
+                return [
+                    ...prev,
+                    {
+                        number: prev.length + 1,
+                        white: san,
+                        black: null
+                    }
+                ];
+            }
+
+            return [
+                ...prev.slice(0, -1),
+                {
+                    ...last,
+                    black: san
+                }
+            ];
+        });
     };
 
     const syncGameState = () => {
@@ -58,7 +83,8 @@ export default function useEngine(depth, playerColor, highlights) {
         } catch {
             return false;
         }
-
+        
+        setGameStarted(true);
         setLastMove({ from, to });
         setPosition(game.fen());
         logEvent(result.san);
@@ -89,9 +115,12 @@ export default function useEngine(depth, playerColor, highlights) {
 
     const resetGame = useCallback(async () => {
         game.reset();
+        setGameStarted(false);
+        setLog([]);
         syncGameState();
 
         if (playerColor === "black") {
+            setGameStarted(true);
             await playEngineMove();
         }
     }, [game, playerColor, playEngineMove]);
@@ -104,6 +133,7 @@ export default function useEngine(depth, playerColor, highlights) {
         gameInstance: game,
         lastMove,
         isThinking,
+        gameStarted,
         onPlayerMove,
         resetGame,
         loadFEN,

@@ -5,14 +5,28 @@ body {
     --bg-dot: rgba(255, 255, 255, 0.3);
     --bg-dot-size: 1px;
     --bg-grid-size: 24px;
+
     --surface: #1a1a1a;
     --surface-soft: #1a1a1a;
+
     --text: #ffffff;
     --muted: #c9c9c9;
+
     --accent: #6ea8ff;
+
     --border: #1a1a1a;
     --shadow: 0 20px 45px rgba(0, 0, 0, 0.24);
+
     --header: 90px;
+
+
+    /* Nya färger för ChessLog */
+    --log-menu: #242424;
+    --log-button: #202020;
+    --log-button-hover: rgba(110, 168, 255, 0.15);
+    --log-number: #2a2a2a;
+    --log-active: rgba(110, 168, 255, 0.25);
+    --log-border: rgba(255, 255, 255, 0.08);
 }
 
 .appWrapper {
@@ -87,6 +101,8 @@ body {
     flex: 1;
     align-items: center;
     justify-content: center;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .chessLogContainer {

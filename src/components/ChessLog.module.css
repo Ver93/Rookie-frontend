@@ -1,39 +1,165 @@
 .logContainer {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 4px 0;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    background: var(--bg);
 }
 
+
+/* Navigeringsmeny */
+.logMenu {
+    display: flex;
+
+    width: 100%;
+
+    flex-shrink: 0;
+
+    background: var(--log-menu);
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+    z-index: 2;
+}
+
+
+.menuButton {
+    display: flex;
+
+    flex: 1;
+
+    justify-content: center;
+    align-items: center;
+
+    height: 32px;
+
+    background: transparent;
+
+    color: #aaa;
+
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+
+.menuButton:hover {
+    background: rgba(110,168,255,0.12);
+    color: #fff;
+}
+
+
+
+/* Draglista */
+.moveList {
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+
+/* Chrome / Edge scrollbar */
+.moveList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.moveList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.moveList::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+
+    border-radius: 10px;
+}
+
+
+
+/* En rad */
 .moveRow {
     display: grid;
-    grid-template-columns: 22px 1fr 1fr;
-    align-items: center;
-    padding: 1px 0;
+
+    grid-template-columns: 45px 1fr 1fr;
+
+    min-height: 32px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.035);
 }
 
+
+
+/* Dragnummer */
 .moveNumber {
-    color: #c9c9c9;
-    font-size: 0.78rem;
-    opacity: 0.7;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255,255,255,0.025);
+
+    color: #777;
+
+    font-size: 0.85rem;
+
+    border: none;
 }
 
+
+
+/* Drag */
 .move {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #fff;
-    padding: 2px 4px; 
-    border-radius: 4px;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: transparent;
+
+    color: #ddd;
+
+    border: none;
+    outline: none;
+
     cursor: pointer;
-    transition: background 0.15s ease;
-    line-height: 1.1; 
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
 }
+
 
 .move:hover {
-    background: rgba(255,255,255,0.06);
+    background: rgba(110,168,255,0.10);
+
+    color: #fff;
 }
 
+
+
+/* Aktivt drag */
 .active {
-    background: rgba(255,255,255,0.12);
+    background: rgba(110,168,255,0.22);
+
+    color: #fff;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(110,168,255,0.35);
 }

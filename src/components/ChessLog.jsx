@@ -1,42 +1,85 @@
+import { useEffect, useRef } from "react";
 import styles from "./ChessLog.module.css";
 
-export default function ChessLog({ moves = [], currentIndex, onSelectMove }) {
-    const pairs = [];
-    for (let i = 0; i < moves.length; i += 2) {
-        pairs.push({
-            white: moves[i],
-            black: moves[i + 1] || "",
-            whiteIndex: i,
-            blackIndex: i + 1
-        });
-    }
+export default function ChessLog({ moves = [], lastMove }) {
+
+    const moveListRef = useRef(null);
+
+
+    useEffect(() => {
+        const container = moveListRef.current;
+
+        if (container) {
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+    }, [moves]);
+
 
     return (
         <div className={styles.logContainer}>
-            {pairs.map((pair, index) => {
-                const isWhiteActive = currentIndex === pair.whiteIndex;
-                const isBlackActive = currentIndex === pair.blackIndex;
 
-                return (
-                    <div key={index} className={styles.moveRow}>
-                        <div className={styles.moveNumber}>{index + 1}.</div>
+            <div className={styles.logMenu}>
+                <button className={styles.menuButton}>⏮</button>
+                <button className={styles.menuButton}>◀</button>
+                <button className={styles.menuButton}>▶</button>
+                <button className={styles.menuButton}>⏭</button>
+            </div>
 
+
+            <div
+                className={styles.moveList}
+                ref={moveListRef}
+            >
+
+                {moves.map((move, index) => {
+
+                    const isLastRow = index === moves.length - 1;
+
+                    const whiteActive = isLastRow && !move.black;
+                    const blackActive = isLastRow && move.black;
+
+
+                    return (
                         <div
-                            className={`${styles.move} ${isWhiteActive ? styles.active : ""}`}
-                            onClick={() => onSelectMove(pair.whiteIndex)}
+                            className={styles.moveRow}
+                            key={move.number}
                         >
-                            {pair.white}
-                        </div>
 
-                        <div
-                            className={`${styles.move} ${styles.black} ${isBlackActive ? styles.active : ""}`}
-                            onClick={() => onSelectMove(pair.blackIndex)}
-                        >
-                            {pair.black}
+                            <div className={styles.moveNumber}>
+                                {move.number}.
+                            </div>
+
+
+                            <button
+                                className={`${styles.move} ${
+                                    whiteActive
+                                        ? styles.active
+                                        : ""
+                                }`}
+                            >
+                                {move.white}
+                            </button>
+
+
+                            <button
+                                className={`${styles.move} ${
+                                    blackActive
+                                        ? styles.active
+                                        : ""
+                                }`}
+                            >
+                                {move.black}
+                            </button>
+
                         </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+
+            </div>
+
         </div>
     );
 }

@@ -5,11 +5,24 @@ import ChessTurn from "./components/ChessTurn";
 import ChessLog from "./components/ChessLog";
 
 import useEngine from "./hooks/useEngine";
+import useUIState from "./hooks/useUIState";
+import { parseTimeControl } from "./hooks/useClock";
+
 import styles from "./App.module.css";
+
 
 function App() {
 
-    const engine = useEngine(10, "white", true);
+    const playerColor = "white";
+
+    const engine = useEngine(10, playerColor, true);
+    const ui = useUIState();
+    const clock = parseTimeControl(ui.timeControl);
+
+    const opponentColor = playerColor === "white"
+        ? "black"
+        : "white";
+
 
     return (
         <div className={styles.appWrapper}>
@@ -18,42 +31,88 @@ function App() {
 
                 <Header />
 
-                <div className={styles.clockBackground}>
+                <div
+                    className={`${styles.clockBackground} ${
+                        engine.gameTurn === opponentColor
+                            ? styles.activePlayer
+                            : ""
+                    }`}
+                >
                     <div className={styles.chessDisplay}>
-                        <ChessTurn turn={engine.gameTurn} />
-                        <ChessClock />
-                    </div>
-                </div>
-
-                <div className={styles.chessBackground}>
-                    <div className={styles.chessBoardContainer}>
-                        <ChessBoard
-                            position={engine.position}
-                            playerColor="white"
-                            squareStyles={engine.squareStyles}
-                            gameInstance={engine.gameInstance}
-                            lastMove={engine.lastMove}
-                            onPlayerMove={engine.onPlayerMove}
+                        <ChessTurn
+                            turn={engine.gameTurn}
+                            playerColor={opponentColor}
+                            isPlayer={false}
+                            isThinking={
+                                engine.isThinking &&
+                                engine.gameTurn === opponentColor
+                            }
+                        />
+                        <ChessClock
+                            active={
+                                engine.gameStarted &&
+                                engine.gameTurn === opponentColor}
+                            initialTime={clock.initial}
+                            increment={clock.inc}
                         />
                     </div>
                 </div>
 
-                <div className={styles.clockBackground}>
-                    <div className={styles.chessDisplay}>
-                        <ChessTurn turn={engine.gameTurn} />
-                        <ChessClock />
+                <div className={styles.chessBackground}>
+
+                    <div className={styles.chessBoardContainer}>
+
+                        <ChessBoard
+                            position={engine.position}
+                            playerColor={playerColor}
+                            squareStyles={engine.squareStyles}
+                            gameInstance={engine.gameInstance}
+                            lastMove={engine.lastMove}
+                            onPlayerMove={engine.onPlayerMove}
+                            highlightLegal={true}
+                        />
+
                     </div>
+
                 </div>
 
+                <div
+                    className={`${styles.clockBackground} ${
+                        engine.gameTurn === playerColor
+                            ? styles.activePlayer
+                            : ""
+                    }`}
+                >
+                    <div className={styles.chessDisplay}>
+
+                        <ChessTurn
+                            turn={engine.gameTurn}
+                            playerColor={playerColor}
+                            isPlayer={true}
+                            isThinking={false}
+                        />
+
+                        <ChessClock
+                            active={
+                                engine.gameStarted &&
+                                engine.gameTurn === playerColor}
+                            initialTime={clock.initial}
+                            increment={clock.inc}
+                        />
+
+                    </div>
+
+                </div>
 
                 <div className={styles.chessLogBackground}>
-                    <div className={styles.chessLogContainer}>
-                        <button className={styles.menuButton}>⏮</button>
-                        <button className={styles.menuButton}>⏪</button>
-                        <button className={styles.menuButton}>▶︎</button>
-                        <button className={styles.menuButton}>⏭</button>
-                    </div>
+
+                    <ChessLog
+                        moves={engine.log}
+                        lastMove={engine.lastMove}
+                    />
+
                 </div>
+
 
             </div>
 
@@ -61,8 +120,5 @@ function App() {
     );
 }
 
-{/* <ChessLog 
-    moves={engine.log}
-    onSelectMove={(i) => console.log("Clicked move:", i)}
-/> */}
+
 export default App;
