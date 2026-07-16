@@ -3,15 +3,30 @@ const API_URL = "/api/engine";
 async function safeFetch(url, options = {}) {
     try {
         const res = await fetch(url, options);
+
+        console.log("Status:", res.status);
+
+        const text = await res.text();
+
+        console.log("Raw response:", text);
+
         if (!res.ok) {
             return { error: true, status: res.status };
         }
 
-        const data = await res.json().catch(() => null);
-        console.log(data);
-        return data ?? { error: true };
+        if (!text) {
+            return { error: true, message: "Empty response" };
+        }
+
+        return JSON.parse(text);
+
     } catch (err) {
-        return { error: true, message: err.message };
+        console.error(err);
+
+        return {
+            error: true,
+            message: err.message
+        };
     }
 }
 
