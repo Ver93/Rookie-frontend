@@ -1,6 +1,4 @@
 let moveSound = null;
-let unlocked = false;
-
 
 function getMoveSound() {
 
@@ -19,19 +17,6 @@ function getMoveSound() {
 
     return moveSound;
 }
-
-export function unlockSound() {
-    // const sound = getMoveSound();
-
-    // sound.play()
-    //     .then(() => {
-    //         sound.pause();
-    //         sound.currentTime = 0;
-    //         unlocked = true;
-    //     })
-    //     .catch(() => {});
-}
-
 export function playMoveSound(enabled) {
 
     if (!enabled)

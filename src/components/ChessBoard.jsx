@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
 import { Chessboard } from "react-chessboard";
-import { unlockSound } from "../utils/sound";
 
 export default function ChessBoard({
     position,
@@ -35,7 +34,6 @@ export default function ChessBoard({
 
     const handleSquareClick = useCallback((square) => {
 
-        unlockSound();
 
         if (!selectedSquare) {
             const piece = gameInstance.get(square);
@@ -63,16 +61,14 @@ export default function ChessBoard({
 
 
     const handlePieceDragBegin = useCallback((piece, square) => {
-        unlockSound();
         setLocalHighlights(
             computeLegalHighlights(square)
         );
-    }, [computeLegalHighlights, unlockSound]);
+    }, [computeLegalHighlights]);
 
 
     const handlePieceDrop = useCallback((from, to) => {
 
-        unlockSound();
 
         setLocalHighlights({});
 
