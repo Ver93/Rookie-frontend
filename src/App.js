@@ -16,8 +16,11 @@ function App() {
     const playerColor = "white";
 
     const engine = useEngine(10, playerColor, true);
+
     const ui = useUIState();
+
     const clock = parseTimeControl(ui.timeControl);
+
 
     const opponentColor = playerColor === "white"
         ? "black"
@@ -31,6 +34,7 @@ function App() {
 
                 <Header />
 
+
                 <div
                     className={`${styles.clockBackground} ${
                         engine.gameTurn === opponentColor
@@ -38,29 +42,42 @@ function App() {
                             : ""
                     }`}
                 >
+
                     <div className={styles.chessDisplay}>
+
                         <ChessTurn
                             turn={engine.gameTurn}
                             playerColor={opponentColor}
                             isPlayer={false}
                             isThinking={
                                 engine.isThinking &&
-                                engine.gameTurn === opponentColor
+                                engine.gameTurn === opponentColor &&
+                                !engine.isAnalysisMode
                             }
                         />
+
+
                         <ChessClock
                             active={
                                 engine.gameStarted &&
-                                engine.gameTurn === opponentColor}
+                                !engine.isAnalysisMode &&
+                                engine.gameTurn === opponentColor
+                            }
                             initialTime={clock.initial}
                             increment={clock.inc}
                         />
+
                     </div>
+
                 </div>
+
+
 
                 <div className={styles.chessBackground}>
 
+
                     <div className={styles.chessBoardContainer}>
+
 
                         <ChessBoard
                             position={engine.position}
@@ -69,12 +86,18 @@ function App() {
                             gameInstance={engine.gameInstance}
                             lastMove={engine.lastMove}
                             onPlayerMove={engine.onPlayerMove}
-                            highlightLegal={true}
+                            highlightLegal={!engine.isAnalysisMode}
+                            analysisMode={engine.isAnalysisMode}
                         />
+
 
                     </div>
 
+
                 </div>
+
+
+
 
                 <div
                     className={`${styles.clockBackground} ${
@@ -83,7 +106,9 @@ function App() {
                             : ""
                     }`}
                 >
+
                     <div className={styles.chessDisplay}>
+
 
                         <ChessTurn
                             turn={engine.gameTurn}
@@ -92,29 +117,41 @@ function App() {
                             isThinking={false}
                         />
 
+
                         <ChessClock
                             active={
                                 engine.gameStarted &&
-                                engine.gameTurn === playerColor}
+                                !engine.isAnalysisMode &&
+                                engine.gameTurn === playerColor
+                            }
                             initialTime={clock.initial}
                             increment={clock.inc}
                         />
 
+
                     </div>
+
 
                 </div>
 
+
+
+
                 <div className={styles.chessLogBackground}>
+
 
                     <ChessLog
                         moves={engine.log}
                         lastMove={engine.lastMove}
+                        onSelectMove={engine.viewMove}
                     />
+
 
                 </div>
 
 
             </div>
+
 
         </div>
     );

@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./ChessLog.module.css";
 
-export default function ChessLog({ moves = [], lastMove }) {
+export default function ChessLog({ moves = [], onSelectMove }) {
 
     const moveListRef = useRef(null);
-
+    const [selectedMove, setSelectedMove] = useState(null);
 
     useEffect(() => {
         const container = moveListRef.current;
@@ -15,38 +15,177 @@ export default function ChessLog({ moves = [], lastMove }) {
                 behavior: "smooth"
             });
         }
+
+        if (moves.length > 0) {
+            const last = moves[moves.length - 1];
+
+            setSelectedMove({
+                number: last.number,
+                color: last.black ? "black" : "white"
+            });
+        }
+
     }, [moves]);
+
+
+    const selectIndex = (index, color) => {
+
+        if (index < 0 || index >= moves.length)
+            return;
+
+        const move = moves[index];
+
+        const fen =
+            color === "white"
+                ? move.whiteFen
+                : move.blackFen;
+
+        if (!fen)
+            return;
+
+        setSelectedMove({
+            number: move.number,
+            color
+        });
+
+        onSelectMove?.(fen);
+    };
+
+
+    const selectMove = (move, color, fen) => {
+
+        setSelectedMove({
+            number: move.number,
+            color
+        });
+
+        if (fen)
+            onSelectMove?.(fen);
+    };
+
+
+    const getCurrentIndex = () => {
+
+        if (!selectedMove)
+            return moves.length - 1;
+
+        return moves.findIndex(
+            move => move.number === selectedMove.number
+        );
+    };
 
 
     return (
         <div className={styles.logContainer}>
 
             <div className={styles.logMenu}>
-                <button className={styles.menuButton}>
-                    <svg viewBox="0 0 24 24">
-                        <rect x="4" y="4" width="2" height="16" />
-                        <polygon points="19,4 9,12 19,20" />
-                    </svg>
+
+                <button
+                    className={styles.menuButton}
+                    onClick={() => {
+                        if (moves.length)
+                            selectIndex(0, "white");
+                    }}
+                >
+                    ⏮
                 </button>
 
-                <button className={styles.menuButton}>
-                    <svg viewBox="0 0 24 24">
-                        <polygon points="16,4 6,12 16,20" />
-                    </svg>
+
+                <button
+                    className={styles.menuButton}
+                    onClick={() => {
+
+                        const index = getCurrentIndex();
+
+                        if (index < 0)
+                            return;
+
+                        const current = moves[index];
+
+
+                        if (
+                            selectedMove?.color === "black"
+                        ) {
+                            selectIndex(index, "white");
+                            return;
+                        }
+
+
+                        if (index > 0) {
+
+                            const prev = moves[index - 1];
+
+                            selectIndex(
+                                index - 1,
+                                prev.black
+                                    ? "black"
+                                    : "white"
+                            );
+                        }
+
+                    }}
+                >
+                    ◀
                 </button>
 
-                <button className={styles.menuButton}>
-                    <svg viewBox="0 0 24 24">
-                        <polygon points="8,4 18,12 8,20" />
-                    </svg>
+
+                <button
+                    className={styles.menuButton}
+                    onClick={() => {
+
+                        const index = getCurrentIndex();
+
+                        if (index < 0)
+                            return;
+
+
+                        const current = moves[index];
+
+
+                        if (
+                            selectedMove?.color === "white" &&
+                            current.black
+                        ) {
+                            selectIndex(index,"black");
+                            return;
+                        }
+
+
+                        if (index + 1 < moves.length) {
+                            selectIndex(
+                                index + 1,
+                                "white"
+                            );
+                        }
+
+                    }}
+                >
+                    ▶
                 </button>
 
-                <button className={styles.menuButton}>
-                    <svg viewBox="0 0 24 24">
-                        <polygon points="5,4 15,12 5,20" />
-                        <rect x="18" y="4" width="2" height="16" />
-                    </svg>
+
+                <button
+                    className={styles.menuButton}
+                    onClick={() => {
+
+                        if (!moves.length)
+                            return;
+
+                        const last =
+                            moves[moves.length - 1];
+
+                        selectIndex(
+                            moves.length - 1,
+                            last.black
+                                ? "black"
+                                : "white"
+                        );
+
+                    }}
+                >
+                    ⏭
                 </button>
+
             </div>
 
 
@@ -55,12 +194,15 @@ export default function ChessLog({ moves = [], lastMove }) {
                 ref={moveListRef}
             >
 
-                {moves.map((move, index) => {
+                {moves.map(move => {
 
-                    const isLastRow = index === moves.length - 1;
+                    const whiteActive =
+                        selectedMove?.number === move.number &&
+                        selectedMove?.color === "white";
 
-                    const whiteActive = isLastRow && !move.black;
-                    const blackActive = isLastRow && move.black;
+                    const blackActive =
+                        selectedMove?.number === move.number &&
+                        selectedMove?.color === "black";
 
 
                     return (
@@ -80,23 +222,40 @@ export default function ChessLog({ moves = [], lastMove }) {
                                         ? styles.active
                                         : ""
                                 }`}
+                                onClick={() =>
+                                    selectMove(
+                                        move,
+                                        "white",
+                                        move.whiteFen
+                                    )
+                                }
                             >
                                 {move.white}
                             </button>
 
 
-                            <button
-                                className={`${styles.move} ${
-                                    blackActive
-                                        ? styles.active
-                                        : ""
-                                }`}
-                            >
-                                {move.black}
-                            </button>
+                    {move.black && (
+                        <button
+                            className={`${styles.move} ${
+                                blackActive
+                                    ? styles.active
+                                    : ""
+                            }`}
+                            onClick={() =>
+                                selectMove(
+                                    move,
+                                    "black",
+                                    move.blackFen
+                                )
+                            }
+                        >
+                            {move.black}
+                        </button>
+                    )}
 
                         </div>
                     );
+
                 })}
 
             </div>
