@@ -48,9 +48,9 @@ export default function EngineButton({
 
             <button
                 className={`${styles.difficultyButton} ${
-                    difficulty === 2 ? styles.selected : ""
+                    difficulty === 3 ? styles.selected : ""
                 }`}
-                onClick={() => selectDifficulty(2)}
+                onClick={() => selectDifficulty(3)}
             >
                 🐣 Easy
             </button>
@@ -58,9 +58,9 @@ export default function EngineButton({
 
             <button
                 className={`${styles.difficultyButton} ${
-                    difficulty === 4 ? styles.selected : ""
+                    difficulty === 5 ? styles.selected : ""
                 }`}
-                onClick={() => selectDifficulty(4)}
+                onClick={() => selectDifficulty(5)}
             >
                 ⚙️ Normal
             </button>
@@ -68,9 +68,9 @@ export default function EngineButton({
 
             <button
                 className={`${styles.difficultyButton} ${
-                    difficulty === 6 ? styles.selected : ""
+                    difficulty === 7 ? styles.selected : ""
                 }`}
-                onClick={() => selectDifficulty(6)}
+                onClick={() => selectDifficulty(7)}
             >
                 ⚔️ Hard
             </button>
@@ -80,7 +80,7 @@ export default function EngineButton({
                 className={`${styles.difficultyButton} ${
                     difficulty === 8 ? styles.selected : ""
                 }`}
-                onClick={() => selectDifficulty(8)}
+                onClick={() => selectDifficulty(9)}
             >
                 🔥 Expert
             </button>

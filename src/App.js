@@ -58,19 +58,17 @@ function App() {
         ? "black"
         : "white";
 
-
     return (
         
         <div className={styles.appWrapper}>
 
-            <DemoOverlay onStart={() => {
-                // setSoundEnabled(true);
-                // playMoveSound(true);
-            }} />
+            <DemoOverlay onStart={() => {}} />
 
 
             <div className={styles.mainLayout}>
-                <Header/>
+                <Header
+                    engine={engine}
+                />
                 <div
                     className={`${styles.clockBackground} ${
                         engine.gameTurn === opponentColor
@@ -351,6 +349,7 @@ function App() {
                         moves={engine.log}
                         lastMove={engine.lastMove}
                         onSelectMove={engine.viewMove}
+                        undoCounter={engine.undoCounter}
                     />
 
                 </div>

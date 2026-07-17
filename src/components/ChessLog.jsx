@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./ChessLog.module.css";
 
-export default function ChessLog({ moves = [], onSelectMove }) {
+export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
 
     const moveListRef = useRef(null);
     const [selectedMove, setSelectedMove] = useState(null);
@@ -47,9 +47,11 @@ export default function ChessLog({ moves = [], onSelectMove }) {
                 number: last.number,
                 color: last.black ? "black" : "white"
             });
+        } else {
+            setSelectedMove(null);
         }
 
-    }, [moves]);
+    }, [moves, undoCounter]);
 
 
     const selectIndex = (index, color) => {

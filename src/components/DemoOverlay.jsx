@@ -51,7 +51,7 @@ export default function DemoOverlay({ onStart }) {
 
             <p className={styles.pressText}>Press to start demo</p>
 
-            <div className={styles.circleIcon}></div>
+            {/* <div className={styles.circleIcon}></div> */}
         </button>
     );
 }

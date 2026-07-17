@@ -1,6 +1,8 @@
 import styles from "./Header.module.css";
 
-export default function Header({ onOpenSettings, onOpenGameMenu }) {
+import ResetButton from "./buttons/ResetButton";
+
+export default function Header({ onOpenSettings, onOpenGameMenu, engine }) {
     return (
         <header className={styles.appHeader}>
 
@@ -25,13 +27,11 @@ export default function Header({ onOpenSettings, onOpenGameMenu }) {
 
             {/* Höger: Hamburgarmeny */}
             <div className={styles.headerRight}>
-                <button className={styles.headerButton} onClick={onOpenSettings}>
-                    <svg className={styles.icon} viewBox="0 0 24 24">
-                        <path d="M3 6h18v2H3z" fill="white" />
-                        <path d="M3 11h18v2H3z" fill="white" />
-                        <path d="M3 16h18v2H3z" fill="white" />
-                    </svg>
-                </button>
+                <ResetButton
+                    onReset={engine.resetGame}
+                />
+
+                
             </div>
 
         </header>

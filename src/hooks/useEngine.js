@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react"; 
+import { useState, useRef, useCallback } from "react";
 import { Chess } from "chess.js";
 import { runEngine } from "../utils/engineClient";
 import useHighlights from "./useHighlights";
@@ -46,8 +46,20 @@ export default function useEngine(depth, playerColor, settings, soundEnabled) {
         const fen = game.fen();
         setLog(prev => {
             const last = prev[prev.length - 1];
-            if (!last || last.black) return [...prev, { number: prev.length + 1, white: san, whiteFen: fen, black: null, blackFen: null }];
-            return [...prev.slice(0, -1), { ...last, black: san, blackFen: fen }];
+            if (!last || last.black) {
+                return [...prev, {
+                    number: prev.length + 1,
+                    white: san,
+                    whiteFen: fen,
+                    black: null,
+                    blackFen: null
+                }];
+            }
+            return [...prev.slice(0, -1), {
+                ...last,
+                black: san,
+                blackFen: fen
+            }];
         });
     }, [game]);
 
@@ -64,27 +76,35 @@ export default function useEngine(depth, playerColor, settings, soundEnabled) {
     const playEngineMove = useCallback(async () => {
         const bestmove = await runEngine(depth, game);
         if (!bestmove) return;
-        const result = game.move({ from: bestmove.slice(0, 2), to: bestmove.slice(2, 4), promotion: "q" });
+        const result = game.move({
+            from: bestmove.slice(0, 2),
+            to: bestmove.slice(2, 4),
+            promotion: "q"
+        });
         if (!result) return;
         finalizeMove(result);
     }, [depth, game, finalizeMove]);
 
     const onPlayerMove = useCallback(async (from, to) => {
         if (isAnalysisMode) return false;
+
         let result;
         try {
             result = game.move({ from, to, promotion: "q" });
         } catch {
             return false;
         }
+
         setGameStarted(true);
         finalizeMove(result);
+
         setIsThinking(true);
         try {
             await playEngineMove();
         } finally {
             setIsThinking(false);
         }
+
         return true;
     }, [game, isAnalysisMode, finalizeMove, playEngineMove]);
 
@@ -95,21 +115,48 @@ export default function useEngine(depth, playerColor, settings, soundEnabled) {
     }, [displayGame, lastPlayedFen]);
 
     const undoMove = useCallback(() => {
-        if (game.history().length < 1) return;
+
+        const history = game.history();
+
+        if (history.length === 0) return;
         game.undo();
         const fen = game.fen();
+
         syncDisplayPosition(fen);
         setLastMove(null);
-        setLog(prev => {
-            const copy = [...prev];
-            const last = copy[copy.length - 1];
-            if (!last) return copy;
-            if (last.black) copy[copy.length - 1] = { ...last, black: null, blackFen: null };
-            else copy.pop();
-            return copy;
-        });
         setLastPlayedFen(fen);
+
+        setLog(prev => {
+
+            const copy = [...prev];
+
+            if (copy.length === 0)
+                return copy;
+
+            const last = copy[copy.length - 1];
+
+            if (last.black) {
+
+                return [
+                    ...copy.slice(0, -1),
+                    {
+                        ...last,
+                        black: null,
+                        blackFen: null
+                    }
+                ];
+            }
+
+            copy.pop();
+
+            return copy;
+
+        });
+
+
         setUndoCounter(v => v + 1);
+
+
     }, [game, syncDisplayPosition]);
 
     const resetGame = useCallback(async (newColor) => {
@@ -120,6 +167,7 @@ export default function useEngine(depth, playerColor, settings, soundEnabled) {
         resetClock();
         syncGame();
         setLastPlayedFen(game.fen());
+
         if (newColor === "black") {
             setGameStarted(true);
             await playEngineMove();
