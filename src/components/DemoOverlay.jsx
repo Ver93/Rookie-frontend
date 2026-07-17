@@ -25,7 +25,6 @@ export default function DemoOverlay({ onStart }) {
         started.current = true;
         setHide(true);
 
-        // Kör demo efter animationen
         setTimeout(() => {
             onStart();
         }, 550);

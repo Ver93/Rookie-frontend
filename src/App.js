@@ -36,7 +36,6 @@ function App() {
         });
     };
 
-
     useEffect(() => {
 
         document.body.className = darkMode
@@ -64,7 +63,8 @@ function App() {
         <div className={styles.appWrapper}>
 
             <DemoOverlay onStart={() => {
-                console.log("Demo startar!");
+                setSoundEnabled(false);
+                setSoundEnabled(true);
             }} />
 
 
