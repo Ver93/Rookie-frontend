@@ -1,0 +1,128 @@
+.demoOverlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 5rem;
+
+    background: rgba(10, 10, 10, 0.35);
+    backdrop-filter: blur(22px) saturate(1.2);
+
+    animation: overlayFade .45s ease;
+    z-index: 9999;
+}
+
+/* SLIDE UP EXIT */
+.slideUp {
+    animation: slideUp .45s ease forwards;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-40%);
+        opacity: 0;
+    }
+}
+
+/* TITLE */
+.titleWrapper {
+    margin-bottom: 1rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: white;
+    text-shadow:
+        0 4px 20px rgba(0,0,0,.35),
+        0 0 12px rgba(255,255,255,.15);
+}
+
+.space {
+    width: .45em;
+}
+
+/* LOOPANDE TITELANIMATION VAR 3 SEK */
+.letter {
+    display: inline-block;
+    animation: jump 3s cubic-bezier(.22,1,.36,1) infinite;
+    animation-delay: var(--delay);
+}
+
+@keyframes jump {
+    0%   { transform: translateY(0); }
+    10%  { transform: translateY(-20px); }
+    20%  { transform: translateY(6px); }
+    30%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+/* SWIPE TEXT */
+.swipeText {
+    margin-top: 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.92);
+    text-shadow:
+        0 0 12px rgba(255,255,255,0.25),
+        0 2px 8px rgba(0,0,0,0.35);
+    animation: swipeTextFade 2.2s ease-in-out infinite;
+}
+
+@keyframes swipeTextFade {
+    0%   { opacity: 0.4; transform: translateY(2px); }
+    50%  { opacity: 1;   transform: translateY(0); }
+    100% { opacity: 0.4; transform: translateY(2px); }
+}
+
+/* BOTTOM CHEVRONS */
+.bottomChevrons {
+    position: absolute;
+    bottom: 2.2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    filter: drop-shadow(0 0 18px rgba(255,255,255,.45));
+}
+
+.bottomChevrons svg {
+    width: 40px;
+    height: 40px;
+    margin: -14px 0;
+    stroke-width: 1.6;
+    opacity: 0;
+    animation: swipeArrow 1.8s cubic-bezier(.22,1,.36,1) infinite;
+}
+
+.chevron1 { animation-delay: 0s; }
+.chevron2 { animation-delay: .25s; }
+.chevron3 { animation-delay: .5s; }
+
+@keyframes swipeArrow {
+    0%   { transform: translateY(0px) scale(.8); opacity: 0; }
+    25%  { opacity: .9; }
+    55%  { transform: translateY(-90px) scale(1); opacity: 1; }
+    75%  { opacity: .7; }
+    100% { transform: translateY(-180px) scale(.9); opacity: 0; }
+}
+
+/* OVERLAY FADE-IN */
+@keyframes overlayFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

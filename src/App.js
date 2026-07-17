@@ -18,6 +18,7 @@ import UndoButton from "./components/buttons/UndoButton";
 import HighlightButton from "./components/buttons/HighlightButton";
 import SoundButton from "./components/buttons/SoundButton";
 import ThemeButton from "./components/buttons/ThemeButton";
+import DemoOverlay from "./components/DemoOverlay";
 
 function App() {
     const ui = useUIState();
@@ -59,7 +60,13 @@ function App() {
 
 
     return (
+        
         <div className={styles.appWrapper}>
+
+            <DemoOverlay onStart={() => {
+                console.log("Demo startar!");
+            }} />
+
 
             <div className={styles.mainLayout}>
                 <Header/>
