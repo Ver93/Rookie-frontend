@@ -9,7 +9,7 @@ import useEngine from "./hooks/useEngine";
 
 import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
-import { loadSound, unlockAudio } from "./utils/sound";
+import { unlockAudio } from "./utils/sound";
 
 import styles from "./App.module.css";
 
