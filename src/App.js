@@ -26,8 +26,14 @@ function App() {
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [darkMode, setDarkMode] = useState(true);
 
+    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
+    const [highlightLegal, setHighlightLegal] = useState(true);
+    const [highlightChecks, setHighlightChecks] = useState(true);
+    const [highlightLast, setHighlightLast] = useState(true);
+    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
+
     const setHighlights = (value) => {
-        setHighlightSettings({
+        ui.setHighlightSettings({
             enabled: value,
             legal: value,
             checks: value,
@@ -175,7 +181,7 @@ function App() {
 
                             <HighlightButton
                                 title={"Highlights"}
-                                active={ui.highlightsEnabled}
+                                active={ui.highlightsEnabled.enabled}
                                 icon={
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M9 18h6"/>
