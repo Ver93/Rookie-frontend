@@ -9,6 +9,8 @@ import useEngine from "./hooks/useEngine";
 import useTheme from "./hooks/useTheme";
 
 import { useState } from "react";
+
+import { initAudio } from "./utils/sound";
 import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
@@ -57,7 +59,8 @@ function App() {
         
         <div className={styles.appWrapper}>
 
-            <DemoOverlay onStart={() => {}} />
+            <DemoOverlay onStart={() => initAudio()} />
+
 
 
             <div className={styles.mainLayout}>

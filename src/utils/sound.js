@@ -1,21 +1,32 @@
-const sounds = Array.from({ length: 3 }, () => {
-    const audio = new Audio("/gui/sounds/move.mp3");
-    audio.preload = "auto";
-    audio.load();
-    return audio;
-});
+// sound.js
 
-let index = 0;
+let ctx = null;
+let buffer = null;
 
-export function playMoveSound(enabled) {
-    if (!enabled) return;
+export async function initAudio() {
+    if (ctx && buffer) return;
 
-    const audio = sounds[index];
-    index = (index + 1) % sounds.length;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-    audio.currentTime = 0;
+    const res = await fetch("/gui/sounds/move.mp3");
 
-    audio.play().catch(err => {
-        console.error("Failed to play sound:", err);
-    });
+    if (!res.ok) {
+        throw new Error(`Failed to load sound: ${res.status}`);
+    }
+
+    const arrayBuffer = await res.arrayBuffer();
+    buffer = await ctx.decodeAudioData(arrayBuffer);
+}
+
+export async function playMoveSound(enabled) {
+    if (!enabled || !ctx || !buffer) return;
+
+    if (ctx.state === "suspended") {
+        await ctx.resume();
+    }
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start();
 }

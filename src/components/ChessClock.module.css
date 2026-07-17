@@ -16,7 +16,7 @@
     position: relative;
     background: var(--log-button);
     border-radius: 10px;
-    
+
     border: 2px solid var(--log-border);
     
 
@@ -98,8 +98,12 @@
    =========================== */
 .active {
     background: var(--log-active);
-    box-shadow: 0 0 14px var(--accent);
+    border: 1px solid var(--log-active);
+    box-shadow: 0 0 8px var(--accent);
+
+    /* animation: pulseClock 1.6s ease-in-out infinite; */
 }
+
 
 
 /* ===========================
@@ -224,4 +228,19 @@
     margin-left: auto;
     color: var(--accent);
     font-weight: bold;
+}
+
+@keyframes pulseClock {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 8px var(--accent);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.2);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px var(--accent);
+    }
 }
