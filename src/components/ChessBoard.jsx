@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect} from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import styles from "./ChessBoard.module.css";
 
@@ -9,91 +9,79 @@ function ChessBoard({
     onPlayerMove,
     highlightLegal,
     highlightLast,
-    highlightChecks,
     gameInstance,
     lastMove,
 }) {
     const [localHighlights, setLocalHighlights] = useState({});
     const [selectedSquare, setSelectedSquare] = useState(null);
 
-    console.log({
-        highlightLegal,
-        selectedSquare,
-        localHighlights,
-    });
-
-    const computeLegalHighlights = useCallback((square) => {
+    const computeLegalHighlights = useCallback(square => {
         if (!highlightLegal) return {};
         const styles = {};
-        const moves = gameInstance.moves({
-            square,
-            verbose: true
-        });
-        for (const move of moves) {
+        for (const move of gameInstance.moves({ square, verbose: true })) {
             styles[move.to] = {
-                backgroundColor: "rgba(76,175,80,0.5)"
+                backgroundColor: move.captured
+                    ? "rgba(255,165,0,0.65)"
+                    : "rgba(76,175,80,0.5)"
             };
         }
         return styles;
     }, [highlightLegal, gameInstance]);
 
     useEffect(() => {
-        if (!highlightLegal) {
-            setLocalHighlights({});
-        } else if (selectedSquare) {
-            setLocalHighlights(computeLegalHighlights(selectedSquare));
-        }
+        if (!highlightLegal) setLocalHighlights({});
+        else if (selectedSquare) setLocalHighlights(computeLegalHighlights(selectedSquare));
     }, [highlightLegal, selectedSquare, computeLegalHighlights]);
-
-    
 
     const clearSelection = useCallback(() => {
         setSelectedSquare(null);
         setLocalHighlights({});
     }, []);
 
-    const handleSquareClick = useCallback((square) => {
+    const handleSquareClick = useCallback(square => {
+        const piece = gameInstance.get(square);
+
         if (!selectedSquare) {
-            const piece = gameInstance.get(square);
             if (!piece) return;
             setSelectedSquare(square);
             setLocalHighlights(computeLegalHighlights(square));
             return;
         }
+
+        if (piece) {
+            setSelectedSquare(square);
+            setLocalHighlights(computeLegalHighlights(square));
+            return;
+        }
+
         onPlayerMove(selectedSquare, square);
         clearSelection();
     }, [selectedSquare, gameInstance, computeLegalHighlights, onPlayerMove, clearSelection]);
 
-    const handlePieceDragBegin = useCallback((piece, square) => {
+    const handlePieceDragBegin = useCallback((_, square) => {
+        setSelectedSquare(square);
         setLocalHighlights(computeLegalHighlights(square));
     }, [computeLegalHighlights]);
 
-    const handlePieceDrop = useCallback((from, to) => {
-        onPlayerMove(from, to);
-        clearSelection();
-        return true;
+    const handlePieceDrop = useCallback(async (from, to) => {
+        const moved = await onPlayerMove(from, to);
+        if (moved) clearSelection();
+        return moved;
     }, [onPlayerMove, clearSelection]);
 
     const customSquareStyles = useMemo(() => ({
-        ...localHighlights,
-        ...squareStyles
-    }), [localHighlights, squareStyles]);
+        ...squareStyles,
+        ...localHighlights
+    }), [squareStyles, localHighlights]);
 
-    const lastMoveSquares = useMemo(() => {
-        if (!highlightLast || !lastMove) {
-            return undefined;
-        }
-
-        return [
-            lastMove.from,
-            lastMove.to,
-        ];
-    }, [highlightLast, lastMove]);
+    const lastMoveSquares = useMemo(() => (
+        highlightLast && lastMove ? [lastMove.from, lastMove.to] : undefined
+    ), [highlightLast, lastMove]);
 
     return (
         <div className={styles.chessboardWrapper}>
             <div className={styles.chessboardContainer}>
-                <div style={{ width:"100%", height:"100%" }}>
+                <div style={{ width: "100%", height: "100%" }}>
                     <Chessboard
                         position={position}
                         boardOrientation={playerColor}

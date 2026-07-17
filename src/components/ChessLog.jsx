@@ -6,7 +6,7 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
     const [selectedMove, setSelectedMove] = useState(null);
 
     const Icon = ({ d }) => (
-        <svg viewBox="0 0 24 24"><path d={d} /></svg>
+        <svg viewBox="0 0 24px"><path d={d} /></svg>
     );
 
     const icons = {
@@ -17,31 +17,49 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
     };
 
     useEffect(() => {
-        const el = moveListRef.current;
-        if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+        moveListRef.current?.scrollTo({
+            top: moveListRef.current.scrollHeight,
+            behavior: "smooth"
+        });
 
         if (moves.length) {
             const last = moves[moves.length - 1];
-            setSelectedMove({ number: last.number, color: last.black ? "black" : "white" });
-        } else setSelectedMove(null);
+            setSelectedMove({
+                number: last.number,
+                color: last.black ? "black" : "white"
+            });
+        } else {
+            setSelectedMove(null);
+        }
     }, [moves, undoCounter]);
 
     const selectIndex = (index, color) => {
         if (index < 0 || index >= moves.length) return;
-        const fen = color === "white" ? moves[index].whiteFen : moves[index].blackFen;
+
+        const move = moves[index];
+        const fen = color === "white" ? move.whiteFen : move.blackFen;
         if (!fen) return;
 
-        setSelectedMove({ number: moves[index].number, color });
-        onSelectMove?.(fen);
+        const lastMove = color === "white"
+            ? { from: move.whiteFrom, to: move.whiteTo }
+            : { from: move.blackFrom, to: move.blackTo };
+
+        setSelectedMove({ number: move.number, color });
+        onSelectMove?.(fen, lastMove);
     };
 
     const getCurrentIndex = () =>
-        selectedMove ? moves.findIndex(m => m.number === selectedMove.number) : moves.length - 1;
+        selectedMove
+            ? moves.findIndex(m => m.number === selectedMove.number)
+            : moves.length - 1;
 
     return (
         <div className={styles.logContainer}>
             <div className={styles.logMenu}>
-                <button className={styles.menuButton} onClick={() => moves.length && selectIndex(0, "white")}>
+                <button
+                    className={styles.menuButton}
+                    onClick={() => moves.length && selectIndex(0, "white")}
+                >
                     <Icon d={icons.first} />
                 </button>
 
@@ -51,7 +69,8 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
                         const i = getCurrentIndex();
                         if (i < 0) return;
 
-                        if (selectedMove?.color === "black") return selectIndex(i, "white");
+                        if (selectedMove?.color === "black")
+                            return selectIndex(i, "white");
 
                         if (i > 0) {
                             const prev = moves[i - 1];
@@ -69,11 +88,11 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
                         if (i < 0) return;
 
                         const current = moves[i];
-
                         if (selectedMove?.color === "white" && current.black)
                             return selectIndex(i, "black");
 
-                        if (i + 1 < moves.length) selectIndex(i + 1, "white");
+                        if (i + 1 < moves.length)
+                            selectIndex(i + 1, "white");
                     }}
                 >
                     <Icon d={icons.next} />
@@ -94,9 +113,12 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
             <div className={styles.moveList} ref={moveListRef}>
                 {moves.map(move => {
                     const whiteActive =
-                        selectedMove?.number === move.number && selectedMove?.color === "white";
+                        selectedMove?.number === move.number &&
+                        selectedMove?.color === "white";
+
                     const blackActive =
-                        selectedMove?.number === move.number && selectedMove?.color === "black";
+                        selectedMove?.number === move.number &&
+                        selectedMove?.color === "black";
 
                     return (
                         <div className={styles.moveRow} key={move.number}>
@@ -104,7 +126,13 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
 
                             <button
                                 className={`${styles.move} ${whiteActive ? styles.active : ""}`}
-                                onClick={() => onSelectMove?.(move.whiteFen) || setSelectedMove({ number: move.number, color: "white" })}
+                                onClick={() => {
+                                    setSelectedMove({ number: move.number, color: "white" });
+                                    onSelectMove?.(move.whiteFen, {
+                                        from: move.whiteFrom,
+                                        to: move.whiteTo
+                                    });
+                                }}
                             >
                                 {move.white}
                             </button>
@@ -112,7 +140,13 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
                             {move.black && (
                                 <button
                                     className={`${styles.move} ${blackActive ? styles.active : ""}`}
-                                    onClick={() => onSelectMove?.(move.blackFen) || setSelectedMove({ number: move.number, color: "black" })}
+                                    onClick={() => {
+                                        setSelectedMove({ number: move.number, color: "black" });
+                                        onSelectMove?.(move.blackFen, {
+                                            from: move.blackFrom,
+                                            to: move.blackTo
+                                        });
+                                    }}
                                 >
                                     {move.black}
                                 </button>

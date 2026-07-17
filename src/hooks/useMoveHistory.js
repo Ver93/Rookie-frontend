@@ -15,9 +15,13 @@ export default function useMoveHistory() {
                         number: prev.length + 1,
                         white: move.san,
                         whiteFen: fen,
+                        whiteFrom: move.from,
+                        whiteTo: move.to,
                         black: null,
                         blackFen: null,
-                    },
+                        blackFrom: null,
+                        blackTo: null
+                    }
                 ];
             }
 
@@ -27,7 +31,9 @@ export default function useMoveHistory() {
                     ...last,
                     black: move.san,
                     blackFen: fen,
-                },
+                    blackFrom: move.from,
+                    blackTo: move.to
+                }
             ];
         });
     }, []);
@@ -35,10 +41,7 @@ export default function useMoveHistory() {
     const undo = useCallback(() => {
         setLog(prev => {
             const copy = [...prev];
-
-            if (!copy.length) {
-                return copy;
-            }
+            if (!copy.length) return copy;
 
             const last = copy[copy.length - 1];
 
@@ -49,7 +52,9 @@ export default function useMoveHistory() {
                         ...last,
                         black: null,
                         blackFen: null,
-                    },
+                        blackFrom: null,
+                        blackTo: null
+                    }
                 ];
             }
 
@@ -65,10 +70,14 @@ export default function useMoveHistory() {
         setUndoCounter(0);
     }, []);
 
-    const getMoveAt = useCallback(
-        fen => log.find(m => m.whiteFen === fen || m.blackFen === fen) ?? null,
-        [log]
-    );
+    const getMoveAt = useCallback(fen => {
+        const m = log.find(x => x.whiteFen === fen || x.blackFen === fen);
+        if (!m) return null;
+
+        return m.whiteFen === fen
+            ? { from: m.whiteFrom, to: m.whiteTo }
+            : { from: m.blackFrom, to: m.blackTo };
+    }, [log]);
 
     return {
         log,
@@ -76,6 +85,6 @@ export default function useMoveHistory() {
         addMove,
         undo,
         clearHistory,
-        getMoveAt,
+        getMoveAt
     };
 }

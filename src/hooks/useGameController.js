@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-
 import useGame from "./useGame";
 import useEngine from "./useEngine";
 import useMoveHistory from "./useMoveHistory";
@@ -57,9 +56,18 @@ export default function useGameController({ settings, audio }) {
 
     const undoMove = useCallback(() => {
         if (game.isAnalysisMode) game.exitAnalysis();
+
         const undone = game.undoMove();
-        if (undone) history.undo();
-    }, [game, history]);
+        if (!undone) return;
+
+        history.undo();
+
+        if (game.game.history().length === 0) {
+            game.resetGame();
+            history.clearHistory();
+            clock.resetClock();
+        }
+    }, [game, history, clock]);
 
     return {
         gameInstance: game.game,

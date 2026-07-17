@@ -66,6 +66,7 @@ export default function TopControls({ settings, audio, clock }) {
                         }
                         initialTime={clock.initial}
                         increment={clock.inc}
+                        resetKey={game.clockResetKey}
                     />
                 </div>
             </div>

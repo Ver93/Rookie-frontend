@@ -6,10 +6,12 @@ export default function useGame() {
 
     const [position, setPosition] = useState(game.fen());
     const [lastMove, setLastMove] = useState(null);
-    const [gameTurn, setGameTurn] = useState("white");
-    const [gameStarted, setGameStarted] = useState(false);
 
     const [analysisPosition, setAnalysisPosition] = useState(null);
+    const [analysisLastMove, setAnalysisLastMove] = useState(null);
+
+    const [gameTurn, setGameTurn] = useState("white");
+    const [gameStarted, setGameStarted] = useState(false);
     const [isAnalysisMode, setIsAnalysisMode] = useState(false);
 
     const syncGame = useCallback(() => {
@@ -19,39 +21,33 @@ export default function useGame() {
 
     const exitAnalysis = useCallback(() => {
         setAnalysisPosition(null);
+        setAnalysisLastMove(null);
         setIsAnalysisMode(false);
     }, []);
 
-    const viewPosition = useCallback((fen) => {
-        if (fen === game.fen()) {
-            setAnalysisPosition(null);
-            setIsAnalysisMode(false);
-            return;
-        }
-
+    const viewPosition = useCallback((fen, move = null) => {
+        if (fen === game.fen()) return exitAnalysis();
         setAnalysisPosition(fen);
+        setAnalysisLastMove(move);
         setIsAnalysisMode(true);
-    }, [game]);
+    }, [game, exitAnalysis]);
 
-    const makeMove = useCallback(
-        (from, to) => {
-            exitAnalysis();
+    const makeMove = useCallback((from, to) => {
+        exitAnalysis();
 
-            let result;
-            try {
-                result = game.move({ from, to, promotion: "q" });
-            } catch {
-                return false;
-            }
-            if (!result) return false;
+        let result;
+        try {
+            result = game.move({ from, to, promotion: "q" });
+        } catch {
+            return false;
+        }
+        if (!result) return false;
 
-            setLastMove({ from: result.from, to: result.to });
-            setGameStarted(true);
-            syncGame();
-            return result;
-        },
-        [game, syncGame, exitAnalysis]
-    );
+        setLastMove({ from: result.from, to: result.to });
+        setGameStarted(true);
+        syncGame();
+        return result;
+    }, [game, syncGame, exitAnalysis]);
 
     const resetGame = useCallback(() => {
         game.reset();
@@ -62,17 +58,22 @@ export default function useGame() {
     }, [game, syncGame, exitAnalysis]);
 
     const undoMove = useCallback(() => {
-        exitAnalysis();
         const result = game.undo();
         if (!result) return false;
+
+        if (game.history().length === 0) {
+            setLastMove(null);
+            setGameStarted(false);
+        }
+
         syncGame();
         return true;
-    }, [game, syncGame, exitAnalysis]);
+    }, [game, syncGame]);
 
     return {
         game,
         position: analysisPosition ?? position,
-        lastMove,
+        lastMove: analysisLastMove ?? lastMove,
         gameTurn,
         gameStarted,
         isAnalysisMode,
