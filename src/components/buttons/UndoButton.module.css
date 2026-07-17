@@ -1,17 +1,41 @@
 .undoButton {
-    width:40px; height:40px;
-    min-width:40px; max-width:40px;
-    min-height:40px; max-height:40px;
+    width:clamp(32px,4vw,40px);
+    height:clamp(32px,4vw,40px);
+
+    min-width:32px;
+    max-width:40px;
+
+    min-height:32px;
+    max-height:40px;
+
     box-sizing:border-box;
-    border:none; border-radius:10px;
-    background:var(--log-button);
+
+    border:none;
+    border-radius:10px;
+
+    background-color:var(--log-button);
     color:var(--text);
+
     border:1px solid var(--log-border);
+
     cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    padding:0; margin:0; line-height:1;
-    font-size:1.6rem;
-    transition:transform .6s ease, filter .3s ease, background .2s ease, box-shadow .2s ease;
+
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+
+    padding:0;
+    margin:0;
+
+    flex-shrink:0;
+
+    transition:
+    transform .6s ease,
+    filter .3s ease,
+    background .2s ease,
+    box-shadow .2s ease;
 }
 
 .undoButton:hover {
@@ -22,9 +46,11 @@
 .undoButton:active { transform:scale(.94); }
 
 .undoButton span {
-    display:inline-block;
+    font-size:clamp(1.2rem,4vw,1.6rem);
     transform:translateY(-1px);
+
 }
+
 
 .icon {
     display:flex; align-items:center; justify-content:center;

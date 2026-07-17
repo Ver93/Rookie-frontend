@@ -22,12 +22,15 @@ export default function TopControls({ settings, audio, clock }) {
     return (
         <div className={styles.displayWrapper}>
             <div className={styles.topDisplay}>
-                <div className={styles.left}>
+                <div className={styles.buttonGroup}>
                     <ThemeButton
                         title={settings.isDark ? "Dark mode" : "Light mode"}
                         invert={settings.isDark}
                         active={!settings.isDark}
-                        icon={settings.isDark ? <SunIcon className="theme-icon" /> : <MoonIcon className="theme-icon" />}
+                        icon={settings.isDark 
+                            ? <SunIcon className="theme-icon" /> 
+                            : <MoonIcon className="theme-icon" />
+                        }
                         onClick={settings.toggleMode}
                     />
 
@@ -35,7 +38,10 @@ export default function TopControls({ settings, audio, clock }) {
                         title={audio.soundEnabled ? "Disable sound" : "Enable sound"}
                         active={audio.soundEnabled}
                         invert
-                        icon={audio.soundEnabled ? <SoundOnIcon className="theme-icon" /> : <SoundOffIcon className="theme-icon" />}
+                        icon={audio.soundEnabled 
+                            ? <SoundOnIcon className="theme-icon" /> 
+                            : <SoundOffIcon className="theme-icon" />
+                        }
                         onClick={audio.toggleSound}
                     />
 

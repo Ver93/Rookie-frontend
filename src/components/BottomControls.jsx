@@ -1,4 +1,4 @@
-import styles from "./BottomControls.module.css";
+import styles from "./TopControls.module.css";
 
 import EngineIcon from "./icons/EngineIcon";
 import FlipButton from "./buttons/FlipButton";
@@ -24,7 +24,7 @@ export default function BottomControls({ settings, clock }) {
     return (
         <div className={styles.displayWrapper}>
             <div className={styles.topDisplay}>
-                <div className={styles.left}>
+                <div className={styles.buttonGroup}>
                     <FlipButton
                         playerColor={playerColor}
                         title="Switch Colors"
@@ -58,14 +58,15 @@ export default function BottomControls({ settings, clock }) {
                             game.gameTurn === settings.playerColor
                         }
                         initialTime={clock.initial}
-                        resetKey={game.clockResetKey}
                         increment={clock.inc}
+                        resetKey={game.clockResetKey}
                         timeControl={settings.timeControl}
                         canConfigure
                         gameActive={game.gameStarted}
                         onTimeControlChange={settings.setTimeControl}
                     />
                 </div>
+
             </div>
         </div>
     );

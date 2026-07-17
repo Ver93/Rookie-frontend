@@ -54,106 +54,108 @@ export default function ChessLog({ moves = [], onSelectMove, undoCounter }) {
             : moves.length - 1;
 
     return (
-        <div className={styles.logContainer}>
-            <div className={styles.logMenu}>
-                <button
-                    className={styles.menuButton}
-                    onClick={() => moves.length && selectIndex(0, "white")}
-                >
-                    <Icon d={icons.first} />
-                </button>
+        <div className={styles.logWrapper}>
+            <div className={styles.logContainer}>
+                <div className={styles.logMenu}>
+                    <button
+                        className={styles.menuButton}
+                        onClick={() => moves.length && selectIndex(0, "white")}
+                    >
+                        <Icon d={icons.first} />
+                    </button>
 
-                <button
-                    className={styles.menuButton}
-                    onClick={() => {
-                        const i = getCurrentIndex();
-                        if (i < 0) return;
+                    <button
+                        className={styles.menuButton}
+                        onClick={() => {
+                            const i = getCurrentIndex();
+                            if (i < 0) return;
 
-                        if (selectedMove?.color === "black")
-                            return selectIndex(i, "white");
+                            if (selectedMove?.color === "black")
+                                return selectIndex(i, "white");
 
-                        if (i > 0) {
-                            const prev = moves[i - 1];
-                            selectIndex(i - 1, prev.black ? "black" : "white");
-                        }
-                    }}
-                >
-                    <Icon d={icons.prev} />
-                </button>
+                            if (i > 0) {
+                                const prev = moves[i - 1];
+                                selectIndex(i - 1, prev.black ? "black" : "white");
+                            }
+                        }}
+                    >
+                        <Icon d={icons.prev} />
+                    </button>
 
-                <button
-                    className={styles.menuButton}
-                    onClick={() => {
-                        const i = getCurrentIndex();
-                        if (i < 0) return;
+                    <button
+                        className={styles.menuButton}
+                        onClick={() => {
+                            const i = getCurrentIndex();
+                            if (i < 0) return;
 
-                        const current = moves[i];
-                        if (selectedMove?.color === "white" && current.black)
-                            return selectIndex(i, "black");
+                            const current = moves[i];
+                            if (selectedMove?.color === "white" && current.black)
+                                return selectIndex(i, "black");
 
-                        if (i + 1 < moves.length)
-                            selectIndex(i + 1, "white");
-                    }}
-                >
-                    <Icon d={icons.next} />
-                </button>
+                            if (i + 1 < moves.length)
+                                selectIndex(i + 1, "white");
+                        }}
+                    >
+                        <Icon d={icons.next} />
+                    </button>
 
-                <button
-                    className={styles.menuButton}
-                    onClick={() => {
-                        if (!moves.length) return;
-                        const last = moves[moves.length - 1];
-                        selectIndex(moves.length - 1, last.black ? "black" : "white");
-                    }}
-                >
-                    <Icon d={icons.last} />
-                </button>
-            </div>
+                    <button
+                        className={styles.menuButton}
+                        onClick={() => {
+                            if (!moves.length) return;
+                            const last = moves[moves.length - 1];
+                            selectIndex(moves.length - 1, last.black ? "black" : "white");
+                        }}
+                    >
+                        <Icon d={icons.last} />
+                    </button>
+                </div>
 
-            <div className={styles.moveList} ref={moveListRef}>
-                {moves.map(move => {
-                    const whiteActive =
-                        selectedMove?.number === move.number &&
-                        selectedMove?.color === "white";
+                <div className={styles.moveList} ref={moveListRef}>
+                    {moves.map(move => {
+                        const whiteActive =
+                            selectedMove?.number === move.number &&
+                            selectedMove?.color === "white";
 
-                    const blackActive =
-                        selectedMove?.number === move.number &&
-                        selectedMove?.color === "black";
+                        const blackActive =
+                            selectedMove?.number === move.number &&
+                            selectedMove?.color === "black";
 
-                    return (
-                        <div className={styles.moveRow} key={move.number}>
-                            <div className={styles.moveNumber}>{move.number}.</div>
+                        return (
+                            <div className={styles.moveRow} key={move.number}>
+                                <div className={styles.moveNumber}>{move.number}.</div>
 
-                            <button
-                                className={`${styles.move} ${whiteActive ? styles.active : ""}`}
-                                onClick={() => {
-                                    setSelectedMove({ number: move.number, color: "white" });
-                                    onSelectMove?.(move.whiteFen, {
-                                        from: move.whiteFrom,
-                                        to: move.whiteTo
-                                    });
-                                }}
-                            >
-                                {move.white}
-                            </button>
-
-                            {move.black && (
                                 <button
-                                    className={`${styles.move} ${blackActive ? styles.active : ""}`}
+                                    className={`${styles.move} ${whiteActive ? styles.active : ""}`}
                                     onClick={() => {
-                                        setSelectedMove({ number: move.number, color: "black" });
-                                        onSelectMove?.(move.blackFen, {
-                                            from: move.blackFrom,
-                                            to: move.blackTo
+                                        setSelectedMove({ number: move.number, color: "white" });
+                                        onSelectMove?.(move.whiteFen, {
+                                            from: move.whiteFrom,
+                                            to: move.whiteTo
                                         });
                                     }}
                                 >
-                                    {move.black}
+                                    {move.white}
                                 </button>
-                            )}
-                        </div>
-                    );
-                })}
+
+                                {move.black && (
+                                    <button
+                                        className={`${styles.move} ${blackActive ? styles.active : ""}`}
+                                        onClick={() => {
+                                            setSelectedMove({ number: move.number, color: "black" });
+                                            onSelectMove?.(move.blackFen, {
+                                                from: move.blackFrom,
+                                                to: move.blackTo
+                                            });
+                                        }}
+                                    >
+                                        {move.black}
+                                    </button>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

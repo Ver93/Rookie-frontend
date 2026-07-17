@@ -65,14 +65,13 @@ function App() {
 
                     <BottomControls settings={settings} clock={clock} />
 
-                    <div className={styles.chessLogBackground}>
-                        <ChessLog
-                            moves={game.log}
-                            lastMove={game.lastMove}
-                            onSelectMove={game.viewMove}
-                            undoCounter={game.undoCounter}
-                        />
-                    </div>
+                    <ChessLog
+                        moves={game.log}
+                        lastMove={game.lastMove}
+                        onSelectMove={game.viewMove}
+                        undoCounter={game.undoCounter}
+                    />
+                    
                 </div>
             </div>
         </GameProvider>

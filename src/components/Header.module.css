@@ -1,56 +1,75 @@
 .appHeader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
 
-  height: var(--header);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    height:var(--header);
 
-  background: var(--surface);
-  border-bottom: 1px solid var(--card-border);
-  z-index: 5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-  backdrop-filter: blur(var(--card-blur));
-  -webkit-backdrop-filter: blur(var(--card-blur));
-  box-shadow: var(--shadow);
+    background:var(--surface);
+    border-bottom:1px solid var(--card-border);
+
+    z-index:5;
+
+    backdrop-filter:blur(var(--card-blur));
+    -webkit-backdrop-filter:blur(var(--card-blur));
+
+    box-shadow:var(--shadow);
 }
+
 
 .headerButton {
-  background: none;
-  border: 1px solid var(--card-border);
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    min-width:44px;
+    min-height:44px;
+
+    background:none;
+    border:1px solid var(--card-border);
+
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
 }
 
-.headerButton:hover {
-  transform: translateY(-2px);
-}
 
 .headerLeft,
 .headerRight {
-  width: 60px;
-  display: flex;
-  justify-content: center;
+    min-width:60px;
+
+    display:flex;
+    justify-content:center;
 }
+
 
 .headerCenter {
-  flex: 1;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--muted);
+    flex:1;
+
+    text-align:center;
+
+    font-size:1.25rem;
+    font-weight:700;
+
+    color:var(--muted);
 }
 
+
 .icon {
-  width: 22px;
-  height: 22px;
+    width:22px;
+    height:22px;
+}
+
+
+@media(max-width:600px){
+
+    .headerCenter {
+        font-size:1.1rem;
+    }
+
 }
