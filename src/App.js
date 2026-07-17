@@ -9,7 +9,7 @@ import useEngine from "./hooks/useEngine";
 
 import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
-// import { loadSound } from "./utils/sound";
+import { loadSound } from "./utils/sound";
 
 import styles from "./App.module.css";
 
@@ -36,9 +36,9 @@ function App() {
         });
     };
 
-    // useEffect(()=>{
-    //     loadSound();
-    // },[]);
+    useEffect(()=>{
+        loadSound();
+    },[]);
 
     useEffect(() => {
 
