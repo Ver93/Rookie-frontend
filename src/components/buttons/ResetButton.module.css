@@ -17,7 +17,7 @@
     color: var(--text);
 
     border: 1px solid var(--log-border);
-    
+
     cursor: pointer;
 
     display: flex;
@@ -52,8 +52,6 @@
     transform: translateY(-1px);
 }
 
-
-/* ICON */
 .icon {
     display: flex;
     align-items: center;
@@ -66,8 +64,6 @@
     transform: translateY(-1px);
 }
 
-
-/* ROTATION ANIMATION */
 .iconRotate {
     display: flex;
     align-items: center;

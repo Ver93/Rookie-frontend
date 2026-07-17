@@ -36,8 +36,8 @@
 }
 
 .highlightButton:hover {
-    background: var(--log-button-hover);
-    box-shadow: 0 0 12px rgba(var(--accent-rgb), .25);
+    /* background: var(--log-button-hover);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), .25); */
 }
 
 .highlightButton:active {

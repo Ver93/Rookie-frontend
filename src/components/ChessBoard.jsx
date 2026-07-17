@@ -1,5 +1,6 @@
-import { memo, useState, useCallback, useMemo } from "react";
+import { memo, useState, useCallback, useMemo, useEffect} from "react";
 import { Chessboard } from "react-chessboard";
+import styles from "./ChessBoard.module.css";
 
 function ChessBoard({
     position,
@@ -7,11 +8,19 @@ function ChessBoard({
     squareStyles,
     onPlayerMove,
     highlightLegal,
+    highlightLast,
+    highlightChecks,
     gameInstance,
     lastMove,
 }) {
     const [localHighlights, setLocalHighlights] = useState({});
     const [selectedSquare, setSelectedSquare] = useState(null);
+
+    console.log({
+        highlightLegal,
+        selectedSquare,
+        localHighlights,
+    });
 
     const computeLegalHighlights = useCallback((square) => {
         if (!highlightLegal) return {};
@@ -27,6 +36,16 @@ function ChessBoard({
         }
         return styles;
     }, [highlightLegal, gameInstance]);
+
+    useEffect(() => {
+        if (!highlightLegal) {
+            setLocalHighlights({});
+        } else if (selectedSquare) {
+            setLocalHighlights(computeLegalHighlights(selectedSquare));
+        }
+    }, [highlightLegal, selectedSquare, computeLegalHighlights]);
+
+    
 
     const clearSelection = useCallback(() => {
         setSelectedSquare(null);
@@ -61,28 +80,35 @@ function ChessBoard({
     }), [localHighlights, squareStyles]);
 
     const lastMoveSquares = useMemo(() => {
-        if (!lastMove) return undefined;
+        if (!highlightLast || !lastMove) {
+            return undefined;
+        }
+
         return [
             lastMove.from,
-            lastMove.to
+            lastMove.to,
         ];
-    }, [lastMove]);
+    }, [highlightLast, lastMove]);
 
     return (
-        <div style={{ width:"100%", height:"100%" }}>
-            <Chessboard
-                position={position}
-                boardOrientation={playerColor}
-                customSquareStyles={customSquareStyles}
-                onSquareClick={handleSquareClick}
-                onPieceDragBegin={handlePieceDragBegin}
-                onPieceDrop={handlePieceDrop}
-                arePiecesDraggable={true}
-                animationDuration={100}
-                lastMove={lastMoveSquares}
-            />
+        <div className={styles.chessboardWrapper}>
+            <div className={styles.chessboardContainer}>
+                <div style={{ width:"100%", height:"100%" }}>
+                    <Chessboard
+                        position={position}
+                        boardOrientation={playerColor}
+                        customSquareStyles={customSquareStyles}
+                        onSquareClick={handleSquareClick}
+                        onPieceDragBegin={handlePieceDragBegin}
+                        onPieceDrop={handlePieceDrop}
+                        arePiecesDraggable={true}
+                        animationDuration={100}
+                        lastMove={lastMoveSquares}
+                    />
+                </div>
+            </div>
         </div>
     );
 }
 
-export default memo(ChessBoard);
+export default ChessBoard;

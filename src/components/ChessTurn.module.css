@@ -1,176 +1,83 @@
 .chessTurn {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 120px;
-    height: 36px;
-
-    padding: 0 14px;
-
-    border-radius: 20px;
-
-    font-size: clamp(0.75rem, 2vw, 1rem);
-
-    font-weight: 600;
-
-    letter-spacing: 0.4px;
-
-    color: var(--text);
-
-    background: var(--bg);
-
-    border: 2px solid var(--muted);
-
-    box-sizing: border-box;
-
-    transition:
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        transform 0.25s ease;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-width:120px;
+    height:36px;
+    padding:0 14px;
+    border-radius:20px;
+    font-size:clamp(.75rem,2vw,1rem);
+    font-weight:600;
+    letter-spacing:.4px;
+    color:var(--text);
+    background:var(--bg);
+    border:2px solid var(--muted);
+    box-sizing:border-box;
+    transition:background .25s ease, box-shadow .25s ease, transform .25s ease;
 }
 
-
-/* Din tur */
-.playerTurn {
-
-    color: var(--text);
-
-    background: var(--log-button);
-
-    border-color: #2e6eb5;
-
-    box-shadow:
-        0 0 12px rgba(46,110,181,0.35);
-
-    animation: waitingPulse 2s ease-in-out infinite;
-}
-
-
-/* Motståndarens tur */
+.playerTurn,
 .enemyTurn {
-
-    color: var(--text);
-
-    background: var(--log-button);
-
-    border-color: #2e6eb5;
-
-    box-shadow:
-        0 0 12px rgba(46,110,181,0.35);
-    animation: waitingPulse 2s ease-in-out infinite;
+    color:var(--text);
+    background:var(--log-button);
+    border-color:#2e6eb5;
+    box-shadow:0 0 12px rgba(46,110,181,.35);
+    animation:waitingPulse 2s ease-in-out infinite;
 }
 
-
-/* AI tänker */
 .thinking {
-
-    color: #8cff8c;
-
-    background: rgba(76,175,80,0.12);
-
-    border-color: #4caf50;
-
-    box-shadow:
-        0 0 12px rgba(76,175,80,0.35);
+    color:#8cff8c;
+    background:rgba(76,175,80,.12);
+    border-color:#4caf50;
+    box-shadow:0 0 12px rgba(76,175,80,.35);
 }
-
-
 
 .thinkingWrapper {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
 }
-
-
 
 .dot {
-
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: #6ea8ff;
-
-    margin-right: 8px;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#6ea8ff;
+    margin-right:8px;
 }
 
-
-
 .spinner {
-
-    width: 16px;
-
-    height: 16px;
-
-    border: 3px solid #4caf50;
-
-    border-top-color: transparent;
-
-    border-radius: 50%;
-
-    animation: spin 0.8s linear infinite;
+    width:16px;
+    height:16px;
+    border:3px solid #4caf50;
+    border-top-color:transparent;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
 }
 
 .waiting {
-    color: var(--text);
-    background: var(--bg);
-
-    /* animation: waitingPulse 2s ease-in-out infinite; */
+    color:var(--text);
+    background:var(--bg);
 }
 
 .waitingDot {
-    background: #ffcc00;
-    animation: dotPulse 1.5s ease-in-out infinite;
+    background:#ffcc00;
+    animation:dotPulse 1.5s ease-in-out infinite;
 }
 
-
 @keyframes waitingPulse {
-
-    0% {
-        opacity: 0.55;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0.55;
-    }
-
+    0% { opacity:.55; }
+    50% { opacity:1; }
+    100% { opacity:.55; }
 }
 
 @keyframes dotPulse {
-
-    0% {
-        opacity: 0.55;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0.55;
-    }
-
+    0% { opacity:.55; }
+    50% { opacity:1; }
+    100% { opacity:.55; }
 }
 
-
-
 @keyframes spin {
-
-    to {
-        transform: rotate(360deg);
-    }
-
+    to { transform:rotate(360deg); }
 }

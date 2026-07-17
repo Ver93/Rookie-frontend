@@ -10,85 +10,58 @@ export default function EngineButton({
     difficulty = "normal",
     onDifficultyChange
 }) {
-
     const [open, setOpen] = useState(false);
+    const inverted = invert && !active;
 
-
-    const selectDifficulty = (value) => {
+    const selectDifficulty = value => {
         onDifficultyChange(value);
         setOpen(false);
     };
 
-
     return (
         <div className={styles.engineWrapper}>
-
             <button
                 className={`${styles.engineButton} ${active ? styles.active : ""}`}
-                onClick={() => setOpen(!open)}
+                onClick={() => setOpen(o => !o)}
                 title={title}
-                style={{
-                    filter: invert && !active ? "invert(1)" : "invert(0)"
-                }}
+                style={{ filter: inverted ? "invert(1)" : "invert(0)" }}
             >
                 {icon}
             </button>
 
-
-            <div
-                className={`${styles.engineMenu} ${open ? styles.open : ""}`}
-            >
-
-                <div className={styles.menuTitle}>
-                    Engine difficulty
-                </div>
-
+            <div className={`${styles.engineMenu} ${open ? styles.open : ""}`}>
+                <div className={styles.menuTitle}>Engine difficulty</div>
 
                 <div className={styles.difficultyRow}>
+                    <button
+                        className={`${styles.difficultyButton} ${difficulty === 3 ? styles.selected : ""}`}
+                        onClick={() => selectDifficulty(3)}
+                    >
+                        Easy
+                    </button>
 
-            <button
-                className={`${styles.difficultyButton} ${
-                    difficulty === 3 ? styles.selected : ""
-                }`}
-                onClick={() => selectDifficulty(3)}
-            >
-                🐣 Easy
-            </button>
+                    <button
+                        className={`${styles.difficultyButton} ${difficulty === 5 ? styles.selected : ""}`}
+                        onClick={() => selectDifficulty(5)}
+                    >
+                        Normal
+                    </button>
 
+                    <button
+                        className={`${styles.difficultyButton} ${difficulty === 7 ? styles.selected : ""}`}
+                        onClick={() => selectDifficulty(7)}
+                    >
+                        Hard
+                    </button>
 
-            <button
-                className={`${styles.difficultyButton} ${
-                    difficulty === 5 ? styles.selected : ""
-                }`}
-                onClick={() => selectDifficulty(5)}
-            >
-                ⚙️ Normal
-            </button>
-
-
-            <button
-                className={`${styles.difficultyButton} ${
-                    difficulty === 7 ? styles.selected : ""
-                }`}
-                onClick={() => selectDifficulty(7)}
-            >
-                ⚔️ Hard
-            </button>
-
-
-            <button
-                className={`${styles.difficultyButton} ${
-                    difficulty === 8 ? styles.selected : ""
-                }`}
-                onClick={() => selectDifficulty(9)}
-            >
-                🔥 Expert
-            </button>
-
+                    <button
+                        className={`${styles.difficultyButton} ${difficulty === 9 ? styles.selected : ""}`}
+                        onClick={() => selectDifficulty(9)}
+                    >
+                        Expert
+                    </button>
                 </div>
-
             </div>
-
         </div>
     );
 }

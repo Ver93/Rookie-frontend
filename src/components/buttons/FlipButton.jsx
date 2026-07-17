@@ -13,16 +13,14 @@ export default function FlipButton({
     const [mirrored, setMirrored] = useState(false);
 
     const handleClick = () => {
-
         if (animate) {
-            setRotation(prev => prev === 0 ? 360 : 0); 
-            setMirrored(prev => !prev);
+            setRotation(r => (r === 0 ? 360 : 0));
+            setMirrored(m => !m);
         }
-        
+
         if (invert) {
-            setInverted(prev => !prev);
+            setInverted(i => !i);
         }
-        
 
         onFlip?.();
     };
@@ -34,14 +32,12 @@ export default function FlipButton({
             title={title}
             style={{
                 transform: `rotate(${rotation}deg)`,
-                filter: invert && inverted ? "invert(1)" : "invert(0)"
+                filter: inverted ? "invert(1)" : "invert(0)"
             }}
         >
             <span
                 className={styles.knight}
-                style={{
-                    transform: mirrored ? "scaleX(-1)" : "scaleX(1)"
-                }}
+                style={{ transform: mirrored ? "scaleX(-1)" : "scaleX(1)" }}
             >
                 {icon}
             </span>

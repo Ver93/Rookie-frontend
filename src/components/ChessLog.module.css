@@ -1,167 +1,100 @@
-/* ===========================
-   LOG CONTAINER
-   =========================== */
 .logContainer {
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-
-    background: var(--bg);
-    border: 2px solid var(--log-border);
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    height:100%;
+    min-height:0;
+    background:var(--bg);
+    border:2px solid var(--log-border);
 }
 
-
-/* ===========================
-   NAVIGATION MENU
-   =========================== */
 .logMenu {
-    display: flex;
-    width: 100%;
-    flex-shrink: 0;
-
-    background: var(--log-menu);
-    border-bottom: 1px solid var(--log-border);
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    z-index: 2;
-    /* border: 1px solid var(--log-border); */
+    display:flex;
+    width:100%;
+    flex-shrink:0;
+    background:var(--log-menu);
+    border-bottom:1px solid var(--log-border);
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+    z-index:2;
 }
 
-
-/* ===========================
-   MENU BUTTONS
-   =========================== */
 .menuButton {
-    display: flex;
-    flex: 1;
-
-    justify-content: center;
-    align-items: center;
-
-    height: 32px;
-
-    background: var(--log-button);
-    color: var(--muted);
-
-    border: 1px solid var(--log-border);
-
-    border: none;
-    outline: none;
-    cursor: pointer;
-
-    transition:
-        background 0.15s ease,
-        color 0.15s ease;
+    display:flex;
+    flex:1;
+    justify-content:center;
+    align-items:center;
+    height:32px;
+    background:var(--log-button);
+    color:var(--muted);
+    border:none;
+    outline:none;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
 }
 
 .menuButton svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-    
+    width:20px;
+    height:20px;
+    fill:currentColor;
 }
 
 .menuButton:hover {
-    background: var(--log-button-hover);
-    color: var(--text);
+    background:var(--log-button-hover);
+    color:var(--text);
 }
 
-
-/* ===========================
-   MOVE LIST
-   =========================== */
 .moveList {
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-
-    overflow-y: auto;
-    
-
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.2) transparent;
+    width:100%;
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(255,255,255,.2) transparent;
 }
 
-/* Chrome / Edge scrollbar */
-.moveList::-webkit-scrollbar {
-    width: 6px;
-}
-
-.moveList::-webkit-scrollbar-track {
-    background: transparent;
-}
-
+.moveList::-webkit-scrollbar { width:6px; }
+.moveList::-webkit-scrollbar-track { background:transparent; }
 .moveList::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2);
-    border-radius: 10px;
+    background:rgba(255,255,255,.2);
+    border-radius:10px;
 }
 
-
-/* ===========================
-   MOVE ROW
-   =========================== */
 .moveRow {
-    display: grid;
-    grid-template-columns: 45px 1fr 1fr;
-
-    min-height: 32px;
-
-    border-bottom: 1px solid var(--log-border);
+    display:grid;
+    grid-template-columns:45px 1fr 1fr;
+    min-height:32px;
+    border-bottom:1px solid var(--log-border);
 }
 
-
-/* ===========================
-   MOVE NUMBER
-   =========================== */
 .moveNumber {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: var(--log-number);
-    color: var(--muted);
-    
-    font-size: 0.85rem;
-    border: none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--log-number);
+    color:var(--muted);
+    font-size:.85rem;
+    border:none;
 }
 
-
-/* ===========================
-   MOVE BUTTON
-   =========================== */
 .move {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: transparent;
-    color: var(--text);
-
-    border: none;
-    outline: none;
-    cursor: pointer;
-
-    transition:
-        background 0.15s ease,
-        color 0.15s ease;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:transparent;
+    color:var(--text);
+    border:none;
+    outline:none;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
 }
 
 .move:hover {
-    background: var(--log-button-hover);
-    color: var(--text);
+    background:var(--log-button-hover);
+    color:var(--text);
 }
 
-
-/* ===========================
-   ACTIVE MOVE
-   =========================== */
 .active {
-    background: var(--log-active);
-    color: var(--text);
-
-    box-shadow:
-        inset 0 0 0 1px var(--accent);
+    background:var(--log-active);
+    color:var(--text);
+    box-shadow:inset 0 0 0 1px var(--accent);
 }

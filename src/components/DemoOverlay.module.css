@@ -6,11 +6,10 @@
     flex-direction: column;
     align-items: center;
 
-    /* Titel + undertitel i mitten */
     justify-content: center;
 
     background: rgba(10, 10, 10, 0.35);
-    backdrop-filter: blur(22px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
 
     animation: overlayFade .45s ease;
     z-index: 9999;
@@ -19,26 +18,17 @@
     cursor: pointer;
 }
 
-/* EXIT ANIMATION */
 .slideUp {
     animation: slideUp .55s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-@keyframes slideUp {
-    0% { transform: translateY(0); opacity: 1; filter: blur(0px); }
-    40% { opacity: .85; filter: blur(2px); }
-    70% { opacity: .45; filter: blur(6px); }
-    100% { transform: translateY(-60%); opacity: 0; filter: blur(12px); }
-}
-
-/* TITLE */
 .titleWrapper {
     margin-bottom: 0.8rem;
 }
 
 .title {
     margin: 0;
-    font-size: 2.4rem; /* mindre */
+    font-size: 2.4rem;
     font-weight: 700;
     letter-spacing: 0.03em;
     color: white;
@@ -51,22 +41,12 @@
     width: .45em;
 }
 
-/* LETTER ANIMATION */
 .letter {
     display: inline-block;
     animation: jump 3s cubic-bezier(.22,1,.36,1) infinite;
     animation-delay: var(--delay);
 }
 
-@keyframes jump {
-    0%   { transform: translateY(0); }
-    10%  { transform: translateY(-14px); }
-    20%  { transform: translateY(4px); }
-    30%  { transform: translateY(0); }
-    100% { transform: translateY(0); }
-}
-
-/* PRESS TEXT */
 .pressText {
     margin-top: 0.4rem;
     font-size: 1.1rem;
@@ -79,20 +59,12 @@
     animation: textPulse 2.2s ease-in-out infinite;
 }
 
-@keyframes textPulse {
-    0%   { opacity: 0.45; transform: translateY(2px); }
-    50%  { opacity: 1;   transform: translateY(0); }
-    100% { opacity: 0.45; transform: translateY(2px); }
-}
-
-/* CIRCLE ICON — alltid längst ned */
 .circleIcon {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     border: 3px solid rgba(255,255,255,0.75);
 
-    /* 🔥 Detta placerar cirkeln längst ned */
     position: absolute;
     bottom: 2.5rem;
 
@@ -109,4 +81,23 @@
 @keyframes overlayFade {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+@keyframes textPulse {
+    0%   { opacity: 0.45; transform: translateY(2px); }
+    50%  { opacity: 1;   transform: translateY(0); }
+    100% { opacity: 0.45; transform: translateY(2px); }
+}
+
+@keyframes jump {
+    0%   { transform: translateY(0); }
+    10%  { transform: translateY(-14px); }
+    20%  { transform: translateY(4px); }
+    30%  { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(0); opacity: 1; filter: blur(0px); }
+    100% { transform: translateY(-60%); opacity: 0; filter: blur(12px); }
 }

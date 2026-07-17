@@ -37,8 +37,8 @@
 }
 
 .flipButton:hover {
-    background: var(--log-button-hover);
-    box-shadow: 0 0 12px rgba(var(--accent-rgb), .25);
+    /* background: var(--log-button-hover);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), .25); */
 }
 
 .flipButton:active {
@@ -50,8 +50,6 @@
     transform: translateY(-1px);
 }
 
-
-/* ICON */
 .icon {
     display: flex;
     align-items: center;
@@ -64,8 +62,6 @@
     transform: translateY(-1px);
 }
 
-
-/* ROTATION ANIMATION */
 .iconRotate {
     display: flex;
     align-items: center;

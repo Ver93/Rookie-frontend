@@ -2,11 +2,6 @@
     position: relative;
 }
 
-
-/* ==========================
-   ENGINE BUTTON
-========================== */
-
 .engineButton {
     width: 40px;
     height: 40px;
@@ -33,17 +28,12 @@
 .engineButton:hover {
     background: var(--log-button-hover);
     box-shadow: 0 0 12px rgba(var(--accent-rgb), .25);
-    /* transform: translateY(-2px) rotate(20deg); */
 }
 
 .engineButton:active {
     transform: scale(.94);
 }
 
-
-/* ==========================
-   ENGINE MENU
-========================== */
 
 .engineMenu {
     position: absolute;
@@ -86,11 +76,6 @@
     pointer-events: auto;
 }
 
-
-/* ==========================
-   TITLE
-========================== */
-
 .menuTitle {
     color: var(--muted);
     font-size: 12px;
@@ -99,11 +84,6 @@
     letter-spacing: .08em;
     margin-bottom: 12px;
 }
-
-
-/* ==========================
-   DIFFICULTY BUTTONS
-========================== */
 
 .difficultyRow {
     display: flex;
@@ -148,11 +128,6 @@
 .difficultyButton:active {
     transform: scale(.97);
 }
-
-
-/* ==========================
-   ACTIVE / SELECTED
-========================== */
 
 .difficultyButton.selected {
     background:
