@@ -64,8 +64,8 @@ function App() {
         <div className={styles.appWrapper}>
 
             <DemoOverlay onStart={() => {
-                setSoundEnabled(true);
-                playMoveSound(true);
+                // setSoundEnabled(true);
+                // playMoveSound(true);
             }} />
 
 

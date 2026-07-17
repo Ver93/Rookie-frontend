@@ -7,7 +7,7 @@ export default function DemoOverlay({ onStart }) {
     const [finished, setFinished] = useState(false);
 
     const startY = useRef(null);
-    const started = useRef(false);
+    const buttonRef = useRef(null);
 
     const text = "Rookie GUI";
 
@@ -20,18 +20,21 @@ export default function DemoOverlay({ onStart }) {
     }, [text]);
 
     function startDemo() {
-        if (started.current) return;
-
-        started.current = true;
         setHide(true);
 
         setTimeout(() => {
-            onStart();
+            setFinished(true);
         }, 550);
     }
 
     function handleTouchStart(e) {
         startY.current = e.touches[0].clientY;
+
+        // 🔥 Safari trusted gesture unlock
+        // Detta triggar knappen direkt när man börjar swipa
+        if (buttonRef.current) {
+            buttonRef.current.click();
+        }
     }
 
     function handleTouchEnd(e) {
@@ -41,18 +44,10 @@ export default function DemoOverlay({ onStart }) {
         const distance = startY.current - endY;
 
         if (distance > 60) {
-            onStart();
-            startDemo();
+            startDemo(); // animation + hide
         }
-
 
         startY.current = null;
-    }
-
-    function handleAnimationEnd() {
-        if (hide) {
-            setFinished(true);
-        }
     }
 
     if (finished) return null;
@@ -62,8 +57,14 @@ export default function DemoOverlay({ onStart }) {
             className={`${styles.demoOverlay} ${hide ? styles.slideUp : ""}`}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            onAnimationEnd={handleAnimationEnd}
         >
+            {/* Osynlig knapp som triggas av swipe */}
+            <button
+                ref={buttonRef}
+                className={styles.hiddenButton}
+                onClick={onStart}
+            />
+
             <div className={styles.titleWrapper}>
                 <h1 className={styles.title}>
                     {letters.map(({ char, key, delay }) =>
