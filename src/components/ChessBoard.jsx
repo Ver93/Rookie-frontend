@@ -17,15 +17,15 @@ function ChessBoard({
 
     const computeLegalHighlights = useCallback(square => {
         if (!highlightLegal) return {};
-        const styles = {};
-        for (const move of gameInstance.moves({ square, verbose: true })) {
-            styles[move.to] = {
-                backgroundColor: move.captured
+        const out = {};
+        for (const m of gameInstance.moves({ square, verbose: true })) {
+            out[m.to] = {
+                backgroundColor: m.captured
                     ? "rgba(255,165,0,0.65)"
                     : "rgba(76,175,80,0.5)"
             };
         }
-        return styles;
+        return out;
     }, [highlightLegal, gameInstance]);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ function ChessBoard({
         setLocalHighlights({});
     }, []);
 
-    const handleSquareClick = useCallback(square => {
+    const handleSquareClick = useCallback(async square => {
         const piece = gameInstance.get(square);
 
         if (!selectedSquare) {
@@ -48,14 +48,24 @@ function ChessBoard({
             return;
         }
 
-        if (piece) {
-            setSelectedSquare(square);
-            setLocalHighlights(computeLegalHighlights(square));
+        if (selectedSquare === square) {
+            clearSelection();
             return;
         }
 
-        onPlayerMove(selectedSquare, square);
-        clearSelection();
+        const moves = gameInstance.moves({ square: selectedSquare, verbose: true });
+        const legal = moves.find(m => m.to === square);
+
+        if (legal) {
+            const moved = await onPlayerMove(selectedSquare, square);
+            if (moved) clearSelection();
+            return;
+        }
+
+        if (piece) {
+            setSelectedSquare(square);
+            setLocalHighlights(computeLegalHighlights(square));
+        }
     }, [selectedSquare, gameInstance, computeLegalHighlights, onPlayerMove, clearSelection]);
 
     const handlePieceDragBegin = useCallback((_, square) => {
@@ -74,9 +84,10 @@ function ChessBoard({
         ...localHighlights
     }), [squareStyles, localHighlights]);
 
-    const lastMoveSquares = useMemo(() => (
-        highlightLast && lastMove ? [lastMove.from, lastMove.to] : undefined
-    ), [highlightLast, lastMove]);
+    const lastMoveSquares = useMemo(() =>
+        highlightLast && lastMove ? [lastMove.from, lastMove.to] : undefined,
+        [highlightLast, lastMove]
+    );
 
     return (
         <div className={styles.chessboardWrapper}>
