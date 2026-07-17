@@ -16,19 +16,28 @@
     z-index: 9999;
 }
 
-/* SLIDE UP EXIT */
 .slideUp {
-    animation: slideUp .45s ease forwards;
+    animation: slideUp .55s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 @keyframes slideUp {
     0% {
         transform: translateY(0);
         opacity: 1;
+        filter: blur(0px);
+    }
+    40% {
+        opacity: .85;
+        filter: blur(2px);
+    }
+    70% {
+        opacity: .45;
+        filter: blur(6px);
     }
     100% {
-        transform: translateY(-40%);
+        transform: translateY(-55%);
         opacity: 0;
+        filter: blur(12px);
     }
 }
 

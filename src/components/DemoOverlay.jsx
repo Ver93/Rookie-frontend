@@ -4,6 +4,7 @@ import styles from "./DemoOverlay.module.css";
 
 export default function DemoOverlay({ onStart }) {
     const [hide, setHide] = useState(false);
+    const [finished, setFinished] = useState(false);
 
     const startY = useRef(null);
     const started = useRef(false);
@@ -24,9 +25,10 @@ export default function DemoOverlay({ onStart }) {
         started.current = true;
         setHide(true);
 
+        // Kör demo efter animationen
         setTimeout(() => {
             onStart();
-        }, 450); // matchar slideUp-animationen
+        }, 550);
     }
 
     function handleTouchStart(e) {
@@ -39,21 +41,30 @@ export default function DemoOverlay({ onStart }) {
         const endY = e.changedTouches[0].clientY;
         const distance = startY.current - endY;
 
-        if (distance > 80) startDemo();
+        if (distance > 60) {
+            onStart();
+            startDemo();
+        }
+
 
         startY.current = null;
     }
 
-    // Ta bort overlayen helt efter animationen
-    if (hide) return null;
+    function handleAnimationEnd() {
+        if (hide) {
+            setFinished(true);
+        }
+    }
+
+    if (finished) return null;
 
     return (
         <div
             className={`${styles.demoOverlay} ${hide ? styles.slideUp : ""}`}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
+            onAnimationEnd={handleAnimationEnd}
         >
-            {/* TITLE */}
             <div className={styles.titleWrapper}>
                 <h1 className={styles.title}>
                     {letters.map(({ char, key, delay }) =>
@@ -72,10 +83,8 @@ export default function DemoOverlay({ onStart }) {
                 </h1>
             </div>
 
-            {/* SWIPE TEXT */}
             <p className={styles.swipeText}>Swipe up to try demo</p>
 
-            {/* BOTTOM CHEVRONS */}
             <div className={styles.bottomChevrons}>
                 <ChevronUp className={styles.chevron1} />
                 <ChevronUp className={styles.chevron2} />
