@@ -1,36 +1,23 @@
-let moveSound = null;
+let audioContext;
+let moveBuffer;
 
-function getMoveSound() {
+async function loadSound() {
+    audioContext = new AudioContext();
 
-    if (!moveSound) {
-        moveSound = new Audio("/gui/sounds/move.mp3");
-        moveSound.volume = 1.0;
+    const response = await fetch("/gui/sounds/move.mp3");
+    const data = await response.arrayBuffer();
 
-        moveSound.addEventListener("canplaythrough", () => {
-            console.log("Sound loaded");
-        });
-
-        moveSound.addEventListener("error", (e) => {
-            console.log("Sound error", e);
-        });
-    }
-
-    return moveSound;
+    moveBuffer = await audioContext.decodeAudioData(data);
 }
+
 export function playMoveSound(enabled) {
+    if (!enabled || !moveBuffer) return;
 
-    if (!enabled)
-        return;
+    const source = audioContext.createBufferSource();
 
-    const sound = getMoveSound();
+    source.buffer = moveBuffer;
 
-    sound.currentTime = 0;
+    source.connect(audioContext.destination);
 
-    sound.play()
-        .then(() => {
-            console.log("Sound playing");
-        })
-        .catch(err => {
-            console.log("Sound blocked:", err);
-        });
+    source.start(0);
 }

@@ -10,10 +10,8 @@ export default function useHighlights(
         highlightChecks = true
     } = options;
 
-
     return useMemo(() => {
         const styles = {};
-
 
         if (highlightLast && lastMove) {
             styles[lastMove.from] = {
@@ -26,7 +24,6 @@ export default function useHighlights(
                     "rgba(110,168,255,0.55)"
             };
         }
-
 
         if (highlightChecks && game.isCheck()) {
             const board = game.board();
@@ -51,10 +48,7 @@ export default function useHighlights(
                 }
             }
         }
-
-
         return styles;
-
     }, [
         game,
         lastMove,

@@ -7,7 +7,7 @@ export default function ThinkingSpinner() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
-        }}>
+ }}>
             
         <div className={styles.spinner} />
             <div style={{ marginTop: "8px", color: "#4caf50" }}>

@@ -1,4 +1,4 @@
-import styles from "./CustomButton.module.css";
+import styles from "./HighlightButton.module.css";
 
 export default function HighlightButton({
     onClick,

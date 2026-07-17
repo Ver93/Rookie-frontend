@@ -9,15 +9,15 @@ import useEngine from "./hooks/useEngine";
 
 import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
-// import { unlockSound } from "./utils/sound";
 
 import styles from "./App.module.css";
-import FlipButton from "./components/FlipButton";
-import EngineButton from "./components/EngineButton";
-import UndoButton from "./components/UndoButton";
-import HighlightButton from "./components/HighlightButton";
-import SoundButton from "./components/SoundButton";
-import ThemeButton from "./components/ThemeButton";
+
+import FlipButton from "./components/buttons/FlipButton";
+import EngineButton from "./components/buttons/EngineButton";
+import UndoButton from "./components/buttons/UndoButton";
+import HighlightButton from "./components/buttons/HighlightButton";
+import SoundButton from "./components/buttons/SoundButton";
+import ThemeButton from "./components/buttons/ThemeButton";
 
 function App() {
     const ui = useUIState();

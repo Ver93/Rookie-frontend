@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./CustomButton.module.css";
+import styles from "./FlipButton.module.css";
 
 export default function FlipButton({
     onFlip,
