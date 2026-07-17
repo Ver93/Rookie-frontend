@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
+import { playMoveSound } from "../utils/sound";
 
 import FlipButton from "./components/buttons/FlipButton";
 import EngineButton from "./components/buttons/EngineButton";
@@ -63,8 +64,7 @@ function App() {
         <div className={styles.appWrapper}>
 
             <DemoOverlay onStart={() => {
-                setSoundEnabled(false);
-                setSoundEnabled(true);
+                playMoveSound(true);
             }} />
 
 
