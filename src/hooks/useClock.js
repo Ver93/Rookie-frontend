@@ -25,7 +25,7 @@ export function useClock(initialTime, active, increment, resetSignal) {
         return () => clearInterval(interval);
     }, [active]);
 
-    useEffect(() => setTime(initialTime), [resetSignal]);
+    useEffect(() => setTime(initialTime), [resetSignal, initialTime]);
 
     return [time, setTime];
 }

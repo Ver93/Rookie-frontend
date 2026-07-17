@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useMemo, useEffect} from "react";
+import { useState, useCallback, useMemo, useEffect} from "react";
 import { Chessboard } from "react-chessboard";
 import styles from "./ChessBoard.module.css";
 
