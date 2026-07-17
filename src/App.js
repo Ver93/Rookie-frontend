@@ -26,12 +26,6 @@ function App() {
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [darkMode, setDarkMode] = useState(true);
 
-    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
-    const [highlightLegal, setHighlightLegal] = useState(true);
-    const [highlightChecks, setHighlightChecks] = useState(true);
-    const [highlightLast, setHighlightLast] = useState(true);
-    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
-
     const setHighlights = (value) => {
         ui.setHighlightSettings({
             enabled: value,
@@ -181,7 +175,7 @@ function App() {
 
                             <HighlightButton
                                 title={"Highlights"}
-                                active={ui.highlightsEnabled.enabled}
+                                active={ui.highlightSettings.enabled}
                                 icon={
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M9 18h6"/>
@@ -191,7 +185,7 @@ function App() {
                                 }
                                 invert={true}
                                 onClick={() => {
-                                    const value = !ui.highlightsEnabled;
+                                    const value = !ui.highlightSettings.enabled;
                                     setHighlights(value);
                                 }}
                             />
@@ -235,23 +229,23 @@ function App() {
 
                     <div className={styles.chessBoardContainer}>
 
-                    <ChessBoard
-                        position={engine.position}
-                        playerColor={playerColor}
-                        squareStyles={engine.squareStyles}
-                        gameInstance={engine.gameInstance}
-                        lastMove={engine.lastMove}
-                        onPlayerMove={engine.onPlayerMove}
+                            <ChessBoard
+                                position={engine.position}
+                                playerColor={playerColor}
+                                squareStyles={engine.squareStyles}
+                                gameInstance={engine.gameInstance}
+                                lastMove={engine.lastMove}
+                                onPlayerMove={engine.onPlayerMove}
 
-                        highlightLegal={
-                            ui.highlightLegal &&
-                            !engine.isAnalysisMode
-                        }
+                                highlightLegal={
+                                    ui.highlightSettings.legal &&
+                                    !engine.isAnalysisMode
+                                }
 
-                        highlightLast={ui.highlightLast}
-                        highlightChecks={ui.highlightChecks}
-                        analysisMode={engine.isAnalysisMode}
-                    />
+                                highlightLast={ui.highlightSettings.last}
+                                highlightChecks={ui.highlightSettings.checks}
+                                analysisMode={engine.isAnalysisMode}
+                            />
                     </div>
 
                 </div>
