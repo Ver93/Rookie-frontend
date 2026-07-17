@@ -2,35 +2,23 @@ import styles from "./ThemeButton.module.css";
 
 export default function ThemeButton({
     onClick,
-    invert = true,
+    invert = false,
     icon = "",
-    title
+    title,
+    active = false
 }) {
 
     return (
-
         <button
-
-            className={styles.themeButton}
-
+            className={`${styles.themeButton} ${
+                invert ? styles.invert : ""
+            } ${
+                active ? styles.active : ""
+            }`}
             onClick={onClick}
-
             title={title}
-
-            style={{
-
-                filter:
-                    invert
-                        ? "invert(1)"
-                        : "invert(0)"
-
-            }}
-
         >
-
             {icon}
-
         </button>
-
     );
 }

@@ -1,54 +1,59 @@
 .themeButton {
+    width: 40px;
+    height: 40px;
 
-    width:40px;
-    height:40px;
+    min-width: 40px;
+    max-width: 40px;
 
-    min-width:40px;
-    max-width:40px;
+    min-height: 40px;
+    max-height: 40px;
 
-    min-height:40px;
-    max-height:40px;
+    box-sizing: border-box;
 
-    box-sizing:border-box;
+    border: none;
+    border-radius: 10px;
 
-    border:none;
-    border-radius:10px;
+    background-color: var(--log-button);
+    color: var(--text);
 
-    background-color:#202020;
+    cursor: pointer;
 
-    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    cursor:pointer;
+    padding: 0;
+    line-height: 1;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:0;
+    margin: 0;
 
     transition:
-        transform .3s ease,
-        filter .3s ease,
-        background .2s ease;
+        transform 0.6s ease,
+        filter 0.3s ease,
+        background .2s ease,
+        box-shadow .2s ease;
 }
-
-
 
 .themeButton:hover {
-
-    background:
-        rgba(255,255,255,.12);
-
-    /* transform:
-        translateY(-2px)
-        rotate(20deg); */
-
+    background: var(--log-button-hover);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), .25);
 }
 
-
-
 .themeButton:active {
+    transform: scale(.94);
+}
 
-    transform:scale(.94);
+.themeButton span {
+    font-size: 1.6rem;
+    transform: translateY(-1px);
+}
 
+.invert {
+    color: white;
+}
+
+.themeButton svg {
+    width:20px;
+    height:20px;
+    fill: currentColor;
 }

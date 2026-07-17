@@ -1,5 +1,110 @@
 html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    --bg: #1a1a1a;
+    --bg-dot: rgba(255, 255, 255, 0.3);
+    --bg-dot-size: 1px;
+    --bg-grid-size: 24px;
+
+    --surface: #1a1a1a;
+    --surface-soft: #1a1a1a;
+
+    --text: #ffffff;
+    --muted: #c9c9c9;
+
+    --accent: #6ea8ff;
+    --accent-rgb: 110,168,255;   /* <—— Lades till här */
+
+    --border: #1a1a1a;
+    --shadow: 0 20px 45px rgba(0, 0, 0, 0.24);
+
+    --header: 60px;
+
+    --log-menu: #242424;
+    --log-button: #202020;
+    --log-button-hover: rgba(110, 168, 255, 0.15);
+    --log-number: #2a2a2a;
+    --log-active: rgba(110, 168, 255, 0.25);
+    --log-border: rgba(255, 255, 255, 0.08);
+}
+
+/* DARK MODE */
+body.dark {
+    --bg: #1a1a1a;
+    --bg-dot: rgba(255, 255, 255, 0.3);
+
+    --surface: #1a1a1a;
+    --surface-soft: #1a1a1a;
+
+    --text: #ffffff;
+    --muted: #c9c9c9;
+
+    --accent: #6ea8ff;
+    --accent-rgb: 110,168,255;   /* <—— MÅSTE finnas */
+
+    --border: #1a1a1a;
+
+    --shadow: 0 20px 45px rgba(0,0,0,.24);
+
+    --log-menu: #242424;
+    --log-button: #202020;
+    --log-button-hover: rgba(110,168,255,.15);
+
+    --log-number:#2a2a2a;
+    --log-active: rgba(110,168,255,.25);
+    --log-border: rgba(255,255,255,.08);
+}
+
+/* LIGHT MODE */
+body.light {
+    --bg:#eeeeee;
+    --bg-dot:rgba(0,0,0,.15);
+
+    --surface:#ffffff;
+    --surface-soft:#f5f5f5;
+
+    --text:#111111;
+    --muted:#555555;
+
+    --accent:#3578e5;
+    --accent-rgb: 53,120,229;   /* <—— MÅSTE finnas */
+
+    --border:#dddddd;
+
+    --shadow: 0 20px 45px rgba(0,0,0,.12);
+
+    --log-menu:#ffffff;
+    --log-button:#f1f1f1;
+    --log-button-hover: rgba(53,120,229,.15);
+
+    --log-number:#e8e8e8;
+    --log-active: rgba(53,120,229,.20);
+    --log-border: rgba(0,0,0,.12);
+}
+
+/* TURN VARIABLES */
+:root {
+    --turn-player-bg: rgba(var(--accent-rgb), .25);
+    --turn-player-border: var(--accent);
+    --turn-player-shadow: rgba(var(--accent-rgb), .35);
+}
+
+:root {
+    --turn-enemy-bg: rgba(255,255,255,.05);
+    --turn-enemy-text: var(--muted);
+}
+
+:root {
+    --turn-thinking-bg: rgba(76,175,80,.12);
+    --turn-thinking-border: #4caf50;
+    --turn-thinking-shadow: rgba(76,175,80,.35);
+    --turn-thinking-text: #8cff8c;
+}
+
+:root {
+    --turn-dot: var(--accent);
 }

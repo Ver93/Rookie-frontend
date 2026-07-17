@@ -17,11 +17,11 @@
 
     letter-spacing: 0.4px;
 
-    color: #e0e0e0;
+    color: #ff0000;
 
-    background: #202020;
+    background: #f80000;
 
-    border: 2px solid var(--bg);
+    border: 2px solid var(--muted);
 
     box-sizing: border-box;
 
@@ -35,23 +35,26 @@
 /* Din tur */
 .playerTurn {
 
-    color: white;
+    color: var(--text);
 
-    background: rgba(46,110,181,0.25);
+    background: var(--log-button);
 
     border-color: #2e6eb5;
 
     box-shadow:
         0 0 12px rgba(46,110,181,0.35);
+
+    animation: waitingPulse 2s ease-in-out infinite;
 }
 
 
 /* Motståndarens tur */
 .enemyTurn {
 
-    color: #ccc;
+    color: var(--text);
 
-    background: rgba(255,255,255,0.05);
+    background: var(--log-button);
+    animation: waitingPulse 2s ease-in-out infinite;
 }
 
 
@@ -113,10 +116,10 @@
 }
 
 .waiting {
-    color: #aaa;
-    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    background: var(--bg);
 
-    animation: waitingPulse 2s ease-in-out infinite;
+    /* animation: waitingPulse 2s ease-in-out infinite; */
 }
 
 .waitingDot {
@@ -126,6 +129,22 @@
 
 
 @keyframes waitingPulse {
+
+    0% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.55;
+    }
+
+}
+
+@keyframes dotPulse {
 
     0% {
         opacity: 0.55;

@@ -6,8 +6,9 @@ import ChessLog from "./components/ChessLog";
 
 import useUIState from "./hooks/useUIState";
 import useEngine from "./hooks/useEngine";
+import useTheme from "./hooks/useTheme";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { parseTimeControl } from "./hooks/useClock";
 
 import styles from "./App.module.css";
@@ -26,7 +27,8 @@ function App() {
 
     const playerColor = ui.playerColor;
     const [soundEnabled, setSoundEnabled] = useState(true);
-    const [darkMode, setDarkMode] = useState(true);
+
+    const theme = useTheme();
 
     const setHighlights = (value) => {
         ui.setHighlightSettings({
@@ -37,13 +39,6 @@ function App() {
         });
     };
 
-    useEffect(() => {
-
-        document.body.className = darkMode
-            ? "dark"
-            : "light";
-
-    }, [darkMode]);
 
     const engine = useEngine(
         ui.depth,
@@ -79,6 +74,40 @@ function App() {
                     <div className={styles.chessDisplay}>
 
                         <div className={styles.clockLeft}>
+
+                        <ThemeButton
+                            title={theme.isDark ? "Light mode" : "Dark mode"}
+                            invert={theme.isDark}
+                            active={!theme.isDark}
+                            icon={
+                                theme.isDark ? (
+                                    // Sun
+                                    <svg
+                                        className="theme-icon"
+                                        viewBox="0 0 512 512"
+                                    >
+                                        <path d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1z"
+                                        />
+                                    </svg>
+                                ) : (
+
+                                    // Moon
+                                    <svg
+                                        className="theme-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+                                    </svg>
+                                )
+                            }
+                            onClick={theme.toggleMode}
+                        />
+
                         <SoundButton
                             title={soundEnabled ? "Disable sound" : "Enable sound"}
                             active={soundEnabled}
@@ -119,66 +148,6 @@ function App() {
                             onClick={() => setSoundEnabled(v => !v)}
                         />
 
-                        <ThemeButton
-
-                            title={
-                                darkMode
-                                    ? "Light mode"
-                                    : "Dark mode"
-                            }
-
-                            invert={true}
-
-                            icon={
-                                darkMode
-                                    ?
-                                    <svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="5"/>
-
-                                        <line x1="12" y1="1" x2="12" y2="3"/>
-                                        <line x1="12" y1="21" x2="12" y2="23"/>
-
-                                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-
-                                        <line x1="1" y1="12" x2="3" y2="12"/>
-                                        <line x1="21" y1="12" x2="23" y2="12"/>
-                                    </svg>
-
-                                    :
-
-                                    <svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="
-                                            M21 12.79
-                                            A9 9 0 1 1
-                                            11.21 3
-                                            A7 7 0 0 0
-                                            21 12.79
-                                        "/>
-                                    </svg>
-                            }
-
-
-                            onClick={() => setDarkMode(v => !v)}
-                        />
 
                             <HighlightButton
                                 title={"Highlights"}
@@ -336,9 +305,7 @@ function App() {
                                     }}
                                 />
                         </div>
-
                     </div>
-
                 </div>
 
 
