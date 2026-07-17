@@ -26,13 +26,14 @@ function App() {
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [darkMode, setDarkMode] = useState(true);
 
-    const setHighlights = useCallback((value) => {
-        ui.setHighlightsEnabled(value);
-        ui.setHighlightLegal(value);
-        ui.setHighlightChecks(value);
-        ui.setHighlightLast(value);
-    }, []);
-
+    const setHighlights = (value) => {
+        setHighlightSettings({
+            enabled: value,
+            legal: value,
+            checks: value,
+            last: value
+        });
+    };
 
     useEffect(() => {
 

@@ -1,7 +1,7 @@
-import { useState, useCallback } from "react";
+import { memo, useState, useCallback, useMemo } from "react";
 import { Chessboard } from "react-chessboard";
 
-export default function ChessBoard({
+function ChessBoard({
     position,
     playerColor,
     squareStyles,
@@ -15,97 +15,74 @@ export default function ChessBoard({
 
     const computeLegalHighlights = useCallback((square) => {
         if (!highlightLegal) return {};
-
         const styles = {};
         const moves = gameInstance.moves({
             square,
             verbose: true
         });
-
-        moves.forEach(move => {
+        for (const move of moves) {
             styles[move.to] = {
                 backgroundColor: "rgba(76,175,80,0.5)"
             };
-        });
-
+        }
         return styles;
     }, [highlightLegal, gameInstance]);
 
-
-    const handleSquareClick = useCallback((square) => {
-
-
-        if (!selectedSquare) {
-            const piece = gameInstance.get(square);
-
-            if (!piece) return;
-
-            setSelectedSquare(square);
-            setLocalHighlights(
-                computeLegalHighlights(square)
-            );
-
-            return;
-        }
-
-        onPlayerMove(selectedSquare, square);
+    const clearSelection = useCallback(() => {
         setSelectedSquare(null);
         setLocalHighlights({});
+    }, []);
 
-    }, [
-        selectedSquare,
-        gameInstance,
-        computeLegalHighlights,
-        onPlayerMove
-    ]);
-
+    const handleSquareClick = useCallback((square) => {
+        if (!selectedSquare) {
+            const piece = gameInstance.get(square);
+            if (!piece) return;
+            setSelectedSquare(square);
+            setLocalHighlights(computeLegalHighlights(square));
+            return;
+        }
+        onPlayerMove(selectedSquare, square);
+        clearSelection();
+    }, [selectedSquare, gameInstance, computeLegalHighlights, onPlayerMove, clearSelection]);
 
     const handlePieceDragBegin = useCallback((piece, square) => {
-        setLocalHighlights(
-            computeLegalHighlights(square)
-        );
+        setLocalHighlights(computeLegalHighlights(square));
     }, [computeLegalHighlights]);
 
-
     const handlePieceDrop = useCallback((from, to) => {
-
-
-        setLocalHighlights({});
-
         onPlayerMove(from, to);
-
+        clearSelection();
         return true;
+    }, [onPlayerMove, clearSelection]);
 
-    }, [onPlayerMove]);
+    const customSquareStyles = useMemo(() => ({
+        ...localHighlights,
+        ...squareStyles
+    }), [localHighlights, squareStyles]);
 
+    const lastMoveSquares = useMemo(() => {
+        if (!lastMove) return undefined;
+        return [
+            lastMove.from,
+            lastMove.to
+        ];
+    }, [lastMove]);
 
     return (
-        <div style={{ width: "100%", height: "100%" }}>
+        <div style={{ width:"100%", height:"100%" }}>
             <Chessboard
                 position={position}
                 boardOrientation={playerColor}
-
-                customSquareStyles={{
-                    ...localHighlights,
-                    ...squareStyles
-                }}
-
+                customSquareStyles={customSquareStyles}
                 onSquareClick={handleSquareClick}
                 onPieceDragBegin={handlePieceDragBegin}
                 onPieceDrop={handlePieceDrop}
-
                 arePiecesDraggable={true}
-                animationDuration={200}
-
-                lastMove={
-                    lastMove
-                        ? [
-                            lastMove.from,
-                            lastMove.to
-                        ]
-                        : undefined
-                }
+                animationDuration={100}
+                lastMove={lastMoveSquares}
             />
         </div>
     );
 }
+
+export default memo(ChessBoard);

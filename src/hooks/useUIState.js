@@ -12,7 +12,13 @@ export default function useUIState() {
 
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [gameMenuOpen, setGameMenuOpen] = useState(false);
-    const [highlightsEnabled, setHighlightsEnabled] = useState(true);
+    
+    const [highlightSettings, setHighlightSettings] = useState({
+        enabled: true,
+        legal: true,
+        checks: true,
+        last: true
+    });
 
     return {
         depth,
