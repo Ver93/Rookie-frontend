@@ -7,12 +7,22 @@ export async function loadSound() {
 
     loading = true;
 
-    audioContext = new AudioContext();
+    console.time("sound load");
+
+    audioContext ??= new AudioContext();
 
     const response = await fetch("/gui/sounds/move.mp3");
+
+    console.log("status:", response.status);
+    console.log("size:", response.headers.get("content-length"));
+
     const data = await response.arrayBuffer();
 
+    console.timeLog("sound load", "download done");
+
     moveBuffer = await audioContext.decodeAudioData(data);
+
+    console.timeEnd("sound load");
 
     loading = false;
 }
