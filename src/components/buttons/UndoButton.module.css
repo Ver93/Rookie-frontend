@@ -16,6 +16,8 @@
     background-color: var(--log-button);
     color: var(--text);
 
+    border: 1px solid var(--log-border);
+    
     cursor: pointer;
 
     display: flex;

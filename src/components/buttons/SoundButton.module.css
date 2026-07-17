@@ -17,6 +17,7 @@
     color: var(--text);
 
     cursor: pointer;
+    border: 1px solid var(--log-border);
 
     display: flex;
     align-items: center;

@@ -13,6 +13,8 @@
     border: none;
     border-radius: 10px;
 
+    border: 1px solid var(--log-border);
+
     background-color: var(--log-button);
     color: var(--text);
 

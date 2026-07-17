@@ -76,7 +76,7 @@ function App() {
                         <div className={styles.clockLeft}>
 
                         <ThemeButton
-                            title={theme.isDark ? "Light mode" : "Dark mode"}
+                            title={theme.isDark ? "Dark mode" : "Light mode"}
                             invert={theme.isDark}
                             active={!theme.isDark}
                             icon={

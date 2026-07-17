@@ -17,9 +17,9 @@
 
     letter-spacing: 0.4px;
 
-    color: #ff0000;
+    color: var(--text);
 
-    background: #f80000;
+    background: var(--bg);
 
     border: 2px solid var(--muted);
 
@@ -54,6 +54,11 @@
     color: var(--text);
 
     background: var(--log-button);
+
+    border-color: #2e6eb5;
+
+    box-shadow:
+        0 0 12px rgba(46,110,181,0.35);
     animation: waitingPulse 2s ease-in-out infinite;
 }
 

@@ -14,10 +14,11 @@
     height: 42px;
 
     position: relative;
-
     background: var(--log-button);
     border-radius: 10px;
-    border: 2px solid var(--bg);
+    
+    border: 2px solid var(--log-border);
+    
 
     overflow: hidden;
 
@@ -35,6 +36,7 @@
     justify-content: center;
     align-items: center;
 
+    
     font-size: 1.5rem;
     font-weight: 500;
 

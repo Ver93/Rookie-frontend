@@ -24,7 +24,7 @@
 
     padding: 0;
     line-height: 1;
-
+    border: 1px solid var(--log-border);
     margin: 0;
 
     transition:
