@@ -1,5 +1,7 @@
 .appHeader {
-    position: fixed;
+
+    position:fixed;
+
     top:0;
     left:0;
     right:0;
@@ -7,10 +9,13 @@
     height:var(--header);
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     background:var(--surface);
+
     border-bottom:1px solid var(--card-border);
 
     z-index:5;
@@ -19,57 +24,206 @@
     -webkit-backdrop-filter:blur(var(--card-blur));
 
     box-shadow:var(--shadow);
+
+    padding:0 10px;
+
+    box-sizing:border-box;
 }
 
 
-.headerButton {
-    min-width:44px;
-    min-height:44px;
 
-    background:none;
-    border:1px solid var(--card-border);
+/* vänster och höger område */
+
+.headerLeft,
+.headerRight {
+
+    width:60px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+/* själva knapparna */
+
+.headerButton,
+.resetButton {
+
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+    min-height:40px;
+
+    box-sizing:border-box;
 
     border-radius:10px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     cursor:pointer;
+
+    border:1px solid var(--card-border);
+
 }
 
 
-.headerLeft,
-.headerRight {
-    min-width:60px;
 
-    display:flex;
-    justify-content:center;
+/* tillbaka-knapp */
+
+.headerButton {
+
+    background:none;
+
+    color:white;
+
+    text-decoration:none;
+
 }
 
+
+
+/* reset-knapp */
+
+.resetButton {
+
+    background:var(--log-button);
+
+    color:var(--text);
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.resetButton:hover {
+
+    background:var(--log-button-hover);
+
+    box-shadow:
+        0 0 12px rgba(var(--accent-rgb), .25);
+
+}
+
+
+.resetButton:active {
+
+    transform:scale(.94);
+
+}
+
+
+
+/* titel */
 
 .headerCenter {
+
     flex:1;
 
     text-align:center;
 
     font-size:1.25rem;
+
     font-weight:700;
 
+    letter-spacing:-.01em;
+
     color:var(--muted);
+
+    white-space:nowrap;
+
 }
 
+
+
+/* ikoner */
 
 .icon {
+
     width:22px;
+
     height:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
 }
 
+
+
+.headerButton svg,
+.resetButton svg {
+
+    width:22px;
+
+    height:22px;
+
+}
+
+
+
+/* mobil */
 
 @media(max-width:600px){
 
+
+    .appHeader {
+
+        padding:0 6px;
+
+    }
+
+
+    .headerLeft,
+    .headerRight {
+
+        width:50px;
+
+    }
+
+
+    .headerButton,
+    .resetButton {
+
+        width:36px;
+
+        height:36px;
+
+        min-width:36px;
+
+        min-height:36px;
+
+    }
+
+
+    .headerButton svg,
+    .resetButton svg {
+
+        width:20px;
+
+        height:20px;
+
+    }
+
+
     .headerCenter {
+
         font-size:1.1rem;
+
     }
 
 }
