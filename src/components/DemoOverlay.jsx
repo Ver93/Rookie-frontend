@@ -1,13 +1,9 @@
-import { useState, useRef, useMemo } from "react";
-import { ChevronUp } from "lucide-react";
+import { useState, useMemo } from "react";
 import styles from "./DemoOverlay.module.css";
 
 export default function DemoOverlay({ onStart }) {
     const [hide, setHide] = useState(false);
     const [finished, setFinished] = useState(false);
-
-    const startY = useRef(null);
-    const buttonRef = useRef(null);
 
     const text = "Rookie GUI";
 
@@ -20,6 +16,7 @@ export default function DemoOverlay({ onStart }) {
     }, [text]);
 
     function startDemo() {
+        onStart();
         setHide(true);
 
         setTimeout(() => {
@@ -27,44 +24,13 @@ export default function DemoOverlay({ onStart }) {
         }, 550);
     }
 
-    function handleTouchStart(e) {
-        startY.current = e.touches[0].clientY;
-
-        // 🔥 Safari trusted gesture unlock
-        // Detta triggar knappen direkt när man börjar swipa
-        if (buttonRef.current) {
-            buttonRef.current.click();
-        }
-    }
-
-    function handleTouchEnd(e) {
-        if (!startY.current) return;
-
-        const endY = e.changedTouches[0].clientY;
-        const distance = startY.current - endY;
-
-        if (distance > 60) {
-            startDemo(); // animation + hide
-        }
-
-        startY.current = null;
-    }
-
     if (finished) return null;
 
     return (
-        <div
+        <button
             className={`${styles.demoOverlay} ${hide ? styles.slideUp : ""}`}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
+            onClick={startDemo}
         >
-            {/* Osynlig knapp som triggas av swipe */}
-            <button
-                ref={buttonRef}
-                className={styles.hiddenButton}
-                onClick={onStart}
-            />
-
             <div className={styles.titleWrapper}>
                 <h1 className={styles.title}>
                     {letters.map(({ char, key, delay }) =>
@@ -83,13 +49,9 @@ export default function DemoOverlay({ onStart }) {
                 </h1>
             </div>
 
-            <p className={styles.swipeText}>Swipe up to try demo</p>
+            <p className={styles.pressText}>Press to start demo</p>
 
-            <div className={styles.bottomChevrons}>
-                <ChevronUp className={styles.chevron1} />
-                <ChevronUp className={styles.chevron2} />
-                <ChevronUp className={styles.chevron3} />
-            </div>
-        </div>
+            <div className={styles.circleIcon}></div>
+        </button>
     );
 }

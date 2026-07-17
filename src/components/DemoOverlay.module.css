@@ -4,51 +4,41 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
-    padding-bottom: 5rem;
+    /* Titel + undertitel i mitten */
+    justify-content: center;
 
     background: rgba(10, 10, 10, 0.35);
     backdrop-filter: blur(22px) saturate(1.2);
 
     animation: overlayFade .45s ease;
     z-index: 9999;
+
+    border: none;
+    cursor: pointer;
 }
 
+/* EXIT ANIMATION */
 .slideUp {
     animation: slideUp .55s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 @keyframes slideUp {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-        filter: blur(0px);
-    }
-    40% {
-        opacity: .85;
-        filter: blur(2px);
-    }
-    70% {
-        opacity: .45;
-        filter: blur(6px);
-    }
-    100% {
-        transform: translateY(-55%);
-        opacity: 0;
-        filter: blur(12px);
-    }
+    0% { transform: translateY(0); opacity: 1; filter: blur(0px); }
+    40% { opacity: .85; filter: blur(2px); }
+    70% { opacity: .45; filter: blur(6px); }
+    100% { transform: translateY(-60%); opacity: 0; filter: blur(12px); }
 }
 
 /* TITLE */
 .titleWrapper {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 }
 
 .title {
     margin: 0;
-    font-size: 3.2rem;
+    font-size: 2.4rem; /* mindre */
     font-weight: 700;
     letter-spacing: 0.03em;
     color: white;
@@ -61,7 +51,7 @@
     width: .45em;
 }
 
-/* LOOPANDE TITELANIMATION VAR 3 SEK */
+/* LETTER ANIMATION */
 .letter {
     display: inline-block;
     animation: jump 3s cubic-bezier(.22,1,.36,1) infinite;
@@ -70,74 +60,53 @@
 
 @keyframes jump {
     0%   { transform: translateY(0); }
-    10%  { transform: translateY(-20px); }
-    20%  { transform: translateY(6px); }
+    10%  { transform: translateY(-14px); }
+    20%  { transform: translateY(4px); }
     30%  { transform: translateY(0); }
     100% { transform: translateY(0); }
 }
 
-/* SWIPE TEXT */
-.swipeText {
-    margin-top: 0.5rem;
-    font-size: 1.15rem;
-    font-weight: 500;
+/* PRESS TEXT */
+.pressText {
+    margin-top: 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.92);
+    color: rgba(255,255,255,0.95);
     text-shadow:
         0 0 12px rgba(255,255,255,0.25),
         0 2px 8px rgba(0,0,0,0.35);
-    animation: swipeTextFade 2.2s ease-in-out infinite;
+    animation: textPulse 2.2s ease-in-out infinite;
 }
 
-@keyframes swipeTextFade {
-    0%   { opacity: 0.4; transform: translateY(2px); }
+@keyframes textPulse {
+    0%   { opacity: 0.45; transform: translateY(2px); }
     50%  { opacity: 1;   transform: translateY(0); }
-    100% { opacity: 0.4; transform: translateY(2px); }
+    100% { opacity: 0.45; transform: translateY(2px); }
 }
 
-/* BOTTOM CHEVRONS */
-.bottomChevrons {
+/* CIRCLE ICON — alltid längst ned */
+.circleIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.75);
+
+    /* 🔥 Detta placerar cirkeln längst ned */
     position: absolute;
-    bottom: 2.2rem;
+    bottom: 2.5rem;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    color: #fff;
-    filter: drop-shadow(0 0 18px rgba(255,255,255,.45));
+    animation: pulse 1.8s ease-in-out infinite;
 }
 
-.bottomChevrons svg {
-    width: 40px;
-    height: 40px;
-    margin: -14px 0;
-    stroke-width: 1.6;
-    opacity: 0;
-    animation: swipeArrow 1.8s cubic-bezier(.22,1,.36,1) infinite;
-}
-
-.chevron1 { animation-delay: 0s; }
-.chevron2 { animation-delay: .25s; }
-.chevron3 { animation-delay: .5s; }
-
-@keyframes swipeArrow {
-    0%   { transform: translateY(0px) scale(.8); opacity: 0; }
-    25%  { opacity: .9; }
-    55%  { transform: translateY(-90px) scale(1); opacity: 1; }
-    75%  { opacity: .7; }
-    100% { transform: translateY(-180px) scale(.9); opacity: 0; }
+@keyframes pulse {
+    0%   { transform: scale(0.9); opacity: 0.6; }
+    50%  { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.6; }
 }
 
 /* OVERLAY FADE-IN */
 @keyframes overlayFade {
     from { opacity: 0; }
     to   { opacity: 1; }
-}
-
-.hiddenButton {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
 }
