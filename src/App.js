@@ -9,7 +9,7 @@ import useEngine from "./hooks/useEngine";
 
 import { useState, useEffect } from "react";
 import { parseTimeControl } from "./hooks/useClock";
-import { unlockAudio } from "./utils/sound";
+import { loadSound } from "./utils/sound";
 
 import styles from "./App.module.css";
 
@@ -37,17 +37,7 @@ function App() {
     };
 
     useEffect(() => {
-        const unlock = () => {
-            unlockAudio().catch(console.error);
-        };
-
-        window.addEventListener("pointerdown", unlock, { once: true });
-        window.addEventListener("touchstart", unlock, { once: true });
-
-        return () => {
-            window.removeEventListener("pointerdown", unlock);
-            window.removeEventListener("touchstart", unlock);
-        };
+        loadSound();
     }, []);
 
     useEffect(() => {
