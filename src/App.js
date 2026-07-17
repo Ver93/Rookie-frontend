@@ -8,7 +8,10 @@ import BottomControls from "./components/BottomControls";
 import useGameSettings from "./hooks/useGameSettings";
 import useGameController from "./hooks/useGameController";
 import useGameAudio from "./hooks/useGameAudio";
+import useHighlights from "./hooks/useHighlights";
 import { parseTimeControl } from "./hooks/useClock";
+
+
 
 import { GameProvider } from "./contexts/GameContext";
 import styles from "./App.module.css";
@@ -20,7 +23,22 @@ function App() {
         settings,
         audio,
     });
+
     const clock = parseTimeControl(settings.timeControl);
+
+    const squareStyles = useHighlights(
+        game.gameInstance,
+        game.lastMove,
+        {
+            highlightLast:
+                settings.highlightSettings.enabled &&
+                settings.highlightSettings.last,
+
+            highlightChecks:
+                settings.highlightSettings.enabled &&
+                settings.highlightSettings.checks,
+        }
+    );
 
     return (
         <GameProvider value={game}>
@@ -35,11 +53,11 @@ function App() {
                     <ChessBoard
                         position={game.position}
                         playerColor={settings.playerColor}
-                        squareStyles={game.squareStyles}
+                        squareStyles={squareStyles}
                         gameInstance={game.gameInstance}
                         lastMove={game.lastMove}
                         onPlayerMove={game.onPlayerMove}
-                        highlightLegal={settings.highlightSettings.legal && !game.isAnalysisMode}
+                        highlightLegal={settings.highlightSettings.enabled && settings.highlightSettings.legal && !game.isAnalysisMode}
                         highlightLast={settings.highlightSettings.last}
                         highlightChecks={settings.highlightSettings.checks}
                         analysisMode={game.isAnalysisMode}

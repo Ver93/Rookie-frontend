@@ -13,6 +13,13 @@ export default function useGameController({ settings, audio }) {
 
     const [isThinking, setIsThinking] = useState(false);
 
+    const playMoveSound = useCallback(result => {
+        if (game.game.isCheckmate()) audio.playCheckMate();
+        else if (game.game.isCheck()) audio.playCheck();
+        else if (result.captured) audio.playCapture();
+        else audio.playMove();
+    }, [audio, game.game]);
+
     const playEngineMove = useCallback(async () => {
         setIsThinking(true);
         try {
@@ -20,11 +27,14 @@ export default function useGameController({ settings, audio }) {
             if (!move) return;
 
             const result = game.makeMove(move.from, move.to);
-            if (result) history.addMove(result, game.game.fen());
+            if (result) {
+                history.addMove(result, game.game.fen());
+                playMoveSound(result);
+            }
         } finally {
             setIsThinking(false);
         }
-    }, [engine, game, history]);
+    }, [engine, game, history, playMoveSound]);
 
     const onPlayerMove = useCallback(async (from, to) => {
         if (game.isAnalysisMode) game.exitAnalysis();
@@ -33,11 +43,11 @@ export default function useGameController({ settings, audio }) {
         if (!result) return false;
 
         history.addMove(result, game.game.fen());
-        audio.playMove();
+        playMoveSound(result);
 
         await playEngineMove();
         return true;
-    }, [game, history, audio, playEngineMove]);
+    }, [game, history, playEngineMove, playMoveSound]);
 
     const resetGame = useCallback(() => {
         game.resetGame();
@@ -47,14 +57,12 @@ export default function useGameController({ settings, audio }) {
 
     const undoMove = useCallback(() => {
         if (game.isAnalysisMode) game.exitAnalysis();
-
         const undone = game.undoMove();
         if (undone) history.undo();
     }, [game, history]);
 
     return {
         gameInstance: game.game,
-
         position: game.position,
         lastMove: game.lastMove,
         gameTurn: game.gameTurn,

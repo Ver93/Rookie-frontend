@@ -1,5 +1,8 @@
 import { useCallback, useState } from "react";
-import { initAudio, playMoveSound } from "../utils/sound";
+import {
+    initAudio,
+    playSound
+} from "../utils/sound";
 
 
 export default function useGameAudio() {
@@ -14,18 +17,41 @@ export default function useGameAudio() {
         setEnabled(value => !value);
     }, []);
 
-    const playMove = useCallback(async () => {
-        if (!enabled) {
-            return;
-        }
+    const play = useCallback(async (sound) => {
+        if (!enabled) return;
 
-        await playMoveSound();
+        await playSound(sound);
     }, [enabled]);
+
+
+    const playMove = useCallback(() => {
+        return play("move");
+    }, [play]);
+
+
+    const playCapture = useCallback(() => {
+        return play("capture");
+    }, [play]);
+
+
+    const playCheck = useCallback(() => {
+        return play("check");
+    }, [play]);
+
+
+    const playCheckMate = useCallback(() => {
+        return play("checkmate");
+    }, [play]);
+
 
     return {
         soundEnabled: enabled,
         toggleSound,
         enableAudio,
+
         playMove,
+        playCapture,
+        playCheck,
+        playCheckMate,
     };
 }

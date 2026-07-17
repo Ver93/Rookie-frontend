@@ -1,15 +1,17 @@
-// utils/sound.js
-
 let ctx = null;
-let buffer = null;
+let buffers = {};
+
+const sounds = {
+    move: "/gui/sounds/move.mp3",
+    capture: "/gui/sounds/capture.mp3",
+    check: "/gui/sounds/check.mp3",
+    checkmate: "/gui/sounds/checkmate.mp3",
+};
 
 
 export async function initAudio() {
 
-    if (ctx && buffer) {
-        return;
-    }
-
+    if (ctx) return;
 
     ctx = new (
         window.AudioContext ||
@@ -17,23 +19,23 @@ export async function initAudio() {
     )();
 
 
-    const res = await fetch("/gui/sounds/move.mp3");
+    for (const [name, url] of Object.entries(sounds)) {
 
+        const response = await fetch(url);
 
-    const arrayBuffer = await res.arrayBuffer();
+        const arrayBuffer = await response.arrayBuffer();
 
-    buffer = await ctx.decodeAudioData(arrayBuffer);
-
+        buffers[name] =
+            await ctx.decodeAudioData(arrayBuffer);
+    }
 }
 
 
+export async function playSound(name) {
 
-export async function playMoveSound() {
-
-    if (!ctx || !buffer) {
+    if (!ctx || !buffers[name]) {
         return;
     }
-
 
     if (ctx.state === "suspended") {
         await ctx.resume();
@@ -42,10 +44,9 @@ export async function playMoveSound() {
 
     const source = ctx.createBufferSource();
 
-    source.buffer = buffer;
+    source.buffer = buffers[name];
 
     source.connect(ctx.destination);
 
     source.start();
-
 }
