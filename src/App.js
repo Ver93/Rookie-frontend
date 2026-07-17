@@ -36,9 +36,19 @@ function App() {
         });
     };
 
-    useEffect(()=>{
-        loadSound();
-    },[]);
+    useEffect(() => {
+        const unlock = () => {
+            unlockAudio().catch(console.error);
+        };
+
+        window.addEventListener("pointerdown", unlock, { once: true });
+        window.addEventListener("touchstart", unlock, { once: true });
+
+        return () => {
+            window.removeEventListener("pointerdown", unlock);
+            window.removeEventListener("touchstart", unlock);
+        };
+    }, []);
 
     useEffect(() => {
 

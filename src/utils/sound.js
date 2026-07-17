@@ -1,48 +1,69 @@
 let audioContext;
 let moveBuffer;
-let loading = false;
+let loadingPromise = null;
+
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+export async function unlockAudio() {
+    audioContext ??= new AudioCtx();
+
+    if (audioContext.state === "suspended") {
+        await audioContext.resume();
+
+        // Silent buffer to wake up Safari
+        const buffer = audioContext.createBuffer(1, 1, 22050);
+        const source = audioContext.createBufferSource();
+
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start();
+    }
+}
 
 export async function loadSound() {
-    if (moveBuffer || loading) return;
+    if (moveBuffer) return;
 
-    loading = true;
+    if (!loadingPromise) {
+        loadingPromise = (async () => {
+            audioContext ??= new AudioCtx();
 
-    console.time("sound load");
+            console.time("sound load");
 
-    audioContext ??= new AudioContext();
+            const response = await fetch("/gui/sounds/move.mp3");
 
-    const response = await fetch("/gui/sounds/move.mp3");
+            if (!response.ok) {
+                throw new Error(`Failed to load sound (${response.status})`);
+            }
 
-    console.log("status:", response.status);
-    console.log("size:", response.headers.get("content-length"));
+            console.log("status:", response.status);
+            console.log("size:", response.headers.get("content-length"));
 
-    const data = await response.arrayBuffer();
+            const data = await response.arrayBuffer();
 
-    console.timeLog("sound load", "download done");
+            console.timeLog("sound load", "download done");
 
-    moveBuffer = await audioContext.decodeAudioData(data);
+            moveBuffer = await audioContext.decodeAudioData(data);
 
-    console.timeEnd("sound load");
+            console.timeEnd("sound load");
+        })();
+    }
 
-    loading = false;
+    await loadingPromise;
 }
 
 export async function playMoveSound(enabled) {
     if (!enabled) return;
 
+    await unlockAudio();
+
     if (!moveBuffer) {
         await loadSound();
-    }
-
-    if (audioContext.state === "suspended") {
-        await audioContext.resume();
     }
 
     const source = audioContext.createBufferSource();
 
     source.buffer = moveBuffer;
-
     source.connect(audioContext.destination);
 
-    source.start(0);
+    source.start();
 }
