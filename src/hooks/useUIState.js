@@ -14,13 +14,6 @@ export default function useUIState() {
     const [gameMenuOpen, setGameMenuOpen] = useState(false);
     const [highlightsEnabled, setHighlightsEnabled] = useState(true);
 
-    const setHighlights = useCallback((value) => {
-        setHighlightsEnabled(value);
-        setHighlightLegal(value);
-        setHighlightChecks(value);
-        setHighlightLast(value);
-    }, []);
-
     return {
         depth,
         setDepth,

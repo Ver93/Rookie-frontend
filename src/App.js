@@ -26,6 +26,13 @@ function App() {
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [darkMode, setDarkMode] = useState(true);
 
+    const setHighlights = useCallback((value) => {
+        ui.setHighlightsEnabled(value);
+        ui.setHighlightLegal(value);
+        ui.setHighlightChecks(value);
+        ui.setHighlightLast(value);
+    }, []);
+
 
     useEffect(() => {
 
@@ -178,11 +185,7 @@ function App() {
                                 invert={true}
                                 onClick={() => {
                                     const value = !ui.highlightsEnabled;
-
-                                    ui.setHighlightsEnabled(value);
-                                    ui.setHighlightLegal(value);
-                                    ui.setHighlightChecks(value);
-                                    ui.setHighlightLast(value);
+                                    setHighlights(value);
                                 }}
                             />
 
