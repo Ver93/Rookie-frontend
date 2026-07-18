@@ -9,7 +9,6 @@ import ChessTurn from "./ChessTurn";
 import ChessClock from "./ChessClock";
 
 import { useGameContext } from "../contexts/GameContext";
-import KnightIcon from "./icons/KnightIcon";
 
 import { ChessKnight } from "lucide-react";
 import { Timer } from "lucide-react";
