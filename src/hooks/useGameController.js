@@ -67,12 +67,7 @@ export default function useGameController({ settings, audio }) {
             history.clearHistory();
             clock.resetClock();
         }
-    }, [game, history, clock]);
-
-    const getFen = useCallback(() => {
-        return game.game.fen();
-    }, [game.game]);
-
+    }, [game, history, clock]);;
 
     const loadFen = useCallback((fen) => {
 

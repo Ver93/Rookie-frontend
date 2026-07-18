@@ -1,6 +1,5 @@
 import styles from "./TopControls.module.css";
 
-import EngineIcon from "./icons/EngineIcon";
 import FlipButton from "./buttons/FlipButton";
 import UndoButton from "./buttons/UndoButton";
 
@@ -11,9 +10,6 @@ import { useGameContext } from "../contexts/GameContext";
 
 import { ChessKnight, Timer } from "lucide-react";
 
-import ResignButton from "./buttons/ResignButton";
-
-import ResignIcon from "./icons/ResignIcon";
 import FenButton from "./buttons/FenButton";
 
 export default function BottomControls({ settings, clock }) {

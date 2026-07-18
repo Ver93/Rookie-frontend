@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Upload, RotateCcw } from "lucide-react";
+import { Copy, Upload } from "lucide-react";
 import styles from "./FenButton.module.css";
 
 export default function FenButton({
