@@ -264,10 +264,14 @@
 
 
 .waiting {
-    border-color: #f6d365;
+    border-color: var(--bg);
 
-    box-shadow:
-        0 0 12px rgba(246,211,101,.22);
+    border-color:
+
+        var(--muted);
+
+    animation:
+        pulse 2s ease-in-out infinite;
 }
 
 

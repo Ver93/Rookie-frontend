@@ -4,6 +4,7 @@ import useUIState from "./useUIState";
 export default function useGameSettings() {
     const { isDark, toggleMode } = useTheme();
 
+
     const {
         playerColor, setPlayerColor,
         depth, setDepth,
@@ -11,7 +12,7 @@ export default function useGameSettings() {
         highlightSettings, setHighlightSettings,
         soundEnabled, setSoundEnabled
     } = useUIState();
-
+    
     const opponentColor = playerColor === "white" ? "black" : "white";
 
     const toggleSound = () => setSoundEnabled(v => !v);

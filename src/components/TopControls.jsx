@@ -58,11 +58,10 @@ export default function TopControls({ settings, audio, clock }) {
                         isThinking={game.isThinking}
                         difficulty={settings.depth}
                         onDifficultyChange={settings.setDepth}
-                        canConfigure
+                        canConfigure={true}
                     />
                 </div>
 
-                {/* RIGHT CLOCK */}
                 <div className={styles.right}>
                     <ChessClock
                         active={game.gameStarted && !game.isAnalysisMode && game.gameTurn === opponentColor}
