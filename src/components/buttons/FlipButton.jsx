@@ -5,7 +5,7 @@ export default function FlipButton({
     onFlip,
     animate = true,
     invert = true,
-    icon = "♞",
+    icon = "",
     title
 }) {
     const [rotation, setRotation] = useState(0);

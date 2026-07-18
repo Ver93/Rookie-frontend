@@ -22,15 +22,13 @@ export default function TopControls({ settings, audio, clock }) {
     return (
         <div className={styles.displayWrapper}>
             <div className={styles.topDisplay}>
+
                 <div className={styles.buttonGroup}>
                     <ThemeButton
                         title={settings.isDark ? "Dark mode" : "Light mode"}
                         invert={settings.isDark}
                         active={!settings.isDark}
-                        icon={settings.isDark 
-                            ? <SunIcon className="theme-icon" /> 
-                            : <MoonIcon className="theme-icon" />
-                        }
+                        icon={settings.isDark ? <SunIcon className="theme-icon" /> : <MoonIcon className="theme-icon" />}
                         onClick={settings.toggleMode}
                     />
 
@@ -38,10 +36,7 @@ export default function TopControls({ settings, audio, clock }) {
                         title={audio.soundEnabled ? "Disable sound" : "Enable sound"}
                         active={audio.soundEnabled}
                         invert
-                        icon={audio.soundEnabled 
-                            ? <SoundOnIcon className="theme-icon" /> 
-                            : <SoundOffIcon className="theme-icon" />
-                        }
+                        icon={audio.soundEnabled ? <SoundOnIcon className="theme-icon" /> : <SoundOffIcon className="theme-icon" />}
                         onClick={audio.toggleSound}
                     />
 
@@ -56,25 +51,27 @@ export default function TopControls({ settings, audio, clock }) {
 
                 <div className={styles.center}>
                     <ChessTurn
+                        gameStarted={game.gameStarted}
                         turn={game.gameTurn}
-                        playerColor={opponentColor}
+                        playerColor={settings.playerColor}
                         isPlayer={false}
                         isThinking={game.isThinking}
+                        difficulty={settings.depth}
+                        onDifficultyChange={settings.setDepth}
+                        canConfigure
                     />
                 </div>
 
+                {/* RIGHT CLOCK */}
                 <div className={styles.right}>
                     <ChessClock
-                        active={
-                            game.gameStarted &&
-                            !game.isAnalysisMode &&
-                            game.gameTurn === opponentColor
-                        }
+                        active={game.gameStarted && !game.isAnalysisMode && game.gameTurn === opponentColor}
                         initialTime={clock.initial}
                         increment={clock.inc}
                         resetKey={game.clockResetKey}
                     />
                 </div>
+
             </div>
         </div>
     );

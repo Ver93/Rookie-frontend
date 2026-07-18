@@ -1,164 +1,70 @@
 .resetButton {
+    width: clamp(32px, 4vw, 40px);
+    height: clamp(32px, 4vw, 40px);
 
-    width:44px;
-    height:44px;
+    min-width: 32px;
+    min-height: 32px;
 
-    min-width:44px;
-    min-height:44px;
+    box-sizing: border-box;
 
-    box-sizing:border-box;
+    border: 1px solid var(--log-border);
+    border-radius: 10px;
 
-    border:none;
-    border-radius:10px;
+    background-color: var(--log-button);
+    color: var(--text);
 
-    background-color:var(--log-button);
-    color:var(--text);
+    cursor: pointer;
 
-    border:1px solid var(--log-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    cursor:pointer;
+    padding: 0;
+    margin: 0;
 
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-
-    padding:0;
-    margin:0;
-
-    flex-shrink:0;
-
+    flex-shrink: 0;
 
     transition:
-        transform .6s ease,
-        filter .3s ease,
+        transform .15s ease,
         background .2s ease,
         box-shadow .2s ease;
 }
 
-
-
 .resetButton:hover {
-
-    background:var(--log-button-hover);
-
-    box-shadow:
-        0 0 12px rgba(var(--accent-rgb), .25);
+    background: var(--log-button-hover);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), .25);
 }
-
-
 
 .resetButton:active {
-
-    transform:scale(.94);
-
+    transform: scale(.92);
 }
 
+.resetButton svg {
+    width: 50%;
+    height: 50%;
 
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 
-.resetButton span {
-
-    font-size:1.5rem;
-
-    line-height:1;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
+    transform-origin: center;
 }
-
-
 
 .icon {
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    line-height:1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-
-
-.icon > span {
-
-    display:block;
-
-    transform:translateY(-1px);
-
-}
-
-
 
 .iconRotate {
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    animation:spinIcon .6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spinIcon .45s ease;
 }
-
-
-
-.iconRotate > span {
-
-    display:block;
-
-    transform:translateY(-1px);
-
-}
-
-
 
 @keyframes spinIcon {
-
-    from {
-
-        transform:
-            rotate(0deg)
-            translateY(-1px);
-
-    }
-
-
-    to {
-
-        transform:
-            rotate(-360deg)
-            translateY(-1px);
-
-    }
-
-}
-
-
-
-/* mobil */
-
-@media(max-width:600px){
-
-    .resetButton {
-
-        width:40px;
-        height:40px;
-
-        min-width:40px;
-        min-height:40px;
-
-    }
-
-
-    .resetButton span {
-
-        font-size:1.35rem;
-
-    }
-
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }

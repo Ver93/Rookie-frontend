@@ -110,3 +110,20 @@
     color:var(--text);
     box-shadow:inset 0 0 0 1px var(--accent);
 }
+
+
+@media (min-width: 1024) {
+    .logContainer  {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1800px) {
+    .logContainer  {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}

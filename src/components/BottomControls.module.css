@@ -25,8 +25,6 @@
     box-sizing:border-box;
 }
 
-
-/* vänster knappar */
 .left {
     display:flex;
 
@@ -36,8 +34,6 @@
     min-width:0;
 }
 
-
-/* wrapper runt knapparna */
 .buttonGroup {
     display:flex;
 
@@ -51,7 +47,6 @@
 }
 
 
-/* mitten */
 .center {
     display:flex;
 
@@ -64,9 +59,6 @@
     min-width:0;
 }
 
-
-/* höger klocka */
-/* höger klocka */
 .right {
     display:flex;
 
@@ -83,36 +75,22 @@
     margin-left:auto;
 }
 
-/* stoppar knappar från att krympa */
 .topDisplay button {
     flex-shrink:0;
 }
 
-
-
-/* ========================= */
-/* MOBIL */
-/* ========================= */
-
-@media(max-width:600px){
-
+@media (min-width: 1024) {
     .topDisplay {
-
-        min-height:45px;
-
-        padding:5px 8px;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
     }
+}
 
-
-    .buttonGroup {
-
-        gap:4px;
+@media (min-width: 1800px) {
+    .topDisplay {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
     }
-
-
-    .center {
-
-        font-size:.9rem;
-    }
-
 }

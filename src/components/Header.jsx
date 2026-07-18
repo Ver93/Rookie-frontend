@@ -1,5 +1,6 @@
 import styles from "./Header.module.css";
 import ResetButton from "./buttons/ResetButton";
+import ResetIcon from "./icons/ResetIcon";
 
 export default function Header({ onReset }) {
     return (
@@ -21,7 +22,10 @@ export default function Header({ onReset }) {
             <div className={styles.headerCenter}>Rookie GUI</div>
 
             <div className={styles.headerRight}>
-                <ResetButton onReset={onReset} />
+                <ResetButton 
+                    onReset={onReset} 
+                    icon={<ResetIcon className="theme-icon"/>}
+                    />
             </div>
         </header>
     );

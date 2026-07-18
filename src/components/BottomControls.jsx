@@ -9,6 +9,10 @@ import ChessTurn from "./ChessTurn";
 import ChessClock from "./ChessClock";
 
 import { useGameContext } from "../contexts/GameContext";
+import KnightIcon from "./icons/KnightIcon";
+
+import { ChessKnight } from "lucide-react";
+import { Timer } from "lucide-react";
 
 export default function BottomControls({ settings, clock }) {
     const game = useGameContext();
@@ -29,6 +33,7 @@ export default function BottomControls({ settings, clock }) {
                         playerColor={playerColor}
                         title="Switch Colors"
                         onFlip={switchColor}
+                        icon={<ChessKnight size={20} strokeWidth={2} />}
                     />
 
                     <UndoButton onUndo={game.undoMove} />
@@ -43,9 +48,10 @@ export default function BottomControls({ settings, clock }) {
 
                 <div className={styles.center}>
                     <ChessTurn
+                        gameStarted={game.gameStarted}
                         turn={game.gameTurn}
                         playerColor={settings.playerColor}
-                        isPlayer
+                        isPlayer={true}
                         isThinking={false}
                     />
                 </div>
@@ -64,6 +70,7 @@ export default function BottomControls({ settings, clock }) {
                         canConfigure
                         gameActive={game.gameStarted}
                         onTimeControlChange={settings.setTimeControl}
+                        icon={<Timer size={18} strokeWidth={2} />}
                     />
                 </div>
 

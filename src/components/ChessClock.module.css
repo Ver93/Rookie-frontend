@@ -1,207 +1,161 @@
 .clockWrapper {
-    position:relative;
-
-    width:100%;
-
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
+
+/* CLOCK */
 
 .clockButton {
+    display: flex;
+    align-items: center;
 
-    display:flex;
+    width: 130px;
+    height: 42px;
 
-    align-items:center;
+    position: relative;
 
-    width:130px;
+    background: var(--log-button);
+    color: var(--text);
 
-    max-width:100%;
+    border: 2px solid var(--log-border);
+    border-radius: 10px;
 
-    height:42px;
-
-
-    position:relative;
-
-
-    background:var(--log-button);
-
-    border-radius:10px;
-
-    border:2px solid var(--log-border);
-
-
-    overflow:hidden;
-
-    color:var(--text);
-
-
-    box-sizing:border-box;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 
+.clockButton.active {
+    background: var(--log-active);
+    border-color: var(--log-active);
+
+    box-shadow:
+        0 0 8px var(--accent);
+}
+
+
+
+/* TIME */
 
 .time {
+    flex: 1;
 
-    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    min-width: 0;
 
-    display:flex;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: 500;
 
-    justify-content:center;
-
-    align-items:center;
-
-
-    min-width:0;
-
-
-    font-size:clamp(1rem,4vw,1.5rem);
-
-    font-weight:500;
-
-
-    color:var(--text);
-
-
-    transition:transform .25s ease;
+    color: var(--text);
 }
-
 
 
 .timeCenter {
+    position: absolute;
 
-    position:absolute;
-
-    left:50%;
-
-    transform:translateX(-50%);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 
+
+
+/* CONFIG ICON BUTTON */
 
 .settingsButton {
 
-    flex:0 0 32px;
+    flex: 0 0 32px;
 
+    height: 100%;
 
-    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    border: none;
 
-    border:none;
+    background: var(--log-number);
+    color: var(--text);
 
-
-    background:var(--log-number);
-
-
-    color:var(--text);
-
-
-    cursor:pointer;
-
-
-    font-size:1rem;
-
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    cursor: pointer;
 
 
     transition:
-
+        background .2s ease,
         transform .25s ease,
+        opacity .25s ease;
 
-        opacity .25s ease,
-
-        background .2s ease;
 }
 
+
+.settingsButton svg {
+
+    width: 18px;
+    height: 18px;
+
+}
 
 
 .settingsButton:hover {
 
-    background:var(--log-button-hover);
+    background:
+        var(--log-button-hover);
+
 }
 
 
 
 .hideSettings {
 
-    opacity:0;
+    opacity: 0;
 
+    pointer-events: none;
 
     transform:
-
         translateX(40px)
-
         rotate(90deg);
 
-
-    pointer-events:none;
 }
 
 
 
-.active {
-
-    background:var(--log-active);
 
 
-    border:1px solid var(--log-active);
-
-
-    box-shadow:
-
-        0 0 8px var(--accent);
-}
-
-
-
-/* ========================= */
-/* MENY */
-/* ========================= */
-
+/* MENU */
 
 .clockMenu {
 
-    position:absolute;
+    position: absolute;
 
+    right: 0;
+    bottom: 48px;
 
-    bottom:48px;
+    width: 230px;
 
-
-    right:0;
-
-
-    min-width:190px;
+    padding: 14px;
 
 
     background:
-
         linear-gradient(
-
             180deg,
-
             rgba(255,255,255,.04),
-
             transparent
-
         ),
-
         var(--log-menu);
 
 
-    border:1px solid var(--log-border);
+    border:
+        1px solid var(--log-border);
 
 
-    border-radius:14px;
-
-
-    padding:14px;
+    border-radius: 14px;
 
 
     box-shadow:
@@ -211,22 +165,15 @@
         inset 0 1px 0 rgba(255,255,255,.05);
 
 
-    z-index:1000;
 
+    opacity: 0;
 
-
-    opacity:0;
+    pointer-events: none;
 
 
     transform:
-
         translateY(12px)
-
         scale(.92);
-
-
-    pointer-events:none;
-
 
 
     transition:
@@ -234,96 +181,266 @@
         opacity .2s ease,
 
         transform .25s cubic-bezier(.4,0,.2,1);
+
+
+    z-index: 1000;
+
 }
 
 
 
 .clockMenu.open {
 
-    opacity:1;
+    opacity: 1;
+
+    pointer-events: auto;
 
 
     transform:
-
         translateY(0)
-
         scale(1);
 
-
-    pointer-events:auto;
 }
 
+
+
+
+
+/* HEADER */
+
+.menuHeader {
+
+    margin-bottom: 12px;
+
+}
 
 
 .menuTitle {
 
-    color:var(--muted);
+    color: var(--text);
 
+    font-size: 13px;
 
-    font-size:12px;
+    font-weight: 700;
 
+    text-transform: uppercase;
 
-    font-weight:600;
+    letter-spacing: .08em;
 
-
-    text-transform:uppercase;
-
-
-    letter-spacing:.08em;
-
-
-    margin-bottom:12px;
 }
 
 
+
+.menuSubtitle {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+
+
+
+
+/* DROPDOWN GROUP */
+
+.timeGroup {
+
+    margin-bottom: 8px;
+
+}
+
+
+.timeGroup:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+
+.groupButton {
+
+    width: 100%;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+    padding: 9px 10px;
+
+
+    background: transparent;
+
+
+    border: none;
+
+
+    border-radius: 8px;
+
+
+    color: var(--text);
+
+
+    cursor: pointer;
+
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+
+    transition:
+
+        background .2s ease;
+
+}
+
+
+
+.groupButton:hover {
+
+    background:
+        var(--log-button-hover);
+
+}
+
+
+
+.groupLeft {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+
+.groupLeft svg {
+
+    color:
+        var(--accent);
+
+}
+
+
+
+.groupButton svg:last-child {
+
+    transition:
+        transform .25s ease;
+
+}
+
+
+
+.rotate {
+
+    transform:
+        rotate(180deg);
+
+}
+
+
+
+
+
+
+/* TIME OPTIONS */
 
 .timeRow {
 
-    display:flex;
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    overflow: hidden;
 
 
-    flex-direction:column;
+    transition:
 
+        max-height .25s ease,
 
-    gap:7px;
+        opacity .2s ease,
+
+        margin .25s ease;
+
 }
+
+
+
+.expand {
+
+    max-height: 300px;
+
+    opacity: 1;
+
+    margin-top: 6px;
+
+}
+
+
+
+.collapse {
+
+    max-height: 0;
+
+    opacity: 0;
+
+}
+
+
 
 
 
 .timeButton {
 
-    position:relative;
+    width: 100%;
 
 
-    display:flex;
+    min-height: 42px;
 
 
-    align-items:center;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
 
 
-    width:100%;
+    padding: 9px 12px;
 
 
-    background:var(--log-number);
+    background:
+        var(--log-number);
 
 
-    border:1px solid transparent;
+    color:
+        var(--text);
 
 
-    color:var(--text);
+    border:
+
+        1px solid transparent;
 
 
-    padding:9px 12px;
+    border-radius: 9px;
 
 
-    border-radius:8px;
-
-
-    cursor:pointer;
-
-
-    font-size:14px;
-
+    cursor: pointer;
 
 
     transition:
@@ -335,159 +452,123 @@
         transform .15s ease,
 
         box-shadow .2s ease;
+
 }
 
 
 
 .timeButton:hover {
 
-    background:var(--log-button-hover);
+    background:
+        var(--log-button-hover);
 
 
     border-color:
-
         rgba(var(--accent-rgb), .35);
 
 
-    box-shadow:
+    transform:
+        translateX(4px);
 
+
+    box-shadow:
         0 4px 12px rgba(0,0,0,.25);
 
-
-    transform:
-
-        translateX(4px);
 }
+
+
+
+.timeButton strong {
+
+    font-size: 15px;
+
+}
+
 
 
 
 .timeButton.selected {
 
-
     background:
 
         linear-gradient(
-
             90deg,
-
             rgba(var(--accent-rgb), .35),
-
             rgba(var(--accent-rgb), .15)
-
         );
 
 
-    border-color:var(--accent);
+    border-color:
+        var(--accent);
 
 
     box-shadow:
 
-        0 0 15px rgba(var(--accent-rgb), .35);
+        0 0 15px
+        rgba(var(--accent-rgb), .35);
+
 }
 
 
 
 .timeButton.selected::after {
 
-    content:"✓";
+    content: "✓";
 
+    margin-left: 8px;
 
-    margin-left:auto;
+    color:
+        var(--accent);
 
-
-    color:var(--accent);
-
-
-    font-weight:bold;
-}
-
-
-
-@keyframes pulseClock {
-
-    0% {
-
-        transform:scale(1);
-
-        box-shadow:
-
-            0 0 8px var(--accent);
-
-    }
-
-
-    50% {
-
-        transform:scale(1.03);
-
-        box-shadow:
-
-            0 0 14px rgba(var(--accent-rgb),.2);
-
-    }
-
-
-    100% {
-
-        transform:scale(1);
-
-        box-shadow:
-
-            0 0 8px var(--accent);
-
-    }
+    font-weight: bold;
 
 }
 
 
 
-/* ========================= */
-/* MOBIL */
-/* ========================= */
+.tcExplain {
+
+    font-size: 12px;
+
+    opacity: .7;
+
+}
 
 
-@media(max-width:600px){
 
 
-    .clockWrapper {
 
-        justify-content:flex-end;
+/* MOBILE */
 
-    }
-
+@media(max-width:600px) {
 
 
     .clockButton {
 
-        width:100px;
+        width: 100px;
 
-        height:38px;
+        height: 38px;
 
     }
-
 
 
     .time {
 
-        font-size:1rem;
+        font-size: 1rem;
 
     }
-
 
 
     .settingsButton {
 
-        flex-basis:28px;
-
-        font-size:.85rem;
+        flex-basis: 28px;
 
     }
 
 
-
     .clockMenu {
 
-        min-width:170px;
+        width: 200px;
 
     }
 

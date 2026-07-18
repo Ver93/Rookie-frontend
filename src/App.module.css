@@ -25,3 +25,21 @@
 
     overflow:hidden;
 }
+
+@media (min-width: 1024px) {
+    .appWrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        font-family: system-ui, sans-serif;
+    }
+
+    .mainLayout {
+        position: fixed;
+        inset: 0;          /* täcker hela skärmen */
+        width: 100%;       /* full bredd */
+        height: 100%;      /* full höjd (via inset) */
+        overflow: hidden;  /* inget får sticka ut */
+    }
+
+}
