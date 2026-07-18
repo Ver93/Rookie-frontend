@@ -69,6 +69,23 @@ export default function useGameController({ settings, audio }) {
         }
     }, [game, history, clock]);
 
+    const getFen = useCallback(() => {
+        return game.game.fen();
+    }, [game.game]);
+
+
+    const loadFen = useCallback((fen) => {
+
+        const success = game.loadFen(fen);
+
+        if (success) {
+            history.clearHistory();
+        }
+
+        return success;
+
+    }, [game, history]);
+
     return {
         gameInstance: game.game,
         position: game.position,
@@ -92,6 +109,8 @@ export default function useGameController({ settings, audio }) {
         undoMove,
 
         viewMove: game.viewPosition,
-        exitAnalysis: game.exitAnalysis
+        exitAnalysis: game.exitAnalysis,
+
+        loadFen
     };
 }

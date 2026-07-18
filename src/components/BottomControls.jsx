@@ -3,15 +3,18 @@ import styles from "./TopControls.module.css";
 import EngineIcon from "./icons/EngineIcon";
 import FlipButton from "./buttons/FlipButton";
 import UndoButton from "./buttons/UndoButton";
-import EngineButton from "./buttons/EngineButton";
 
 import ChessTurn from "./ChessTurn";
 import ChessClock from "./ChessClock";
 
 import { useGameContext } from "../contexts/GameContext";
 
-import { ChessKnight } from "lucide-react";
-import { Timer } from "lucide-react";
+import { ChessKnight, Timer } from "lucide-react";
+
+import ResignButton from "./buttons/ResignButton";
+
+import ResignIcon from "./icons/ResignIcon";
+import FenButton from "./buttons/FenButton";
 
 export default function BottomControls({ settings, clock }) {
     const game = useGameContext();
@@ -37,11 +40,9 @@ export default function BottomControls({ settings, clock }) {
 
                     <UndoButton onUndo={game.undoMove} />
 
-                    <EngineButton
-                        title="Engine"
-                        difficulty={settings.depth}
-                        onDifficultyChange={settings.setDepth}
-                        icon={<EngineIcon className="theme-icon" />}
+                    <FenButton
+                        fen={game.position}
+                        onLoadFen={game.loadFen}
                     />
                 </div>
 

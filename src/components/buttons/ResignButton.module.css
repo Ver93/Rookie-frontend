@@ -1,4 +1,4 @@
-.resetButton {
+.resignButton {
     width:clamp(32px,4vw,40px);
     height:clamp(32px,4vw,40px);
 
@@ -36,7 +36,7 @@
 }
 
 
-.resetButton:hover {
+.resignButton:hover {
     background: rgba(232,139,139,.3);
 
     box-shadow:
@@ -44,36 +44,35 @@
 }
 
 
-.resetButton:active {
+.resignButton:active {
     transform:scale(.94);
 }
 
-.resetButton svg {
-    width: 50%;
-    height: 50%;
+.resignButton span {
 
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    font-size:clamp(1.2rem,4vw,1.6rem);
 
-    transform-origin: center;
+    transform:translateY(-1px);
+
 }
 
-.icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.resignButton svg {
+
+    width:clamp(16px,3vw,20px);
+    height:clamp(16px,3vw,20px);
+
+    fill:currentColor;
+
 }
 
-.iconRotate {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: spinIcon .45s ease;
-}
 
-@keyframes spinIcon {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+@media(max-width:600px){
+
+    .resignButton {
+
+        border-radius:8px;
+
+    }
+
 }

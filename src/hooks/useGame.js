@@ -70,6 +70,25 @@ export default function useGame() {
         return true;
     }, [game, syncGame]);
 
+    const loadFen = useCallback((fen) => {
+        try {
+            game.load(fen);
+
+            exitAnalysis();
+
+            setLastMove(null);
+
+            setGameStarted(true);
+
+            syncGame();
+
+            return true;
+
+        } catch {
+            return false;
+        }
+    }, [game, syncGame, exitAnalysis]);
+
     return {
         game,
         position: analysisPosition ?? position,
@@ -81,6 +100,7 @@ export default function useGame() {
         resetGame,
         undoMove,
         viewPosition,
-        exitAnalysis
+        exitAnalysis,
+        loadFen
     };
 }

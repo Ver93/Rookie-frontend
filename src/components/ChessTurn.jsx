@@ -3,11 +3,11 @@ import { Bot, User, Circle } from "lucide-react";
 import styles from "./ChessTurn.module.css";
 
 const DIFFICULTIES = [
-    { id: 1, name: "Rookie", color: "#81c995" },
-    { id: 3, name: "Beginner", color: "#a8d08d" },
-    { id: 5, name: "Intermediate", color: "#f6d365" },
+    { id: 3, name: "Rookie", color: "#81c995" },
+    { id: 5, name: "Beginner", color: "#a8d08d" },
+    { id: 7, name: "Intermediate", color: "#f6d365" },
     { id: 8, name: "Advanced", color: "#f4b183" },
-    { id: 12, name: "Master", color: "#e88b8b" }
+    { id: 9, name: "Master", color: "#e88b8b" }
 ];
 
 export default function ChessTurn({
